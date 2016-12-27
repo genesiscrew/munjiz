@@ -11,29 +11,7 @@ define([
     function ($q, $timeout, dataService) {
 
       function check(currentEvent, satTrans, wheelChair, wheelChairLift) {
-        if (satTrans && wheelChair && wheelChairLift) {
-          if (!currentEvent.satTrans || !currentEvent.wheelChair || !currentEvent.wheelChairLift) {
-            return false;
-          }
-        } else if (satTrans && wheelChair) {
-          if (!currentEvent.satTrans || !currentEvent.wheelChair) {
-            return false;
-          }
-        } else if (wheelChair && wheelChairLift) {
-          if (!currentEvent.wheelChair || !currentEvent.wheelChairLift) {
-            return false;
-          }
-        } else if (satTrans && wheelChairLift) {
-          if (!currentEvent.satTrans || !currentEvent.wheelChairLift) {
-            return false;
-          }
-        } else if (satTrans && !currentEvent.satTrans) {
-          return false;
-        } else if (wheelChair && !currentEvent.wheelChair) {
-          return false;
-        } else if (wheelChairLift && !currentEvent.wheelChairLift) {
-          return false;
-        }
+          
 
         return true;
       }
