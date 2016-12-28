@@ -11,8 +11,6 @@ define([
     function ($q, $timeout, dataService) {
 
       function check(currentEvent, satTrans, wheelChair, wheelChairLift) {
-          
-
         return true;
       }
 

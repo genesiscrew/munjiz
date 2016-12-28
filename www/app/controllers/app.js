@@ -29,12 +29,13 @@ define([
           $scope.opening = true;
           $scope.currentPage = index;
         }
-        $scope.modal.show().then(function () {
-          if (notEqual) {
-            $ionicScrollDelegate.$getByHandle('modal').scrollTop();
-          }
-          $scope.opening = false;
-        });
+        $state.go('profile/1');
+        // $scope.modal.show().then(function () {
+        //   if (notEqual) {
+        //     $ionicScrollDelegate.$getByHandle('modal').scrollTop();
+        //   }
+        //   $scope.opening = false;
+        // });
       };
 
       $scope.trustHtml = function (html) {
