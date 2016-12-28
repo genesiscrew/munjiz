@@ -41,29 +41,10 @@ define([
                   map: map,
                   clickable: true
                 });
+              // center on first hit
+              if (!i) {
+                map.setCenter(mapsMarker.getPosition());
               }
-
-              var posOptions = {timeout: 10000, enableHighAccuracy: false};
-              $cordovaGeolocation
-              .getCurrentPosition(posOptions)
-              .then(function (position) {
-      var lat  = position.coords.latitude //here you get latitude
-      var long = position.coords.longitude //here you get the longitude
-      var center = new google.maps.LatLng(lat, long);
-      map.setCenter(center);
-    }, function(err) {
-          // error
-        });
-            } 
-
-
-              // var center = new google.maps.LatLng(41.2706, 173.2840);
-              // map.setCenter(center);
-
-              //center on first hit
-              // if (!i) {
-              //   map.setCenter(mapsMarker.getPosition());
-              // }
               addClick(mapsMarker, scope.events[i].id);
             }
           }
@@ -84,11 +65,22 @@ define([
               zoom: 13,
               disableDefaultUI: true
             };
+
             if (!map) {
               map = new $window.google.maps.Map(element[0], mapOptions);
             }
-            makeMarkers();
-          }
+
+            // ADDED: CENTERS LOCATION REQUIRES HTTPS CONNECTION TO WORK THOUGH 
+            
+            if (navigator.geolocation) {
+             navigator.geolocation.getCurrentPosition(function (position) {
+               initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+               map.setCenter(initialLocation);
+             });
+           }
+
+           makeMarkers();
+         }
 
           //load google maps api script async, avoiding 'document.write' error
           function injectGoogle() {
