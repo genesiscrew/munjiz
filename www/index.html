@@ -26,11 +26,17 @@
         </ion-header-bar>
         <ion-content class="background-royal">
           <ion-list>
-            <ion-item class="item-royal item-icon-right" ng-click="openModal($index)" ng-repeat="page in pages" href="#/{{page.alias}}">
+            <ion-item class="item-royal item-icon-right" ng-repeat="page in pages" href="#/{{page.alias}}">
               {{page.title}}
               <i class="icon" ng-class="page.icon"></i>
             </ion-item>
+
+            <ion-item class="item-royal item-icon-right" ng-click="showPopup()">
+              Popup
+              <i class="icon" ng-class="ion-log-out"></i>
+            </ion-item>
           </ion-list>
+          
         </ion-content>
       </ion-side-menu>
 

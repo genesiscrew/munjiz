@@ -5,7 +5,7 @@ define([
 ], function (app) {
   'use strict';
 
-  app.controller('ProfileCtrl', [
+  app.controller('ListingCtrl', [
     '$scope',
     '$stateParams',
     '$window',

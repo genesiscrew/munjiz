@@ -23,6 +23,19 @@ define([
           tel: '1234/56789',
           email: 'test@example.com'
         },
+        dates2: [ 
+        {
+          day: 'Monday',
+          open: '10:00 AM',
+          close: '5:00 PM'
+        },
+
+         {
+          day: 'Tuesday',
+          open: '10:00 AM',
+          close: '5:00 PM'
+        }
+        ],
         website: 'http://example.com'
        }
        //, {
