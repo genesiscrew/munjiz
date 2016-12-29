@@ -10,14 +10,33 @@
       </label>
       <br />
 
-  <!--     <button class="button button-balanced button" ng-disabled="form.search.$invalid"><b>Search</b></button> -->
+     <!--  <button class="button button-balanced button-block" ng-disabled="form.search.$invalid"><b>Search</b></button> -->
     </form>
-    
+
+
+   <!--  <br>
+    <br>
+    <h3>Next events</h3> -->
+  <!--   <ion-list>
+      <ion-item class="item-icon-right item-avatar item-royal" ui-sref="detail({id: event.id})" ng-repeat="event in events track by event.id | limitTo:limit">
+        <img ng-src="{{event.thumb}}">
+        <h2 class="positive">{{event.name}}</h2>
+        <p>
+          <b>{{event.city}}</b> / District {{event.district}}<br>
+          {{event.street}} {{event.number}}, {{event.zip}} {{event.city}}
+        </p>
+        <i class="icon ion-ios-arrow-right"></i>
+      </ion-item>
+      <ion-item class="text-center item-royal" ng-if="events && !events.length">No events found :(</ion-item>
+    </ion-list> -->
+    <ion-infinite-scroll
+    ng-if="!events"
+    on-infinite="loadNext()"> 
   </ion-content>
 
   <!-- <ion-contnent class="has-sub-header">
 
- 
+  <div id="map" data-tap-disabled="true" google-map style="height:60%; width: 100%;" api-key="{{apiKey}}" events="events" class="padding-top"></div>
 
 </ion-contnent> -->
 

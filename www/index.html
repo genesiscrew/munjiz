@@ -5,7 +5,7 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
-
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <!-- compiled css output -->
     <link href="css/ionic.app.css" rel="stylesheet">
     <!-- cordova script (this will be a 404 during development) -->
@@ -26,11 +26,17 @@
         </ion-header-bar>
         <ion-content class="background-royal">
           <ion-list>
-            <ion-item class="item-royal item-icon-right" ng-click="openModal($index)" ng-repeat="page in pages">
+            <ion-item class="item-royal item-icon-right" ng-repeat="page in pages" href="#/{{page.alias}}">
               {{page.title}}
               <i class="icon" ng-class="page.icon"></i>
             </ion-item>
+
+            <ion-item class="item-royal item-icon-right" ng-click="showPopup()">
+              Popup
+              <i class="icon" ng-class="ion-log-out"></i>
+            </ion-item>
           </ion-list>
+          
         </ion-content>
       </ion-side-menu>
 

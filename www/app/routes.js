@@ -4,7 +4,8 @@ define([
   'controllers/app',
   'controllers/dashboard',
   'controllers/results',
-  'controllers/detail'
+  'controllers/detail',
+   'controllers/listing'
 ], function (app) {
   'use strict';
   // definition of routes
@@ -31,6 +32,12 @@ define([
           url: '/detail/:id',
           controller: 'DetailCtrl',
           templateUrl: 'app/templates/detail.html'
+        })
+
+        .state('listing', {
+          url: '/listing/:id',
+          controller: 'ListingCtrl',
+          templateUrl: 'app/templates/listing.html'
         });
     }
   ]);

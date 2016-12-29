@@ -5,14 +5,26 @@
     </button>
   </ion-nav-buttons>
 
+    <div id="search" class="padding-horizontal background-clear search">
+    <form name="form.search" ng-submit="form.search.$valid && goToList()">
+      <label class="item item-input has-header">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" required="required" placeholder="What are you looking for?" >
+      </label>
+    </form>
+    </div>
 
 
-  <div id="map" data-tap-disabled="true" google-map style="height:100%; width: 100%;" api-key="{{apiKey}}" events="events"></div>
-  <ion-content ng-show="show.list" class="background-stable">
+
+  <div id="map" data-tap-disabled="true" google-map style="height:100%; width: 100%;" api-key="{{apiKey}}" events="events" class="" center="map_center.center"></div>
+
+  <ion-content ng-show="show.list" class="has-header detailed-list">
     <ion-refresher on-refresh="reload()">
     </ion-refresher>
+
+
     <div ng-show="show.list">
-      <ion-list>
+      <ion-list class="has-header">
         <ion-item ui-sref="detail({id: event.id})" class="item-royal item-avatar item-icon-right" ng-repeat="event in events | limitTo:limit">
           <img ng-src="{{event.thumb}}">
           <h2>{{event.name}}</h2>
@@ -26,9 +38,9 @@
       </ion-list>
     </div>
     <ion-infinite-scroll
-      ng-if="!events || events.length > limit"
-      class=""
-      on-infinite="loadMore()">
-    </ion-infinite-scroll>
-  </ion-content>
+    ng-if="!events || events.length > limit"
+    class=""
+    on-infinite="loadMore()">
+  </ion-infinite-scroll>
+</ion-content>
 </ion-view>
