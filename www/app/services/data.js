@@ -7,14 +7,14 @@ define([
     function () {
       this.events = [{
         id: 1,
-        name: 'Special Event',
-        city: 'Grevenbroich',
-        district: 'Düsseldorf',
-        street: 'Kurt-Schumacher-Str',
-        number: '17',
-        zip: '41515',
-        lat: 51.090209,
-        lng: 6.585863,
+        name: 'Adam Wareing',
+        city: 'Nelson',
+        district: 'Hope',
+        street: 'Aniseed Valley Road',
+        number: '420',
+        zip: '7081',
+        lat: 41.3717760,
+        lng: 173.1483930,
         contact: {
           tel: '1234/56789',
           email: 'test@example.com'
