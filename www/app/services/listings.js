@@ -4,19 +4,19 @@ define([
 ], function (app) {
   'use strict';
 
-  app.service('eventService', [
+  app.service('listingService', [
     '$q',
     '$timeout',
     'dataService',
     function ($q, $timeout, dataService) {
 
-      function check(currentEvent, satTrans, wheelChair, wheelChairLift) {
-        return true;
+      function check(show) {
+        return show;
       }
 
 
-      this.search = function (searchString, satTrans, wheelChair, wheelChairLift) {
-        var events = dataService.events,
+      this.search = function (searchString) {
+        var events = dataService.listings,
             deferred = $q.defer(),
             founds = [],
             currentEvent,
@@ -24,9 +24,39 @@ define([
 
         for (i; i < events.length; i = i + 1) {
           currentEvent = events[i];
-          if (currentEvent.name && currentEvent.name.indexOf(searchString) !== -1 || currentEvent.city && currentEvent.city.indexOf(searchString) !== -1 || currentEvent.district && currentEvent.district.indexOf(searchString) !== -1) {
-            if (check(currentEvent, satTrans, wheelChair, wheelChairLift)) {
+          if (currentEvent.name && currentEvent.name.indexOf(searchString) !== -1 || currentEvent.desc && currentEvent.desc.indexOf(searchString) !== -1) {
+            if (check(currentEvent.show)) {
               currentEvent.thumb = 'http://lorempixel.com/200/200/sports/?' + ((new Date()).getTime() + i);
+              founds.push(currentEvent);
+            }
+          }
+        }
+        // simulate asynchronous requests
+        $timeout(function () {
+          deferred.resolve(angular.copy(founds));
+        }, 2000);
+
+        return deferred.promise;
+      };
+
+
+       this.searchByOwner = function (ownerID) {
+        var events = dataService.listings,
+            deferred = $q.defer(),
+            founds = [],
+            currentEvent,
+            i = 0;
+
+        console.log('ownerID');
+        for (i; i < events.length; i = i + 1) {
+          currentEvent = events[i];
+                    console.log(currentEvent.ownerID );
+
+          if (currentEvent.parentID == ownerID) {
+            if (check(currentEvent.show)) {
+                                  console.log(currentEvent);
+
+              currentEvent.thumb = currentEvent.imageURL;
               founds.push(currentEvent);
             }
           }

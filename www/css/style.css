@@ -1,20 +1,12 @@
-.scroll {
-    height: 100%;
-}
- 
-#map {
-    width: 100%;
-    height: 100%;
+.listing_image {
+	width: 60px;
+	height: 60px;
 }
 
-.search {
-	background-color: transparent;
+.listing_list {
+	padding-bottom: 50px;
 }
 
-.list_view {
-	padding-top: 500px;
-}
-
-.detailed-list {
-	padding-top: 500px;
+.fucker {
+	padding-bottom: 30px;
 }

@@ -4,7 +4,7 @@ define([
   'controllers/app',
   'controllers/dashboard',
   'controllers/results',
-  'controllers/detail',
+  'controllers/profile',
    'controllers/listing'
 ], function (app) {
   'use strict';
@@ -28,10 +28,10 @@ define([
           controller: 'ResultsCtrl',
           templateUrl: 'app/templates/results.html'
         })
-        .state('detail', {
-          url: '/detail/:id',
-          controller: 'DetailCtrl',
-          templateUrl: 'app/templates/detail.html'
+        .state('profile', {
+          url: '/profile/:id',
+          controller: 'ProfileCtrl',
+          templateUrl: 'app/templates/profile.html'
         })
 
         .state('listing', {
