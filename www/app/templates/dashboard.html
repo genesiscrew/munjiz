@@ -1,6 +1,6 @@
 <ion-view>
   <ion-nav-title>EventFinder <i class="icon ion-ios-location"></i></ion-nav-title>
-
+    <div id="map" data-tap-disabled="true" google-map center="center" style="height:100%; width: 100%;" api-key="{{apiKey}}" events="events"></div>
   <ion-content padding="true" class="has-header">
     <br>
     <form name="form.search" ng-submit="form.search.$valid && goToList()">
@@ -12,9 +12,9 @@
 
   <!--     <button class="button button-balanced button" ng-disabled="form.search.$invalid"><b>Search</b></button> -->
     </form>
-    
+      
   </ion-content>
-
+ 
   <!-- <ion-contnent class="has-sub-header">
 
  
