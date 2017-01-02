@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /*
 To customize the look and feel of Ionic, you can override the variables
 in ionic's _variables.scss file.
@@ -9086,6 +9086,32 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+.scroll {
+  height: 100%; }
+
+.map {
+
+  height: 100%; 
+  width: 100%; 
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  z-index: 0; /* Set z-index to 0 as it will be on a layer below the contact form */
+  
+}
+
+
+.searchform { 
+  position:absolute; 
+  z-index: 99; /* The z-index should be higher than Google Maps */
+  width: 300px;
+  margin: 60px auto 0;
+  padding: 10px;
+  background: black;
+  height: auto;
+  /* Set the opacity for a slightly transparent Google Form */ 
+  color: white;
+}
 .background-stable {
   background-color: #394264; }
 
