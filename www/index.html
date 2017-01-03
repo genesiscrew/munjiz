@@ -8,16 +8,22 @@
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <!-- compiled css output -->
     <link href="css/ionic.app.css" rel="stylesheet">
+
+    <!-- Parse --> 
+     <script src="lib/parse-js-sdk/lib/parse.js"></script> 
+    
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
     <!-- load requirejs config -->
     <script src="main.js"></script>
     <!-- load requirejs -->
      <script src="lib/requirejs/require.min.js"></script>
-   <!-- load boot-script - it loads configs, routes, runs and bootstraps the app -->
+    <!-- load boot-script - it loads configs, routes, runs and bootstraps the app -->
     <script src="app/boot.js"></script>
 
-    
+    <link href="css/style.css" rel="stylesheet">
+
+
   </head>
   <body ng-controller="AppCtrl" ng-show="ready" class="ng-hide">
     <ion-side-menus>
@@ -34,9 +40,10 @@
             </ion-item>
 
             <ion-item class="item-royal item-icon-right" ng-click="showPopup()">
-              Popup
-              <i class="icon" ng-class="ion-log-out"></i>
+              Sign out
+              <i class="icon ion-log-out" ></i>
             </ion-item>
+
           </ion-list>
           
         </ion-content>
