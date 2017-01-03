@@ -5,7 +5,9 @@ define([
   'controllers/dashboard',
   'controllers/results',
   'controllers/profile',
-   'controllers/listing'
+  'controllers/listing',
+  'controllers/chat',
+
 ], function (app) {
   'use strict';
   // definition of routes
@@ -38,6 +40,12 @@ define([
           url: '/listing/:id',
           controller: 'ListingCtrl',
           templateUrl: 'app/templates/listing.html'
+        })
+
+        .state('chat', {
+          url: '/chat/:senderID/:recieverID',
+          controller: 'AppCtrl',
+          templateUrl: 'app/templates/chat.html'
         });
     }
   ]);

@@ -46,24 +46,21 @@ define([
           $scope.modal.hide();
         };
 
-      
+    
 
-     // A confirm dialog
-     $scope.showPopup = function() {
-       var confirmPopup = $ionicPopup.confirm({
-         title: 'Log out',
-         // template: 'Are you sure you want to log out?'
-         template: "<style>.popup { width:300px; }</style><p>That's the popup content<p/>",
-       });
-
-       confirmPopup.then(function(res) {
-         if(res) {
-           console.log('You are sure');
-         } else {
-           console.log('You are not sure');
-         }
-       });
-     };
+     $scope.showPopup = function () {
+          $ionicPopup.confirm({
+            scope: $scope,
+            title: '<span class="energized">Log out</span>',
+            subTitle: '<span class="stable">Are you sure you would like to log out?</span>',
+            inputType: 'text',
+            inputPlaceholder: ''
+          }).then(function (res) {
+            if (res) {
+          // here connect to backend and send report
+        }
+      });
+        };
 
 
    }

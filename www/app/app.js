@@ -1,7 +1,7 @@
 // The main app definition
 // --> where you should load other module depdendencies
 define([
-  'ionic'
+  'ionic',
 ], function () {
   'use strict';
 
