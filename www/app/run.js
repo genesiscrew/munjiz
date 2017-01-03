@@ -27,7 +27,10 @@ define([
 
         Parse.initialize("uvQmMNsdZStxEvEfMeMdrH85sGW7wKMl8Ms2Bm0j", "YHcdSEyXhQ8qX0vykcFCerM4rQmajQG22iu44BvT");
 
-
+        var PeopleObject = Parse.Object.extend("PeopleObject");
+        var person = new PeopleObject();
+        person.set("name", "Adam");
+        person.save(null, {});
 
       });
     }

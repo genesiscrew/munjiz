@@ -1,6 +1,7 @@
 define([
   'app',
-  'services/event'
+  'services/event',
+  'directives/googleMaps'
 ], function (app) {
   'use strict';
 
@@ -9,6 +10,7 @@ define([
     '$state',
     'eventService',
     function ($scope, $state, eventService) {
+        $scope.apiKey = 'AIzaSyDj-itD55F7tSVIxktAjntBmYAaaFtXRds';
       $scope.search = {};
       $scope.goToList = function () {
         $state.go('results', {
