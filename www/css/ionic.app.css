@@ -9100,7 +9100,11 @@ a.button {
   
 }
 
-
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
 .searchform { 
   position:absolute; 
   z-index: 99; /* The z-index should be higher than Google Maps */

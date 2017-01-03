@@ -3,4 +3,10 @@
   <PropertyGroup>
     <ReferenceCachePath>C:\Users\PC\AppData\Local\Temp\foodsmarket_refcache</ReferenceCachePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|iOS'">
+    <DebuggerFlavor>iOSEmulatoriPhone6S</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
+    <DebuggerFlavor>RippleNexusS</DebuggerFlavor>
+  </PropertyGroup>
 </Project>
