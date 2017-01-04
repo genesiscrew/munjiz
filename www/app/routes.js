@@ -7,7 +7,6 @@ define([
   'controllers/profile',
   'controllers/listing',
   'controllers/chat',
-  'controllers/login'
 
 ], function (app) {
   'use strict';

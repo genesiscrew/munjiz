@@ -30,19 +30,14 @@ define([
               profile.imageURL = profile.get("imageURL");
               profile.number = profile.get("streetNumber");
               profile.street = profile.get("street");
-              profile.city = profile.get("city");
-          
-              
+              profile.city = profile.get("city");     
 
               profile.id = 1;
 
               $scope.profile = profile;            
 
-          
-
               $scope.loading = false;
               console.log(profile);
-              alert("Successful profile");
 
             },
             error: function(error) {
