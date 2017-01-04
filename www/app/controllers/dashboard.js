@@ -11,7 +11,7 @@ define([
     'eventService',
     function ($scope, $state, eventService) {
 
-        $scope.apiKey = 'AIzaSyDj-itD55F7tSVIxktAjntBmYAaaFtXRds';
+        $scope.apiKey = 'AIzaSyBry1kcamFn_QFmonnPq5Vc2qEcb1rHkeg';
         $scope.height = window.screen.height;
         $scope.width = window.screen.width;
 

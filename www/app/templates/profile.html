@@ -7,11 +7,11 @@
     </div>
     <div ng-show="!loading">
       <h3>{{profile.name}}</h3>
-      <h4><b>{{profile.city}}</b> <small>({{profile.district}})</small></h4>
+      <h4><b>{{profile.city}}</b></h4>
       <br>
 
       <div class="text-center">
-        <img ng-src="{{profile.image}}" class="image">
+        <img ng-src="{{profile.imageURL}}" class="image">
       </div>
 
       <ion-list>
@@ -33,8 +33,12 @@
 
       <ion-list>
         <ion-item class="item-divider item-icon-right"><b>Avaliable Hours</b> <i class="icon ion-ios-calendar-outline"></i></ion-item>
-        <ion-item ng-repeat="date in profile.dates2">
+    <!--     <ion-item ng-repeat="date in profile.dates2">
           {{date.day + ' ' + date.open + ' - ' + date.close}}
+        </ion-item> -->
+
+        <ion-item>
+         "Monday 10AM- 5PM"
         </ion-item>
       </ion-list>
 

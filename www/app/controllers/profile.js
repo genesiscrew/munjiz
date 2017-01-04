@@ -23,18 +23,26 @@ define([
           query.find({
             success: function(result) {  
 
-              console.log(result);
+              var profile = result[0];
 
-              result.name = result.get("name");
+              profile.name = profile.get("firstName") + " " + profile.get("lastName");
+              profile.city = profile.get("city");
+              profile.imageURL = profile.get("imageURL");
+              profile.number = profile.get("streetNumber");
+              profile.street = profile.get("street");
+              profile.city = profile.get("city");
+          
+              
 
+              profile.id = 1;
 
-
-              $scope.profile = result;            
+              $scope.profile = profile;            
 
           
 
               $scope.loading = false;
-              alert("Successful");
+              console.log(profile);
+              alert("Successful profile");
 
             },
             error: function(error) {
