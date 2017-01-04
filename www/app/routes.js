@@ -7,6 +7,7 @@ define([
   'controllers/profile',
   'controllers/listing',
   'controllers/chat',
+  'controllers/login'
 
 ], function (app) {
   'use strict';
@@ -46,6 +47,12 @@ define([
           url: '/chat/:senderID/:recieverID',
           controller: 'AppCtrl',
           templateUrl: 'app/templates/chat.html'
+        })
+
+        .state('login', {
+          url: '/login',
+          controller: 'LoginCtrl',
+          templateUrl: 'app/templates/login.html'
         });
     }
   ]);

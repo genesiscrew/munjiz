@@ -6,26 +6,26 @@
       <ion-spinner class="spinner-balanced" ng-show="loading"></ion-spinner>
     </div>
     <div ng-show="!loading">
-      <h3>{{event.name}}</h3>
-      <h4><b>{{event.city}}</b> <small>({{event.district}})</small></h4>
+      <h3>{{profile.name}}</h3>
+      <h4><b>{{profile.city}}</b> <small>({{profile.district}})</small></h4>
       <br>
 
       <div class="text-center">
-        <img ng-src="{{event.image}}" class="image">
+        <img ng-src="{{profile.image}}" class="image">
       </div>
 
       <ion-list>
         <ion-item class="item-divider item-icon-right"><b>Address</b> <i class="icon ion-location"></i></ion-item>
         <ion-item>
-          {{event.number}} {{event.street}}<br>
-          {{event.zip}} {{event.city}}
+          {{profile.number}} {{profile.street}}<br>
+          {{profile.zip}} {{profile.city}}
         </ion-item>
       </ion-list>
       <br>
 
       <ion-list>
         <ion-item class="item-divider item-icon-right"><b>Produce</b> <i class="icon ion-ios-nutrition"></i></ion-item>
-        <ion-item href="/#/listing/{{event.id}}">
+        <ion-item href="/#/listing/{{profile.id}}">
           View sellers produce
         </ion-item>
       </ion-list>
@@ -33,7 +33,7 @@
 
       <ion-list>
         <ion-item class="item-divider item-icon-right"><b>Avaliable Hours</b> <i class="icon ion-ios-calendar-outline"></i></ion-item>
-        <ion-item ng-repeat="date in event.dates2">
+        <ion-item ng-repeat="date in profile.dates2">
           {{date.day + ' ' + date.open + ' - ' + date.close}}
         </ion-item>
       </ion-list>

@@ -10,7 +10,7 @@ define([
     '$state',
     'eventService',
     function ($scope, $state, eventService) {
-        $scope.apiKey = 'AIzaSyCFWBnX_93y1BDsgY2UR2urgt9E79bDQwM';
+        $scope.apiKey = 'AIzaSyDj-itD55F7tSVIxktAjntBmYAaaFtXRds';
       $scope.search = {};
       $scope.goToList = function () {
         $state.go('results', {

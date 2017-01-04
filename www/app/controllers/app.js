@@ -48,7 +48,7 @@ define([
 
     
 
-     $scope.showPopup = function () {
+     $scope.logout = function () {
           $ionicPopup.confirm({
             scope: $scope,
             title: '<span class="energized">Log out</span>',
@@ -57,7 +57,7 @@ define([
             inputPlaceholder: ''
           }).then(function (res) {
             if (res) {
-          // here connect to backend and send report
+                Parse.User.logOut();
         }
       });
         };

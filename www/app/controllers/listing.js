@@ -17,13 +17,38 @@ define([
 
         $scope.loading = true;
 
-        listingService.searchByOwner($stateParams.id).then(function (event) {
-          $scope.events = event;
-        }).finally(function () {
+        $scope.getListings = function(ownerID) {
 
-        });
+          var listingsQuery = Parse.Object.extend("Listings");
+          var query = new Parse.Query(listingsQuery);
+          //query.equalTo("parentID", ownerID);
+          query.find({
+            success: function(results) {
 
-        console.log('hi');
+                var listings = [];
+                for (var i = 0; i < results.length; i++) {
+                  var listing = results[i];
+                  listing.title = listing.get("title");
+                  listing.desc = listing.get("desc");
+                  listing.price = listing.get("price");
+                  listing.imageURL = listing.get("imageURL");
+                  listings[i] = listing;
+                }
+
+              $scope.events = listings;
+             // alert("Successful");
+
+            },
+            error: function(error) {
+              alert("Error: " + error.code + " " + error.message);
+            }
+          });
+        };
+
+
+
+        // Hardcoded
+        $scope.getListings(1);
 
 
         eventService.getOne($stateParams.id).then(function (event) {
@@ -74,9 +99,33 @@ define([
           // here connect to backend and send report
         }
       });
+
+
+
+
+          $scope.getListings = function(ownerID) {
+
+            var listings = Parse.Object.extend("Listings");
+            var query = new Parse.Query(listings);
+          //query.equalTo("parentID", ownerID);
+          query.find({
+            success: function(results) {
+              alert("Successfully retrieved " + results.length + " scores.");
+                // Do something with the returned Parse.Object values
+                $scope.events = results;
+              //   for (var i = 0; i < results.length; i++) {
+              //     var object = results[i];
+              //     alert(object.id + ' - ' + object.get('playerName'));
+              //   }
+            },
+            error: function(error) {
+              alert("Error: " + error.code + " " + error.message);
+            }
+          });
         };
 
+      };
+    }
+    ]);
+  });
 
-      }
-      ]);
-});

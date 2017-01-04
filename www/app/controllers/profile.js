@@ -13,11 +13,43 @@ define([
     'eventService',
     function ($scope, $stateParams, $window, $ionicPopup, eventService) {
       $scope.loading = true;
-      eventService.getOne($stateParams.id).then(function (event) {
-        $scope.event = event;
-      }).finally(function () {
-        $scope.loading = false;
-      });
+
+
+
+        $scope.getProfile = function(objectID) {
+
+          var query = new Parse.Query(Parse.User);
+          query.equalTo("objectId", objectID);
+          query.find({
+            success: function(result) {  
+
+              console.log(result);
+
+              result.name = result.get("name");
+
+
+
+              $scope.profile = result;            
+
+          
+
+              $scope.loading = false;
+              alert("Successful");
+
+            },
+            error: function(error) {
+              alert("Error: " + error.code + " " + error.message);
+            }
+          });
+        };
+
+      $scope.getProfile("SQBSA2iCYX");
+
+      // eventService.getOne($stateParams.id).then(function (event) {
+      //   $scope.profile = event;
+      // }).finally(function () {
+      //   $scope.loading = false;
+      // });
 
       $scope.reload = function () {
         eventService.getOne($stateParams.id).then(function (event) {

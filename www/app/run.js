@@ -26,6 +26,7 @@ define([
 
 
         Parse.initialize("uvQmMNsdZStxEvEfMeMdrH85sGW7wKMl8Ms2Bm0j", "YHcdSEyXhQ8qX0vykcFCerM4rQmajQG22iu44BvT");
+        Parse.serverURL = 'https://parseapi.back4app.com/'
 
 
         // Testing parse code below
