@@ -48,12 +48,6 @@ define([
 
       $scope.getProfile("SQBSA2iCYX");
 
-      // eventService.getOne($stateParams.id).then(function (event) {
-      //   $scope.profile = event;
-      // }).finally(function () {
-      //   $scope.loading = false;
-      // });
-
       $scope.reload = function () {
         eventService.getOne($stateParams.id).then(function (event) {
           $scope.event = event;

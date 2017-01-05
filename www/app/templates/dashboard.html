@@ -1,6 +1,6 @@
 <ion-view>
   <ion-nav-title>EventFinder <i class="icon ion-ios-location"></i></ion-nav-title>
-  <ion-content padding="false" class="has-header">
+  <ion-content padding="false" class="has-header" scroll="false">
      
       <div id="map" data-tap-disabled="true" google-map center="center" style="height:100%; width: 100%;" api-key="{{apiKey}}" events="events"></div>
       <!--the div below enables the search form to stack on top of map, note that position has been hard coded and might render
@@ -10,11 +10,9 @@
           <form name="form.search" ng-submit="form.search.$valid && goToList()">
               <label class="item item-input">
                   <i class="icon ion-search placeholder-icon"></i>
-                  <input type="text" ng-model="search.string" required="required" placeholder="what are you looking for?">
+                  <input type="text" ng-model="search.string" required="required" placeholder="What are you looking for?">
               </label>
               <br />
-
-              <!--     <button class="button button-balanced button" ng-disabled="form.search.$invalid"><b>Search</b></button> -->
           </form>
       </div>
           

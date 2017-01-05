@@ -1,5 +1,9 @@
-<ion-view title="Log In">
-    <ion-content>
+<ion-header-bar class="bar-energized" align-title="center">
+    <h1 class="title">Login</h1>
+</ion-header-bar>
+
+<ion-view title="Log In" hide-back-button="true" hide-nav-bar="true">
+    <ion-content class="">
         <ion-list>
             <label class="item item-input item-floating-label">
                 <span class="input-label">Username</span>
@@ -7,7 +11,7 @@
             </label>
             <label class="item item-input item-floating-label ">
                 <span class="input-label">Password</span>
-                <input type="password" placeholder="Password" id="password" ng-model="user.password">
+                <input type="password" placeholder="Password" id="password" ng-model="user.password" class="padding-bottom">
             </label>
             <button class="button button-block button-balanced" ng-click="login(user)" ng-disabled="!ready">LOG IN</button>
             <button class="button button-block button-clear" id="forgot-button" ui-sref="reset">FORGOT PASSWORD ?</button>

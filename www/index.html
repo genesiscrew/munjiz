@@ -34,12 +34,12 @@
         </ion-header-bar>
         <ion-content class="background-royal">
           <ion-list>
-            <ion-item class="item-royal item-icon-right" ng-repeat="page in pages" href="#/{{page.alias}}">
+            <ion-item class="item-royal item-icon-right" ng-repeat="page in pages" menu-close href="#/{{page.alias}}">
               {{page.title}}
               <i class="icon" ng-class="page.icon"></i>
             </ion-item>
 
-            <ion-item class="item-royal item-icon-right" ng-click="logout()">
+            <ion-item class="item-royal item-icon-right" menu-close ng-click="logout()">
               Sign out
               <i class="icon ion-log-out" ></i>
             </ion-item>

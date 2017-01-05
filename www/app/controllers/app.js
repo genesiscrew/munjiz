@@ -11,7 +11,8 @@ define([
       '$sce',
       '$ionicPopup',
       'pageService',
-      function ($scope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, pageService) {
+      '$state',
+      function ($scope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, pageService, $state) {
         $scope.ready = true;
 
         pageService.get().then(function (pages) {
@@ -58,6 +59,7 @@ define([
           }).then(function (res) {
             if (res) {
                 Parse.User.logOut();
+                $state.go('login');
         }
       });
         };

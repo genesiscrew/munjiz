@@ -28,11 +28,13 @@ define([
                 var listings = [];
                 for (var i = 0; i < results.length; i++) {
                   var listing = results[i];
+                  if(listing.get("show")){
                   listing.title = listing.get("title");
                   listing.desc = listing.get("desc");
                   listing.price = listing.get("price");
                   listing.imageURL = listing.get("imageURL");
                   listings[i] = listing;
+                }
                 }
 
               $scope.events = listings;
