@@ -33,7 +33,7 @@ define([
                   listing.desc = listing.get("desc");
                   listing.price = listing.get("price");
                   listing.imageURL = listing.get("imageURL");
-                  listings[i] = listing;
+                  listings.push(listing);
                 }
                 }
 

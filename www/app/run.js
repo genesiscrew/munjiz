@@ -7,9 +7,10 @@ define([
   // the run blocks
   app.run([
     '$ionicPlatform',
+    '$state',
     // 'parse-starter.controllers', 
     // 'parse-starter.factories',
-    function ($ionicPlatform) {
+    function ($ionicPlatform, $state) {
 
 
       $ionicPlatform.ready(function() {
@@ -26,16 +27,15 @@ define([
 
 
         Parse.initialize("uvQmMNsdZStxEvEfMeMdrH85sGW7wKMl8Ms2Bm0j", "YHcdSEyXhQ8qX0vykcFCerM4rQmajQG22iu44BvT");
-        Parse.serverURL = 'https://parseapi.back4app.com/'
+        Parse.serverURL = 'https://parseapi.back4app.com/';
+        //Parse.FacebookUtils.init();
 
 
-        // Testing parse code below
-
-
-        // var PeopleObject = Parse.Object.extend("PeopleObject");
-        // var person = new PeopleObject();
-        // person.set("name", "Adam");
-        // person.save(null, {});
+      if (Parse.User.current()) {
+        $state.go('dashboard');
+      }else{
+        $state.go('login');
+      }
 
       });
     }

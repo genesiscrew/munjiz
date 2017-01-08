@@ -14,7 +14,7 @@
 
       <ion-list class=" margin-bottom listing-background">        
 
-        <ion-item ng-repeat="event in events" class="listing-background">
+        <ion-item ng-repeat="event in events">
           <div class="row">
             <div class="col text-left">
               <img ng-src="{{event.imageURL}}" class="image listing_image">
@@ -32,9 +32,12 @@
       </ion-list>
       <br>
       <br>
+      <br>
+      <br>
+      </div>
+
 
     </ion-content>
-
 
     <ion-footer-bar class="bar-stable">
       <div class="buttons">
@@ -50,7 +53,4 @@
         </div>
       </div>
     </ion-footer-bar>
-
-  
-
   </ion-view>
