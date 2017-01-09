@@ -1,13 +1,18 @@
 /* globals define, document */
 define([
-  'app'
+  'app',
+  'services/user'
 ], function (app) {
     'use strict';
 
     app.directive('googleMap', [
       '$state',
       '$window',
-      function ($state, $window) {
+      'userService',
+
+      
+     
+      function ($state, $window, userService) {
           return {
               scope: {
                   events: '=',
@@ -17,6 +22,10 @@ define([
               link: function (scope, element) {
                   var counter = 0,
                       map,
+                      object,
+                      object2,
+                      mylat,
+                      mylong,
                       eventsReady = false;
 
                   function addClick(marker, id) {
@@ -27,29 +36,63 @@ define([
                       });
                   }
 
+                
+                 
                   function makeMarkers() {
-                      if (eventsReady || !scope.events) {
-                          return;
-                      }
+
+                      //if (eventsReady || !scope.events) {
+                      //  return;
+                      //}
+
                       eventsReady = true;
 
                       var i = 0,
                           mapsMarker;
-                      for (i; i < scope.events.length; i = i + 1) {
-                          mapsMarker = new $window.google.maps.Marker({
-                              position: new $window.google.maps.LatLng(scope.events[i].lat, scope.events[i].lng),
-                              map: map,
-                              clickable: true
-                          });
-                          // center on first hit
-                          if (!i) {
-                              //map.setCenter(mapsMarker.getPosition());
+                      var query = new Parse.Query('Listings');
+                      query.include('parent');
+                      query.find({
+                          success: function (results) {
+                              //window.alert("Successfully retrieved " + results.length + " scores.");
+                              //window.alert(userService.username);
+                              console.log(userService.username);
+                              // Do something with the returned Parse.Object values
+                              for (var i = 0; i < results.length; i++) {
+                                  object = results[i];
+                                  object2 = object.get('parent');
+                                 // window.alert(object2.get('firstName'));
+                                  
+                                 // window.alert(mylong + ' ' + object2.get('long'));
+                                  //window.alert(mylat + ' ' + object2.get('lat'));
+                                  // window.alert(object2.get('lat'));
+                                  // window.alert(object2.get('long'));
+                                  
+                                  //var position2 = new $window.google.maps.LatLng(object2.get('lat'), object2.get('long'));
+                                  //if (mylat == object2.get('lat') && mylong == object2.get('long')) {
+                                    //  window.alert(456);
+                                  //}
+                                  
+                                  if (mylat != object2.get('lat') && mylong != object2.get('long')) {
+                                      mapsMarker = new $window.google.maps.Marker({
+                                          position: new $window.google.maps.LatLng(object2.get('lat'), object2.get('long')),
+                                          map: map,
+                                          clickable: true
+                                      });
+                                  }
 
+                                  // center on first hit
 
+                                  //addClick(mapsMarker, scope.events[i].id);
+                              }
+
+                          },
+                          error: function (error) {
+                              alert("Error: " + error.code + " " + error.message);
                           }
-                          addClick(mapsMarker, scope.events[i].id);
-                      }
+                      });
+
+
                   }
+                  
 
                   var watcher = scope.$watch(function () {
                       return scope.events;
@@ -63,6 +106,7 @@ define([
                   });
 
                   function makeMapAndMarkers() {
+                     
                       var mapOptions = {
                           zoom: 13,
                           disableDefaultUI: true
@@ -86,6 +130,8 @@ define([
 
 
                               var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+                              mylat = pos.coords.latitude;
+                              mylong = pos.coords.longitude;
                               map.setCenter(me);
                               myloc.setPosition(me);
                           }, function (error) {
@@ -106,6 +152,7 @@ define([
                       cbId = '_gmap_' + counter;
                       $window[cbId] = makeMapAndMarkers;
                       apiKey = 'key=' + scope.apiKey + '&';
+                     
                       wf = document.createElement('script');
                       wf.src = ('https:' === document.location.protocol ? 'https' : 'http') +
                            '://maps.googleapis.com/maps/api/js?' + apiKey + 'v=3&sensor=true&callback=' + cbId;

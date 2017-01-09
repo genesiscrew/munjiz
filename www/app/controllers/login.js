@@ -1,36 +1,41 @@
 
 define([
   'app',
-  'services/page'
+  'services/page',
+  'services/user'
   ], function (app) {
     'use strict';
 
     app.controller('LoginCtrl', [
       '$scope',
+       'userService',
       '$ionicHistory',
       '$rootScope',
       '$state',
-      function ($scope, $ionicHistory,$rootScope, $state) {
-
+      function ($scope, $ionicHistory, $rootScope, $state, userService) {
+          
        $scope.user = {};
        $ionicHistory.nextViewOptions({
          disableBack: true
        });
 
-
+          
       // FB auth init
 
       window.fbAsyncInit = function() {
         Parse.FacebookUtils.init({
-          appId      : '1228598830554599',
+            appId: '1145280855593417',
           status: true,  // check Facebook Login status
           cookie: true,  // enable cookies to allow Parse to access the session
           xfbml: true,  // initialize Facebook social plugins on the page
-          version    : 'v2.8'
-        });
+          version: 'v2.8'
 
+        });
+        console.log("i am there");
         FB.AppEvents.logPageView();
-        FB.Event.subscribe('auth.login', function(response) {
+        FB.Event.subscribe('auth.login', function (response) {
+            userService.username = $scope.user.username;
+            console.log("i am there");
           alert("Logged in.. Redirecting you now...");
           $scope.go('dashboard');
         });
@@ -87,6 +92,7 @@ define([
       FB.getLoginStatus(function(response) {
         if (response.status === 'connected') {
             console.log('Logged in.');
+            
             $state.go('dashboard');
             return;
         }
@@ -96,10 +102,14 @@ define([
       Parse.FacebookUtils.logIn(null, {
         success: function(user) {
           if (!user.existed()) {
-            console.log("User signed up and logged in through Facebook!");
+              console.log("User signed up and logged in through Facebook!");
+              window.alert(user.username);
+              userService.username = user.username;
+              userService.isLogged = true;
             $state.go("dashboard");
             return;
           } else {
+              
             alert("User logged in through Facebook!");
           }
         },

@@ -1,6 +1,7 @@
 define([
   'app',
-  'services/page'
+  'services/page',
+  'services/user'
   ], function (app) {
     'use strict';
 
@@ -12,7 +13,8 @@ define([
       '$ionicPopup',
       'pageService',
       '$state',
-      function ($scope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, pageService, $state) {
+      'userService',
+      function ($scope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, pageService, $state, userService) {
         $scope.ready = true;
 
         pageService.get().then(function (pages) {

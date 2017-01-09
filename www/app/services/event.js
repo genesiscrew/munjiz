@@ -16,6 +16,8 @@ define([
 
 
       this.search = function (searchString, satTrans, wheelChair, wheelChairLift) {
+      
+
         var events = dataService.events,
             deferred = $q.defer(),
             founds = [],
