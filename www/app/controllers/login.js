@@ -8,11 +8,11 @@ define([
 
     app.controller('LoginCtrl', [
       '$scope',
-       'userService',
+      'userService',
       '$ionicHistory',
       '$rootScope',
       '$state',
-      function ($scope, $ionicHistory, $rootScope, $state, userService) {
+      function ($scope, userService, $ionicHistory, $rootScope, $state) {
           
        $scope.user = {};
        $ionicHistory.nextViewOptions({
@@ -24,7 +24,7 @@ define([
 
       window.fbAsyncInit = function() {
         Parse.FacebookUtils.init({
-            appId: '1145280855593417',
+            appId: '1228598830554599',
           status: true,  // check Facebook Login status
           cookie: true,  // enable cookies to allow Parse to access the session
           xfbml: true,  // initialize Facebook social plugins on the page
@@ -35,8 +35,8 @@ define([
         FB.AppEvents.logPageView();
         FB.Event.subscribe('auth.login', function (response) {
             userService.username = $scope.user.username;
-            console.log("i am there");
           alert("Logged in.. Redirecting you now...");
+          console.log("i am there");
           $scope.go('dashboard');
         });
 
@@ -63,27 +63,27 @@ define([
       });
 
 
-      // $scope.login = function (user) {
-      //   console.log(user);
-      //   Parse.User.logIn(user.username, user.password, {
-      //     success: function(user) {
-      //     // Do stuff after successful login.
-      //     $state.go('dashboard');
-      //   },
-      //   error: function(user, error) {
-      //     // error
-      //     alert("Error: " + error.message);
-      //   }
-      // });   
-      // };
+      $scope.login = function (user) {
+        console.log(user);
+        Parse.User.logIn(user.username, user.password, {
+          success: function(user) {
+          // Do stuff after successful login.
+            $state.go('dashboard');
+        },
+        error: function(user, error) {
+          // error
+          alert("Error: " + error.message);
+        }
+      });   
+      };
 
-      // $scope.facebookLogin = function () {
+      $scope.facebookLogin = function () {
 
-      //   FB.getLoginStatus(function(response) {
-      //     console.log(response);
+        FB.getLoginStatus(function(response) {
+          console.log(response);
 
-      //   });
-      // };
+        });
+      };
 
 
     //Todo
@@ -114,7 +114,8 @@ define([
           }
         },
         error: function(user, error) {
-          console.log(user,error)
+         // console.log(user.getObjectId());
+          console.log(user,error);
         //  alert("User cancelled the Facebook login or did not fully authorize.");
       }
     });

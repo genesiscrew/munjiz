@@ -70,5 +70,6 @@
     <splash src="resources/ios/splash/Default~iphone.png" width="320" height="480"/>
   </platform>
   <allow-navigation href="http://192.168.2.9:8100"/>
+  <allow-intent href="*://*parseapi.back4app.com/*"/>
   <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
 </widget>
