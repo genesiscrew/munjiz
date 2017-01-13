@@ -17,7 +17,7 @@ define([
     '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
       // url routes/states
-      $urlRouterProvider.otherwise('login');
+      $urlRouterProvider.otherwise('/login');
 
       $stateProvider
         // app states
