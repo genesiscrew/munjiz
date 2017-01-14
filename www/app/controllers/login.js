@@ -77,6 +77,8 @@ define([
       });   
       };
 
+
+
       $scope.facebookLogin = function () {
 
         FB.getLoginStatus(function(response) {
@@ -88,11 +90,13 @@ define([
 
     //Todo
     $scope.fbLogin = function () {
+
+      console.log('facebook login');
      
       FB.getLoginStatus(function(response) {
+        console.log(response);
         if (response.status === 'connected') {
-            console.log('Logged in.');
-            
+            console.log('Logged in.'); 
             $state.go('dashboard');
             return;
         }
@@ -101,6 +105,7 @@ define([
 
       Parse.FacebookUtils.logIn(null, {
         success: function(user) {
+          console.log('success ' + user);
           if (!user.existed()) {
               console.log("User signed up and logged in through Facebook!");
               window.alert(user.username);
@@ -109,7 +114,6 @@ define([
             $state.go("dashboard");
             return;
           } else {
-              
             alert("User logged in through Facebook!");
           }
         },

@@ -9,6 +9,7 @@
     </author>
   <content src="index.html"/>
   <access origin="*"/>
+  <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
@@ -70,6 +71,13 @@
     <splash src="resources/ios/splash/Default~iphone.png" width="320" height="480"/>
   </platform>
   <allow-navigation href="http://192.168.2.9:8100"/>
+  <allow-navigation href="http://192.168.2.10:8100"/>
+  <allow-navigation href="*"/>
   <allow-intent href="*://*parseapi.back4app.com/*"/>
+  <allow-intent href="https://m.facebook.com"/>
+  <allow-intent href="https://graph.facebook.com"/>
+  <allow-intent href="https://api.facebook.com"/>
+  <allow-intent href="https://*.fbcdn.net"/>
+  <allow-intent href="http://*.staticxx.facebook.com/*"/>
   <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
 </widget>
