@@ -9,13 +9,19 @@ define([
     '$scope',
     '$state',
     'eventService',
-    function ($scope, $state, eventService) {
+    '$ionicNavBarDelegate',
+    function ($scope, $state, eventService, $ionicNavBarDelegate) {
 
-        $scope.apiKey = 'AIzaSyBry1kcamFn_QFmonnPq5Vc2qEcb1rHkeg';
+       $ionicNavBarDelegate.showBackButton(false);
+
+        $scope.apiKey = 'AIzaSyAvdX3YgqPd5prRV8OzvwnpuXrcySuK27c';
         $scope.height = window.screen.height;
         $scope.width = window.screen.width;
 
       $scope.search = {};
+
+
+
       $scope.goToList = function () {
         $state.go('results', {
           search: $scope.search.string,

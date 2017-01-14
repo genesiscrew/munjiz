@@ -64,7 +64,8 @@ define([
                 Parse.User.logOut();
                 $ionicHistory.clearCache();
                 $ionicHistory.clearHistory();
-                $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
+                
+                $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: false });
                 $state.go('login');
                
         }

@@ -62,7 +62,7 @@ define([
                                  // window.alert(object2.get('firstName'));
                                   
                                  // window.alert(mylong + ' ' + object2.get('long'));
-                                  //window.alert(mylat + ' ' + object2.get('lat'));
+                                 // window.alert(mylat + ' ' + object2.get('lat'));
                                   // window.alert(object2.get('lat'));
                                   // window.alert(object2.get('long'));
                                   
@@ -155,7 +155,7 @@ define([
                      
                       wf = document.createElement('script');
                       wf.src = ('https:' === document.location.protocol ? 'https' : 'http') +
-                           '://maps.googleapis.com/maps/api/js?' + apiKey + 'v=3&sensor=true&callback=' + cbId;
+                           '://maps.googleapis.com/maps/api/js?' + apiKey + 'v=3&callback=' + cbId;
                       wf.type = 'text/javascript';
                       wf.async = 'true';
                       document.body.appendChild(wf);
