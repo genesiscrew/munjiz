@@ -31,14 +31,15 @@ define([
           version: 'v2.8'
 
         });
+        sAuth.watchAuthenticationStatusChange();
         console.log("i am there");
         FB.AppEvents.logPageView();
-        FB.Event.subscribe('auth.login', function (response) {
-            userService.username = $scope.user.username;
-          alert("Logged in.. Redirecting you now...");
-          console.log("i am there");
-          $scope.go('dashboard');
-        });
+        // FB.Event.subscribe('auth.login', function (response) {
+        //     userService.username = $scope.user.username;
+        //   alert("Logged in.. Redirecting you now...");
+        //   console.log("i am there");
+        //   $scope.go('dashboard');
+        // });
 
       };
 
