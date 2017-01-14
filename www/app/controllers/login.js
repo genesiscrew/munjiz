@@ -113,8 +113,11 @@ define([
               userService.isLogged = true;
             $state.go("dashboard");
             return;
+
           } else {
             alert("User logged in through Facebook!");
+            $state.go("dashboard");
+
           }
         },
         error: function(user, error) {
