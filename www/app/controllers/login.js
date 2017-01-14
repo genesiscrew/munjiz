@@ -13,25 +13,25 @@ define([
       '$rootScope',
       '$state',
       function ($scope, userService, $ionicHistory, $rootScope, $state) {
-          
+
        $scope.user = {};
        $ionicHistory.nextViewOptions({
          disableBack: true
        });
 
-          
+
       // FB auth init
 
       window.fbAsyncInit = function() {
         Parse.FacebookUtils.init({
-            appId: '1228598830554599',
+          appId: '1228598830554599',
           status: true,  // check Facebook Login status
           cookie: true,  // enable cookies to allow Parse to access the session
           xfbml: true,  // initialize Facebook social plugins on the page
           version: 'v2.8'
 
         });
-        sAuth.watchAuthenticationStatusChange();
+        //sAuth.watchAuthenticationStatusChange();
         console.log("i am there");
         FB.AppEvents.logPageView();
         // FB.Event.subscribe('auth.login', function (response) {
@@ -40,6 +40,36 @@ define([
         //   console.log("i am there");
         //   $scope.go('dashboard');
         // });
+
+        FB.Event.subscribe('auth.authResponseChange', function(res) {
+
+          if (res.status === 'connected') {
+
+      /*
+       The user is already logged,
+       is possible retrieve his personal info
+       */
+       //_self.getUserInfo();
+       $state.go('dashboard');
+
+      /*
+       This is also the point where you should create a
+       session for the current user.
+       For this purpose you can use the data inside the
+       res.authResponse object.
+       */
+
+     }
+     else {
+
+      /*
+       The user is not logged to the app, or into Facebook:
+       destroy the session on the server.
+       */
+       $state.go('login');
+     }
+
+   });
 
       };
 
@@ -69,7 +99,7 @@ define([
         Parse.User.logIn(user.username, user.password, {
           success: function(user) {
           // Do stuff after successful login.
-            $state.go('dashboard');
+          $state.go('dashboard');
         },
         error: function(user, error) {
           // error
@@ -93,13 +123,13 @@ define([
     $scope.fbLogin = function () {
 
       console.log('facebook login');
-     
+
       FB.getLoginStatus(function(response) {
         console.log(response);
         if (response.status === 'connected') {
-            console.log('Logged in.'); 
-            $state.go('dashboard');
-            return;
+          console.log('Logged in.'); 
+          $state.go('dashboard');
+          return;
         }
       });
 
@@ -108,23 +138,20 @@ define([
         success: function(user) {
           console.log('success ' + user);
           if (!user.existed()) {
-              console.log("User signed up and logged in through Facebook!");
-              window.alert(user.username);
-              userService.username = user.username;
-              userService.isLogged = true;
+           // window.alert(user.username);
+            userService.username = user.username;
+            userService.isLogged = true;
             $state.go("dashboard");
             return;
 
           } else {
-            alert("User logged in through Facebook!");
             $state.go("dashboard");
 
           }
         },
         error: function(user, error) {
-         // console.log(user.getObjectId());
-          console.log(user,error);
-        //  alert("User cancelled the Facebook login or did not fully authorize.");
+        console.log(user,error);
+        alert("Error: " + error);
       }
     });
     };
