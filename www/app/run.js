@@ -1,5 +1,6 @@
 define([
   'app',
+  'services/user'
 
   ], function (app) {
     'use strict';
@@ -7,10 +8,11 @@ define([
   // the run blocks
   app.run([
     '$ionicPlatform',
+    'userService',
     '$state',
     // 'parse-starter.controllers', 
     // 'parse-starter.factories',
-    function ($ionicPlatform, $state) {
+    function ($ionicPlatform, $state, userService) {
 
 
       $ionicPlatform.ready(function() {
@@ -31,7 +33,11 @@ define([
         //Parse.FacebookUtils.init();
 
 
-      if (Parse.User.current()) {
+        if (Parse.User.current()) {
+            userService.username = Parse.User.current().get('username');
+            
+            //console.log(Parse.User.current().get('username'));
+           
         $state.go('dashboard');
       }else{
         $state.go('login');

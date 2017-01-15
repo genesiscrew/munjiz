@@ -18,12 +18,12 @@ define([
               disableBack: true
           });
 
-          
+
           // FB auth init
 
           window.fbAsyncInit = function () {
               Parse.FacebookUtils.init({
-                  appId: '1145280855593417',
+                  appId: '1228598830554599',
                   status: true,  // check Facebook Login status
                   cookie: true,  // enable cookies to allow Parse to access the session
                   xfbml: true,  // initialize Facebook social plugins on the page
@@ -68,11 +68,12 @@ define([
               Parse.User.logIn(user.username, user.password, {
                   success: function (user) {
                       // Do stuff after successful login.
+                      console.log("i am logged in");
                       $state.go('dashboard');
                   },
                   error: function (user, error) {
                       // error
-                     // alert("Error: " + error.message);
+                      // alert("Error: " + error.message);
                   }
               });
           };
@@ -83,6 +84,7 @@ define([
 
               FB.getLoginStatus(function (response) {
                   console.log(response);
+                  console.log("i am logged in");
 
               });
           };
@@ -97,27 +99,35 @@ define([
                   console.log(response);
                   if (response.status === 'connected') {
                       console.log('Logged in.');
+                      ;
                       //$state.go('dashboard');
                       return;
                   }
               });
-
-
+              
+              
               Parse.FacebookUtils.logIn(null, {
                   success: function (user) {
-                      console.log('success ' + user);
+                      console.log('success ');
+                      // gets facebook ID of user who succesfully logged in
+                      FB.api('/me', function (response) {
+                          console.log(response.id);
+                      });
                       if (!user.existed()) {
                           console.log("User signed up and logged in through Facebook!");
                           //window.alert(user.username);
-                          userService.username = user.username;
+                          Parse.User.current().set('username', 'johnson');
+                          userService.username = Parse.User.current().get('username');
                           userService.isLogged = true;
                           $state.go("dashboard");
                           return;
 
                       } else {
                           // alert("User logged in through Facebook!");
-                          userService.username = user.username;
+                          userService.username = user.name;
                           userService.isLogged = true;
+                          console.log("username is:");
+                          console.log(user.name);
                           console.log("user logged into");
                           $state.go("dashboard");
 
@@ -125,10 +135,12 @@ define([
                   },
                   error: function (user, error) {
                       // console.log(user.getObjectId());
-                      console.log(user, error);
+                      console.log("wttf");
+                      alert("Error: " + error.message);
                       //  alert("User cancelled the Facebook login or did not fully authorize.");
                   }
               });
+              
           };
 
 
@@ -136,4 +148,5 @@ define([
       }
     ]);
 });
+
 

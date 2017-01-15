@@ -2,7 +2,8 @@
 define([
   'app',
   'services/event',
-  'services/listings'
+  'services/listings',
+  'services/user'
   ], function (app) {
     'use strict';
 
@@ -13,15 +14,20 @@ define([
       '$ionicPopup',
       'eventService',
       'listingService',
-      function ($scope, $stateParams, $window, $ionicPopup, eventService, listingService) {
+      'userService',
+      function ($scope, $stateParams, $window, $ionicPopup, eventService, listingService, userService) {
 
-        $scope.loading = true;
+          $scope.loading = true;
+          var object;
+          var object2;
 
         $scope.getListings = function(ownerID) {
 
           var listingsQuery = Parse.Object.extend("Listings");
           var query = new Parse.Query(listingsQuery);
-          //query.equalTo("parentID", ownerID);
+          console.log("user ID is below");
+          console.log(userService.username);
+          //query.equalTo("parent", "SQBSA2iCYX");
           query.find({
             success: function(results) {
 
@@ -31,9 +37,18 @@ define([
                   if(listing.get("show")){
                   listing.title = listing.get("title");
                   listing.desc = listing.get("desc");
+                  
                   listing.price = listing.get("price");
                   listing.imageURL = listing.get("imageURL");
-                  listings.push(listing);
+                  object = listing.get('parent');
+                  object2 = object.get('username');
+                  console.log(object2);
+                  console.log(userService.username);
+                      // hardcoded username
+                  if (object2 == userService.username) {
+                      listings.push(listing);
+                  }
+                  
                 }
                 }
 
@@ -50,7 +65,7 @@ define([
 
 
         // Hardcoded
-        $scope.getListings(1);
+        $scope.getListings(2);
 
 
         eventService.getOne($stateParams.id).then(function (event) {
