@@ -62,7 +62,7 @@ define([
                                  // window.alert(object2.get('firstName'));
                                   
                                  // window.alert(mylong + ' ' + object2.get('long'));
-                                  //window.alert(mylat + ' ' + object2.get('lat'));
+                                 // window.alert(mylat + ' ' + object2.get('lat'));
                                   // window.alert(object2.get('lat'));
                                   // window.alert(object2.get('long'));
                                   

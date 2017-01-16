@@ -11,10 +11,11 @@ define([
       '$ionicScrollDelegate',
       '$sce',
       '$ionicPopup',
+     '$ionicHistory',
       'pageService',
       '$state',
       'userService',
-      function ($scope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, pageService, $state, userService) {
+      function ($scope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, $ionicHistory, pageService, $state, userService) {
         $scope.ready = true;
 
         pageService.get().then(function (pages) {
@@ -61,7 +62,15 @@ define([
           }).then(function (res) {
             if (res) {
                 Parse.User.logOut();
+                FB.logout(function(response) {
+  // user is now logged out
+});
+                $ionicHistory.clearCache();
+                $ionicHistory.clearHistory();
+                
+                $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: false });
                 $state.go('login');
+               
         }
       });
         };

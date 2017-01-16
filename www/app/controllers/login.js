@@ -1,4 +1,3 @@
-
 define([
   'app',
   'services/page',
@@ -139,17 +138,17 @@ define([
           console.log('success ' + user);
           if (!user.existed()) {
            // window.alert(user.username);
-            userService.username = user.username;
-            userService.isLogged = true;
-            $state.go("dashboard");
-            return;
+           userService.username = user.username;
+           userService.isLogged = true;
+           $state.go("dashboard");
+           return;
 
-          } else {
-            $state.go("dashboard");
+         } else {
+          $state.go("dashboard");
 
-          }
-        },
-        error: function(user, error) {
+        }
+      },
+      error: function(user, error) {
         console.log(user,error);
         alert("Error: " + error);
       }
@@ -157,9 +156,77 @@ define([
     };
 
 
+    $scope.login = function (user) {
+      console.log(user);
+      Parse.User.logIn(user.username, user.password, {
+        success: function (user) {
+                      // Do stuff after successful login.
+                      $state.go('dashboard');
+                    },
+                    error: function (user, error) {
+                      // error
+                     // alert("Error: " + error.message);
+                   }
+                 });
+    };
 
-  }
-  ]);
-  });
 
+
+    $scope.facebookLogin = function () {
+
+      FB.getLoginStatus(function (response) {
+        console.log(response);
+
+      });
+    };
+
+
+          //Todo
+          $scope.fbLogin = function () {
+
+            console.log('facebook login');
+
+            FB.getLoginStatus(function (response) {
+              console.log(response);
+              if (response.status === 'connected') {
+                console.log('Logged in.');
+                      //$state.go('dashboard');
+                      return;
+                    }
+                  });
+
+
+            Parse.FacebookUtils.logIn(null, {
+              success: function (user) {
+                console.log('success ' + user);
+                if (!user.existed()) {
+                  console.log("User signed up and logged in through Facebook!");
+                          //window.alert(user.username);
+                          userService.username = user.username;
+                          userService.isLogged = true;
+                          $state.go("dashboard");
+                          return;
+
+                        } else {
+                          // alert("User logged in through Facebook!");
+                          userService.username = user.username;
+                          userService.isLogged = true;
+                          console.log("user logged into");
+                          $state.go("dashboard");
+
+                        }
+                      },
+                      error: function (user, error) {
+                      // console.log(user.getObjectId());
+                      console.log(user, error);
+                      //  alert("User cancelled the Facebook login or did not fully authorize.");
+                    }
+                  });
+          };
+
+
+
+        }
+        ]);
+});
 
