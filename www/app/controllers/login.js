@@ -116,7 +116,7 @@ define([
                       var lastname;
                       var foundUser = false;
                       // gets facebook details of user who succesfully logged in into facebook
-                      FB.api('/me', function (response) {
+                      FB.api('/me?fields=first_name, last_name, email', function (response) {
                           userID = response.id;
                           email = response.email;
                           firstname = response.first_name;
@@ -148,12 +148,11 @@ define([
                           alert("New user signed up and logged in through Facebook!");
                           window.alert("about to create new user");
                           var createuser = Parse.User.current();
-                          // updating user record based on facebook data
-                          //for now, only the username field is updated, i am not sure why the other
-                          // fields are not being updated
-
-                          //TODO: get the other fields updating
+                          // updating user record based on accesible facebook data
                           createuser.set('username', userID);
+                          alert(email);
+                          alert(lastname);
+                          alert(firstname);
                           createuser.set('email', email);
                           createuser.set('firstName', firstname);
                           createuser.set('lastName', lastname);
