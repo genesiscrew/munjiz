@@ -62,6 +62,9 @@ define([
           }).then(function (res) {
             if (res) {
                 Parse.User.logOut();
+                FB.logout(function(response) {
+  // user is now logged out
+});
                 $ionicHistory.clearCache();
                 $ionicHistory.clearHistory();
                 

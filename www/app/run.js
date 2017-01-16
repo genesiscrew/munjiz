@@ -8,8 +8,9 @@ define([
   // the run blocks
   app.run([
     '$ionicPlatform',
-    'userService',
     '$state',
+    'userService',
+
     // 'parse-starter.controllers', 
     // 'parse-starter.factories',
     function ($ionicPlatform, $state, userService) {
@@ -34,16 +35,16 @@ define([
 
 
         if (Parse.User.current()) {
-            userService.username = Parse.User.current().get('username');
-            
+          userService.username = Parse.User.current().get('username');
+          
             //console.log(Parse.User.current().get('username'));
-           
-        $state.go('dashboard');
-      }else{
-        $state.go('login');
-      }
+            
+            $state.go('dashboard');
+          }else{
+            $state.go('login');
+          }
 
-      });
+        });
     }
     ]);
 

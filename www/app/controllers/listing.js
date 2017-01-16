@@ -17,24 +17,24 @@ define([
       'userService',
       function ($scope, $stateParams, $window, $ionicPopup, eventService, listingService, userService) {
 
-          $scope.loading = true;
-          var object;
-          var object2;
+        $scope.loading = true;
+        var object;
+        var object2;
 
         $scope.getListings = function(ownerID) {
 
           var listingsQuery = Parse.Object.extend("Listings");
           var query = new Parse.Query(listingsQuery);
-          console.log("user ID is below");
-          console.log(userService.username);
-          //query.equalTo("parent", "SQBSA2iCYX");
+          query.equalTo("parent", Parse.User.current());
+          console.log(Parse.User.current().id);
           query.find({
             success: function(results) {
 
-                var listings = [];
-                for (var i = 0; i < results.length; i++) {
-                  var listing = results[i];
-                  if(listing.get("show")){
+              var listings = [];
+              console.log(results.length);
+              for (var i = 0; i < results.length; i++) {
+                var listing = results[i];
+                if(listing.get("show")){
                   listing.title = listing.get("title");
                   listing.desc = listing.get("desc");
                   
@@ -42,24 +42,21 @@ define([
                   listing.imageURL = listing.get("imageURL");
                   object = listing.get('parent');
                   object2 = object.get('username');
-                  console.log(object2);
-                  console.log(userService.username);
-                      // hardcoded username
-                  if (object2 == userService.username) {
-                      listings.push(listing);
-                  }
+                  console.log('listing' + listing.title);
+
+                  listings.push(listing);
                   
                 }
-                }
+              }
 
               $scope.events = listings;
              // alert("Successful");
 
-            },
-            error: function(error) {
-              alert("Error: " + error.code + " " + error.message);
-            }
-          });
+           },
+           error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+          }
+        });
         };
 
 
@@ -144,5 +141,5 @@ define([
       };
     }
     ]);
-  });
+});
 
