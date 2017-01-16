@@ -2,7 +2,8 @@
 define([
   'app',
   'services/event',
-  'services/listings'
+  'services/listings',
+  'services/user'
   ], function (app) {
     'use strict';
 
@@ -13,44 +14,55 @@ define([
       '$ionicPopup',
       'eventService',
       'listingService',
-      function ($scope, $stateParams, $window, $ionicPopup, eventService, listingService) {
+      'userService',
+      function ($scope, $stateParams, $window, $ionicPopup, eventService, listingService, userService) {
 
         $scope.loading = true;
+        var object;
+        var object2;
 
         $scope.getListings = function(ownerID) {
 
           var listingsQuery = Parse.Object.extend("Listings");
           var query = new Parse.Query(listingsQuery);
-          //query.equalTo("parentID", ownerID);
+          query.equalTo("parent", Parse.User.current());
+          console.log(Parse.User.current().id);
           query.find({
             success: function(results) {
 
-                var listings = [];
-                for (var i = 0; i < results.length; i++) {
-                  var listing = results[i];
-                  if(listing.get("show")){
+              var listings = [];
+              console.log(results.length);
+              for (var i = 0; i < results.length; i++) {
+                var listing = results[i];
+                if(listing.get("show")){
                   listing.title = listing.get("title");
                   listing.desc = listing.get("desc");
+                  
                   listing.price = listing.get("price");
                   listing.imageURL = listing.get("imageURL");
+                  object = listing.get('parent');
+                  object2 = object.get('username');
+                  console.log('listing' + listing.title);
+
                   listings.push(listing);
+                  
                 }
-                }
+              }
 
               $scope.events = listings;
              // alert("Successful");
 
-            },
-            error: function(error) {
-              alert("Error: " + error.code + " " + error.message);
-            }
-          });
+           },
+           error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+          }
+        });
         };
 
 
 
         // Hardcoded
-        $scope.getListings(1);
+        $scope.getListings(2);
 
 
         eventService.getOne($stateParams.id).then(function (event) {
@@ -129,5 +141,5 @@ define([
       };
     }
     ]);
-  });
+});
 

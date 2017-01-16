@@ -68,7 +68,7 @@ define([
                 $ionicHistory.clearCache();
                 $ionicHistory.clearHistory();
                 
-                $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: false });
+                $ionicHistory.nextViewOptions({ disableBack: false, historyRoot: true });
                 $state.go('login');
                
         }

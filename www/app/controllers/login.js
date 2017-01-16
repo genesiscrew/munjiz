@@ -13,6 +13,7 @@ define([
       '$state',
       function ($scope, userService, $ionicHistory, $rootScope, $state) {
 
+
        $scope.user = {};
        $ionicHistory.nextViewOptions({
          disableBack: true
@@ -80,7 +81,6 @@ define([
        js.src = "//connect.facebook.net/en_US/sdk/debug.js";
        fjs.parentNode.insertBefore(js, fjs);
      }(document, 'script', 'facebook-jssdk'));
-
 
 
 
@@ -161,6 +161,7 @@ define([
       Parse.User.logIn(user.username, user.password, {
         success: function (user) {
                       // Do stuff after successful login.
+                      console.log("i am logged in");
                       $state.go('dashboard');
                     },
                     error: function (user, error) {
@@ -172,10 +173,12 @@ define([
 
 
 
+
     $scope.facebookLogin = function () {
 
       FB.getLoginStatus(function (response) {
         console.log(response);
+
 
       });
     };
@@ -186,10 +189,12 @@ define([
 
             console.log('facebook login');
 
+
             FB.getLoginStatus(function (response) {
               console.log(response);
               if (response.status === 'connected') {
                 console.log('Logged in.');
+                ;
                       //$state.go('dashboard');
                       return;
                     }
@@ -198,19 +203,26 @@ define([
 
             Parse.FacebookUtils.logIn(null, {
               success: function (user) {
-                console.log('success ' + user);
-                if (!user.existed()) {
-                  console.log("User signed up and logged in through Facebook!");
+                console.log('success ');
+                      // gets facebook ID of user who succesfully logged in
+                      FB.api('/me', function (response) {
+                        console.log(response.id);
+                      });
+                      if (!user.existed()) {
+                        console.log("User signed up and logged in through Facebook!");
                           //window.alert(user.username);
-                          userService.username = user.username;
+                          Parse.User.current().set('username', 'johnson');
+                          userService.username = Parse.User.current().get('username');
                           userService.isLogged = true;
                           $state.go("dashboard");
                           return;
 
                         } else {
                           // alert("User logged in through Facebook!");
-                          userService.username = user.username;
+                          userService.username = user.name;
                           userService.isLogged = true;
+                          console.log("username is:");
+                          console.log(user.name);
                           console.log("user logged into");
                           $state.go("dashboard");
 
@@ -218,8 +230,10 @@ define([
                       },
                       error: function (user, error) {
                       // console.log(user.getObjectId());
-                      console.log(user, error);
+                      console.log("wttf");
+                      alert("Error: " + error.message);
                       //  alert("User cancelled the Facebook login or did not fully authorize.");
+
                     }
                   });
           };
@@ -229,4 +243,5 @@ define([
         }
         ]);
 });
+
 

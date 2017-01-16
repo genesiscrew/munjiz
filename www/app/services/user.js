@@ -5,10 +5,9 @@
 
 
     app.service('userService', function() {
-        console.log("i am here now");
     return {
         isLogged: false,
-        username: null
+        username: "hamid"
     }
 
 });
