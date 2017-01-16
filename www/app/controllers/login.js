@@ -99,6 +99,7 @@ define([
                   console.log(response);
                   if (response.status === 'connected') {
                       console.log('Logged in.');
+                     
                       ;
                       //$state.go('dashboard');
                       return;
@@ -109,26 +110,70 @@ define([
               Parse.FacebookUtils.logIn(null, {
                   success: function (user) {
                       console.log('success ');
-                      // gets facebook ID of user who succesfully logged in
+                      var userID;
+                      var email;
+                      var firstname;
+                      var lastname;
+                      var foundUser = false;
+                      // gets facebook details of user who succesfully logged in into facebook
                       FB.api('/me', function (response) {
-                          console.log(response.id);
+                          userID = response.id;
+                          email = response.email;
+                          firstname = response.first_name;
+                          lastname = response.last_name;
                       });
-                      if (!user.existed()) {
-                          console.log("User signed up and logged in through Facebook!");
-                          //window.alert(user.username);
-                          Parse.User.current().set('username', 'johnson');
+                      // query to see if a user exists in DB with the 
+                      //same fb id as the one who logged in through fb
+                      var query = new Parse.Query("User");
+                      query.include('username');
+                      query.find({
+                          success: function (results) {
+                              for (var i = 0; i < results.length; i++) {
+                                  var object = results[i];
+                                 
+                                  if (object.get("username") == userID) {
+                                      foundUser = true;
+                                      }
+                              }
+                             
+                           
+                          },
+                          error: function (error) {
+                              alert("Error: " + error.code + " " + error.message);
+                          }
+                      });
+                      if (!user.existed() && !foundUser) {
+                          // coming here means the user does not exist in database and also 
+                          // there is no user in DB with similar FB ID
+                          alert("New user signed up and logged in through Facebook!");
+                          window.alert("about to create new user");
+                          var createuser = Parse.User.current();
+                          // updating user record based on facebook data
+                          //for now, only the username field is updated, i am not sure why the other
+                          // fields are not being updated
+
+                          //TODO: get the other fields updating
+                          createuser.set('username', userID);
+                          createuser.set('email', email);
+                          createuser.set('firstName', firstname);
+                          createuser.set('lastName', lastname);
+                          createuser.save();
+                          // the code below is used to store details of current logged in user
+                          // i think it is sort of redundant now as i have found out that
+                          // parse.user.current() basically provides similar functionality
                           userService.username = Parse.User.current().get('username');
                           userService.isLogged = true;
+                          // go to dashbboard
                           $state.go("dashboard");
                           return;
 
                       } else {
-                          // alert("User logged in through Facebook!");
+                          // the current parse user is already in the database,
+                          ///so we just proceed to the dashboard
+                          alert("User already signed up and just logged in through Facebook!");
+                   
                           userService.username = user.name;
-                          userService.isLogged = true;
-                          console.log("username is:");
-                          console.log(user.name);
-                          console.log("user logged into");
+                          userService.isLogged = true;;
                           $state.go("dashboard");
 
                       }
