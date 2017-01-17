@@ -150,9 +150,6 @@ define([
                           var createuser = Parse.User.current();
                           // updating user record based on accesible facebook data
                           createuser.set('username', userID);
-                          alert(email);
-                          alert(lastname);
-                          alert(firstname);
                           createuser.set('email', email);
                           createuser.set('firstName', firstname);
                           createuser.set('lastName', lastname);

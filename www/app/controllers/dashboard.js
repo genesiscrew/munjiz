@@ -17,8 +17,18 @@ define([
         $scope.apiKey = 'AIzaSyAvdX3YgqPd5prRV8OzvwnpuXrcySuK27c';
         $scope.height = window.screen.height;
         $scope.width = window.screen.width;
+        $scope.search = {};
+        $scope.makeMarkings = function () {
 
-      $scope.search = {};
+
+            if ($scope.search.string) {
+                $scope.searching = $scope.search.string;
+                
+            }
+            
+            
+           // $scope.searching = ;
+        }
 
 
 
