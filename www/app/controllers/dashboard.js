@@ -14,7 +14,7 @@ define([
 
        $ionicNavBarDelegate.showBackButton(false);
 
-        $scope.apiKey = 'AIzaSyAvdX3YgqPd5prRV8OzvwnpuXrcySuK27c';
+       $scope.apiKey = 'AIzaSyBLn2Bi6M50mbmml_uq-jzcZKDMKR_OyTY';
         $scope.height = window.screen.height;
         $scope.width = window.screen.width;
         $scope.search = {};
@@ -27,10 +27,10 @@ define([
             }
             
             
-           // $scope.searching = ;
+         
         }
 
-
+        
 
       $scope.goToList = function () {
         $state.go('results', {

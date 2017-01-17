@@ -28,8 +28,8 @@ define([
           StatusBar.styleDefault();
         }
 
-
-        Parse.initialize("uvQmMNsdZStxEvEfMeMdrH85sGW7wKMl8Ms2Bm0j", "YHcdSEyXhQ8qX0vykcFCerM4rQmajQG22iu44BvT");
+        console.log("about to initialize parse");
+        Parse.initialize("uvQmMNsdZStxEvEfMeMdrH85sGW7wKMl8Ms2Bm0j", "YHcdSEyXhQ8qX0vykcFCerM4rQmajQG22iu44BvT", "0gauJiwUIqjTabTNOOZEcgE17wGxFyKtPq8g40sm", "z4wnNa2HnXgPly14Z3sDzxl8LDlMwj6WroUMuamT");
         Parse.serverURL = 'https://parseapi.back4app.com/';
         //Parse.FacebookUtils.init();
 

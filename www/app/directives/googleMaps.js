@@ -3,7 +3,7 @@ define([
   'app',
   'services/user'
 ], function (app) {
-    'use strict';
+    //'use strict';
 
     app.directive('googleMap', [
       '$state',
@@ -18,16 +18,16 @@ define([
               scope: {
                   events: '=',
                   apiKey: '@',
-                  makeMarkings: '=',
-                  imap: '=',
                   searching: '='
                  
               },
               restrict: 'A',
 
-              link: function (scope, element, attr) {
+              link: function (scope, element) {
                   var counter = 0,
                       map,
+                      mapsMarker,
+                      gmarkers = [],
                       object,
                       object2,
                       mylat,
@@ -52,10 +52,10 @@ define([
 
                       eventsReady = true;
 
-                      var i = 0,
-                          mapsMarker;
+                      var i = 0;
+                         
                       var query = new Parse.Query('Listings');
-                      query.include('parent');
+                      query.include(' parent');
                       query.find({
                           success: function (results) {
                               //window.alert("Successfully retrieved " + results.length + " scores.");
@@ -68,12 +68,18 @@ define([
                                   // code below draws marker for all users in DB except for logged in user.
                                   
                                   if (Parse.User.current().id != object2.id) {
-                                      
+                                      // alert(Parse.User.current().id);
+                                      console.log("marker added");
+                                      var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
                                       mapsMarker = new $window.google.maps.Marker({
                                           position: new $window.google.maps.LatLng(object2.get('lat'), object2.get('long')),
                                           map: map,
+             
+                                          icon: image,
                                           clickable: true
                                       });
+                                      gmarkers.push(mapsMarker);
+                                      alert(gmarkers.length);
                                   }
 
                               }
@@ -92,16 +98,25 @@ define([
                   }, function (searching) {
                       if (searching) {
                           if (map) {
-                              alert("we finally did it")
-                              makeMarkers();
+                              alert(searching);
+                              //TODO: update markers on map based on search string
+                              removeMarkers();
+                              //makeMarkers();
                           }
                           watcher1();
                       }
                       else {
-                          alert("nothing searched");
+                          //alert("nothing searched");
                       }
                   });
+                  
 
+                  function removeMarkers() {
+                      for (i = 0; i < gmarkers.length; i++) {
+                          gmarkers[i].setMap(null);
+                      }
+                  }
+                  
                   function makeMapAndMarkers() {
                      
                       var mapOptions = {
@@ -114,8 +129,9 @@ define([
                          
 
                           if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
-                              var myloc = new google.maps.Marker({
 
+                              var myloc = new google.maps.Marker({
+                                  
                                   clickable: false,
                                   icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
                                                                                   new google.maps.Size(22, 22),
