@@ -1,6 +1,13 @@
 <ion-view>
   <ion-nav-title>Listings</ion-nav-title>
+  
+  <ion-nav-buttons side="right">
+    <button class="button button-clear icon ion-plus-round" ng-disabled="loading"  ng-click="addListing()">
+    </button>
+  </ion-nav-buttons>
+
   <ion-content padding="true" class="has-footer">
+
     <ion-refresher class="spinner-balanced" on-refresh="reload()"></ion-refresher>
     <div class="text-center">
       <ion-spinner class="spinner-balanced" ng-show="loading"></ion-spinner>
@@ -34,23 +41,23 @@
       <br>
       <br>
       <br>
-      </div>
+    </div>
 
 
-    </ion-content>
+  </ion-content>
 
-    <ion-footer-bar class="bar-stable">
-      <div class="buttons">
-        <div class="button button-clear" ng-disabled="loading" ng-click="map()">
-          <i class="icon ion-map"></i> Maps
-        </div>
+  <ion-footer-bar class="bar-stable">
+    <div class="buttons">
+      <div class="button button-clear" ng-disabled="loading" ng-click="map()">
+        <i class="icon ion-map"></i> Maps
       </div>
-      <h1 class="title"></h1>
-      <div class="buttons">
-        <div class="button button-clear" ng-disabled="loading" ng-click="report()">
-          Report
-          <i class="icon ion-android-alert"></i>
-        </div>
+    </div>
+    <h1 class="title"></h1>
+    <div class="buttons">
+      <div class="button button-clear" ng-disabled="loading" ng-click="report()">
+        Report
+        <i class="icon ion-android-alert"></i>
       </div>
-    </ion-footer-bar>
-  </ion-view>
+    </div>
+  </ion-footer-bar>
+</ion-view>

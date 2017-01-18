@@ -15,7 +15,8 @@ define([
       'eventService',
       'listingService',
       'userService',
-      function ($scope, $stateParams, $window, $ionicPopup, eventService, listingService, userService) {
+      '$state',
+      function ($scope, $stateParams, $window, $ionicPopup, eventService, listingService, userService, $state) {
 
         $scope.loading = true;
         var object;
@@ -113,6 +114,12 @@ define([
           // here connect to backend and send report
         }
       });
+
+          $scope.addListing = function(){
+            console.log('hi');
+            $state.go('new_listing');
+          };
+
 
 
 

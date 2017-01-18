@@ -15,6 +15,7 @@ define([
       $scope.loading = true;
 
 
+      $scope.getProfile = function(objectID) {
 
           var query = new Parse.Query(Parse.User);
           query.equalTo("objectId", Parse.User.current().id);
@@ -42,8 +43,11 @@ define([
               alert("Error: " + error.code + " " + error.message);
             }
           });
-      
+        };
 
+      var currentUserId = Parse.User.current().id;
+      console.log(Parse.User.current());
+      $scope.getProfile(currentUserId);
 
 
 

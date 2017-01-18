@@ -8,6 +8,7 @@ define([
   'controllers/listing',
   'controllers/chat',
   'controllers/login',
+  'controllers/new_listing'
 
 ], function (app) {
   'use strict';
@@ -49,11 +50,20 @@ define([
           templateUrl: 'app/templates/chat.html'
         })
 
+        .state('new_listing', {
+          url: '/new_listing',
+          controller: 'NewListingCtrl',
+          templateUrl: 'app/templates/new_listing.html'
+        })
+
         .state('login', {
           url: '/login',
           controller: 'LoginCtrl',
           templateUrl: 'app/templates/login.html'
         });
+
+
+        
     }
   ]);
 });

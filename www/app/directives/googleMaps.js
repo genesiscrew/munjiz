@@ -3,12 +3,13 @@ define([
   'app',
   'services/user'
 ], function (app) {
-    'use strict';
+    //'use strict';
 
     app.directive('googleMap', [
       '$state',
       '$window',
       'userService',
+      
 
       
      
@@ -16,17 +17,23 @@ define([
           return {
               scope: {
                   events: '=',
-                  apiKey: '@'
+                  apiKey: '@',
+                  searching: '='
+                 
               },
               restrict: 'A',
+
               link: function (scope, element) {
                   var counter = 0,
                       map,
+                      mapsMarker,
+                      gmarkers = [],
                       object,
                       object2,
                       mylat,
                       mylong,
-                      eventsReady = false;
+                      eventsReady = false,
+                      searchedItem;
 
                   function addClick(marker, id) {
                       $window.google.maps.event.addListener(marker, 'click', function () {
@@ -36,52 +43,45 @@ define([
                       });
                   }
 
-                
                  
+                  
                   function makeMarkers() {
+                      /**
 
-                      //if (eventsReady || !scope.events) {
-                      //  return;
-                      //}
-
+                     
                       eventsReady = true;
 
-                      var i = 0,
-                          mapsMarker;
+                      var i = 0;
+                         
                       var query = new Parse.Query('Listings');
                       query.include('parent');
                       query.find({
                           success: function (results) {
                               //window.alert("Successfully retrieved " + results.length + " scores.");
-                              //window.alert(userService.username);
-                              console.log(userService.username);
+                               
+                              //console.log(userService.username);
                               // Do something with the returned Parse.Object values
                               for (var i = 0; i < results.length; i++) {
                                   object = results[i];
                                   object2 = object.get('parent');
-                                 // window.alert(object2.get('firstName'));
-                                  
-                                 // window.alert(mylong + ' ' + object2.get('long'));
-                                 // window.alert(mylat + ' ' + object2.get('lat'));
-                                  // window.alert(object2.get('lat'));
-                                  // window.alert(object2.get('long'));
-                                  
-                                  //var position2 = new $window.google.maps.LatLng(object2.get('lat'), object2.get('long'));
-                                  //if (mylat == object2.get('lat') && mylong == object2.get('long')) {
-                                    //  window.alert(456);
-                                  //}
-                                  
-                                  if (mylat != object2.get('lat') && mylong != object2.get('long')) {
+                                  // code below draws marker for all users in DB except for logged in user.
+                                  //alert(object.get('title') + " " + searchedItem);
+                                  alert(results.length);
+                                  if (Parse.User.current().id != object2.id && object.get('title') == searchedItem )  {
+                                       alert("adding marker");
+                                      console.log("marker added");
+                                      var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
                                       mapsMarker = new $window.google.maps.Marker({
                                           position: new $window.google.maps.LatLng(object2.get('lat'), object2.get('long')),
                                           map: map,
+             
+                                          icon: image,
                                           clickable: true
                                       });
+                                      gmarkers.push(mapsMarker);
+                                   
                                   }
 
-                                  // center on first hit
-
-                                  //addClick(mapsMarker, scope.events[i].id);
                               }
 
                           },
@@ -90,21 +90,92 @@ define([
                           }
                       });
 
+                     // searchedItem = null;
+                     // scope.searching = null;
 
+                     */
+                  }
+
+                  function makeMarkersforUsers() {
+/**
+                      //if (eventsReady || !scope.events) {
+                      //  return;
+                      //}
+
+                      eventsReady = true;
+
+                      var i = 0;
+
+                      var query = new Parse.Query('User');
+                      //query.include(' parent');
+                      query.find({
+                          success: function (results) {
+                              //window.alert("Successfully retrieved " + results.length + " scores.");
+
+                              //console.log(userService.username);
+                              // Do something with the returned Parse.Object values
+                              for (var i = 0; i < results.length; i++) {
+                                  object = results[i];
+                                 
+                                  
+                                  // code below draws marker for all users in DB except for logged in user.
+
+                                  if (Parse.User.current().id != object.id) {
+                                      // alert(Parse.User.current().id);
+                                     
+                                      var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+                                      mapsMarker = new $window.google.maps.Marker({
+                                          position: new $window.google.maps.LatLng(object.get('lat'), object.get('long')),
+                                          map: map,
+
+                                          icon: image,
+                                          clickable: true
+                                      });
+                                      gmarkers.push(mapsMarker);
+                                      
+                                  }
+
+                              }
+
+                          },
+                          error: function (error) {
+                              alert("Error: " + error.code + " " + error.message);
+                          }
+                      });
+                      */
+                      
+                  }
+                  var watcher2 = scope.$watch(scope.searching, function () { alert("search string is: " + " " + scope.searching), true });
+
+                  var watcher1 = scope.$watch(function () {
+                      return scope.searching;
+                  }, function (searching) {
+                      alert("value has changed");
+                      if (searching) {
+                          if (map) {
+                              alert(scope.searching);
+                              searchedItem = scope.searching;
+                              //TODO: update markers on map based on search string
+                              removeMarkers(); 
+                              makeMarkers();
+                              scope.searching = null;
+                             
+                          }
+                          watcher1();
+                      }
+                      else {
+                         // alert("nothing searched");
+                      }
+                      
+                  });
+                  
+                  
+                  function removeMarkers() {
+                      for (i = 0; i < gmarkers.length; i++) {
+                          gmarkers[i].setMap(null);
+                      }
                   }
                   
-
-                  var watcher = scope.$watch(function () {
-                      return scope.events;
-                  }, function (events) {
-                      if (events && events.length) {
-                          if (map) {
-                              makeMarkers();
-                          }
-                          watcher();
-                      }
-                  });
-
                   function makeMapAndMarkers() {
                      
                       var mapOptions = {
@@ -113,10 +184,13 @@ define([
                       };
                       if (!map) {
                           map = new $window.google.maps.Map(element[0], mapOptions);
-
+                          scope.imap = map;
+                         
+                         /*
                           if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
-                              var myloc = new google.maps.Marker({
 
+                              var myloc = new google.maps.Marker({
+                                  
                                   clickable: false,
                                   icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
                                                                                   new google.maps.Size(22, 22),
@@ -132,13 +206,23 @@ define([
                               var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
                               mylat = pos.coords.latitude;
                               mylong = pos.coords.longitude;
+                              // set fields of lat and long in user DB
+                              Parse.User.current().set("lat", mylat);
+                              Parse.User.current().set("long", mylong);
+                              Parse.User.current().save();
                               map.setCenter(me);
                               myloc.setPosition(me);
+                              
+                              
                           }, function (error) {
                               // ...
                           });
+                          */
                       }
-                      makeMarkers();
+                   
+
+                   
+                      makeMarkersforUsers();
                   }
 
                   //load google maps api script async, avoiding 'document.write' error
@@ -152,6 +236,8 @@ define([
                       cbId = '_gmap_' + counter;
                       $window[cbId] = makeMapAndMarkers;
                       apiKey = 'key=' + scope.apiKey + '&';
+                  
+
                      
                       wf = document.createElement('script');
                       wf.src = ('https:' === document.location.protocol ? 'https' : 'http') +
@@ -167,6 +253,8 @@ define([
                       //window.alert("inject google");
                   } else {
                       makeMapAndMarkers();
+                     
+                      
                   }
               }
           };
