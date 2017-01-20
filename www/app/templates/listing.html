@@ -1,9 +1,9 @@
-<ion-view>
+<ion-view> 
   <ion-nav-title>Listings</ion-nav-title>
   
   <ion-nav-buttons side="right">
-    <button class="button button-clear icon ion-plus-round" ng-disabled="loading"  ng-click="addListing()">
-    </button>
+    <div class="button button-clear icon ion-plus-round" ng-disabled="loading"  ng-click="addListing()">
+    </div>
   </ion-nav-buttons>
 
   <ion-content padding="true" class="has-footer">
@@ -13,8 +13,8 @@
       <ion-spinner class="spinner-balanced" ng-show="loading"></ion-spinner>
     </div>
     <div ng-show="!loading">
-      <h3>{{owner.name}}</h3>
-      <h4><b>{{owner.city}}</b> <small>{{owner.district}} </small></h4>
+      <h3>{{listingOwner.name}}</h3>
+      <h4><b>{{listingOwner.city}}</b> <small>{{listingOwner.district}} </small></h4>
       <br>
 
 

@@ -17,17 +17,17 @@ define([
       'userService',
       '$state',
       function ($scope, $stateParams, $window, $ionicPopup, eventService, listingService, userService, $state) {
+        
+        $scope.addListing = function(){
+            console.log('hi');
+            $state.go('new_listing');
+        };
 
-        $scope.loading = true;
-        var object;
-        var object2;
-
-        $scope.getListings = function(ownerID) {
+        $scope.getListings = function(owner) {
 
           var listingsQuery = Parse.Object.extend("Listings");
           var query = new Parse.Query(listingsQuery);
-          query.equalTo("parent", Parse.User.current());
-          console.log(Parse.User.current().id);
+          query.equalTo("parent", owner);
           query.find({
             success: function(results) {
 
@@ -41,9 +41,8 @@ define([
                   
                   listing.price = listing.get("price");
                   listing.imageURL = listing.get("imageURL");
-                  object = listing.get('parent');
-                  object2 = object.get('username');
-                  console.log('listing' + listing.title);
+                  listing.parent = listing.get('parent');
+                  listing.username = object.get('username');
 
                   listings.push(listing);
                   
@@ -60,10 +59,9 @@ define([
         });
         };
 
-
-
-        // Hardcoded
-        $scope.getListings(2);
+        // Load current users listings
+        $scope.loading = true;
+        $scope.getListings(Parse.User.current());
 
 
         eventService.getOne($stateParams.id).then(function (event) {
@@ -115,10 +113,7 @@ define([
         }
       });
 
-          $scope.addListing = function(){
-            console.log('hi');
-            $state.go('new_listing');
-          };
+          
 
 
 
