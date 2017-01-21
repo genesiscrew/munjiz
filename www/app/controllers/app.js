@@ -74,9 +74,13 @@ define([
 
 
         $scope.goCurrentUserListings = function(){
-          console.log("jo");
           var objectId = Parse.User.current().id;
           $state.go("listing", {id: objectId});
+        };
+
+         $scope.goProfile = function(){
+          var objectId = Parse.User.current().id;
+          $state.go("profile", {id: objectId});
         };
 
 

@@ -25,16 +25,18 @@ define([
         };
 
 
-        $scope.getProfile = function(objectId) {
+        $scope.getProfileAndListings = function(objectId) {
 
           var query = new Parse.Query(Parse.User);
           query.equalTo("objectId", objectId);
           query.find({
             success: function(result) {  
+              if(result.length != 1){
+                alert("User not found");
+                return;
+              }
 
               var profile = result[0];
-              console.log(result);
-
               profile.name = profile.get("firstName") + " " + profile.get("lastName");
               profile.city = profile.get("city");
               profile.imageURL = profile.get("imageURL");
@@ -42,12 +44,8 @@ define([
               profile.street = profile.get("street");
               profile.city = profile.get("city");     
 
-              profile.id = 1;
-
-              $scope.listingOwner = profile;            
-
-              $scope.loading = false;
-              console.log(profile);
+              $scope.listingOwner = profile; 
+              $scope.getListings(profile);
 
             },
             error: function(error) {
@@ -57,15 +55,16 @@ define([
         };
 
         $scope.getListings = function(owner) {
-
+          console.log(owner);
           var listingsQuery = Parse.Object.extend("Listings");
           var query = new Parse.Query(listingsQuery);
           query.equalTo("parent", owner);
+          // TODO query.include
           query.find({
             success: function(results) {
 
               var listings = [];
-              console.log(results.length);
+              console.log(results);
               for (var i = 0; i < results.length; i++) {
                 var listing = results[i];
                 if(listing.get("show")){
@@ -75,15 +74,12 @@ define([
                   listing.imageURL = listing.get("imageURL");
                   listing.parent = listing.get('parent');
                   listing.username = listing.get('username');
-
-                  listings.push(listing);
-                  
+                  listings.push(listing);  
                 }
               }
 
-              $scope.listings = listings;
+              $scope.events = listings;
               $scope.loading = false;
-             // alert("Successful");
 
            },
            error: function(error) {
@@ -93,23 +89,10 @@ define([
         };
 
 
-                // Start loading and load listingOwner and there listings
-                $scope.loading = false;
-                $scope.getProfile($stateParams.id);
-                $scope.getListings($stateParams.id);
+        // Start loading and load listingOwner and there listings
+        $scope.loading = false;
+        $scope.getProfileAndListings($stateParams.id);
 
-
-
-
-
-
-
-        // eventService.getOne($stateParams.id).then(function (event) {
-        //   $scope.owner = event;
-        // }).finally(function () {
-        //   $scope.loading = false;
-
-        // });
 
 
         $scope.reload = function () {
