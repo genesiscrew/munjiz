@@ -37,17 +37,27 @@
       </ion-header-bar>
       <ion-content class="background-royal">
         <ion-list>
-          
+            <!-- Generic -->
+
           <ion-item class="item-royal item-icon-right" ng-repeat="page in pages" menu-close href="#/{{page.alias}}">
 
             {{page.title}}
             <i class="icon" ng-class="page.icon"></i>
           </ion-item>
 
-              <ion-item class="item-royal item-icon-right" menu-close href="#/profile/{{ Parse.User.current().get('objectId') }}">
+              <!-- Profile -->
+              <ion-item class="item-royal item-icon-right" menu-close href="#/profile/{{Parse.User.current().id}}">
             Profile
             <i class="icon ion-person" ></i>
           </ion-item>
+
+              <!-- Listing -->
+              <ion-item class="item-royal item-icon-right" menu-close ng-click="goCurrentUserListings()">
+            Listings
+            <i class="icon ion-ios-pricetags" ></i>
+          </ion-item>
+
+              <!-- Signout -->
 
           <ion-item class="item-royal item-icon-right" menu-close ng-click="logout()">
             Sign out

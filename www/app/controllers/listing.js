@@ -17,10 +17,43 @@ define([
       'userService',
       '$state',
       function ($scope, $stateParams, $window, $ionicPopup, eventService, listingService, userService, $state) {
-        
+
+
         $scope.addListing = function(){
-            console.log('hi');
-            $state.go('new_listing');
+          console.log('hi');
+          $state.go('new_listing');
+        };
+
+
+        $scope.getProfile = function(objectId) {
+
+          var query = new Parse.Query(Parse.User);
+          query.equalTo("objectId", objectId);
+          query.find({
+            success: function(result) {  
+
+              var profile = result[0];
+              console.log(result);
+
+              profile.name = profile.get("firstName") + " " + profile.get("lastName");
+              profile.city = profile.get("city");
+              profile.imageURL = profile.get("imageURL");
+              profile.number = profile.get("streetNumber");
+              profile.street = profile.get("street");
+              profile.city = profile.get("city");     
+
+              profile.id = 1;
+
+              $scope.listingOwner = profile;            
+
+              $scope.loading = false;
+              console.log(profile);
+
+            },
+            error: function(error) {
+              alert("Error: " + error.code + " " + error.message);
+            }
+          });
         };
 
         $scope.getListings = function(owner) {
@@ -38,18 +71,18 @@ define([
                 if(listing.get("show")){
                   listing.title = listing.get("title");
                   listing.desc = listing.get("desc");
-                  
                   listing.price = listing.get("price");
                   listing.imageURL = listing.get("imageURL");
                   listing.parent = listing.get('parent');
-                  listing.username = object.get('username');
+                  listing.username = listing.get('username');
 
                   listings.push(listing);
                   
                 }
               }
 
-              $scope.events = listings;
+              $scope.listings = listings;
+              $scope.loading = false;
              // alert("Successful");
 
            },
@@ -59,17 +92,24 @@ define([
         });
         };
 
-        // Load current users listings
-        $scope.loading = true;
-        $scope.getListings(Parse.User.current());
+
+                // Start loading and load listingOwner and there listings
+                $scope.loading = false;
+                $scope.getProfile($stateParams.id);
+                $scope.getListings($stateParams.id);
 
 
-        eventService.getOne($stateParams.id).then(function (event) {
-          $scope.owner = event;
-        }).finally(function () {
-          $scope.loading = false;
 
-        });
+
+
+
+
+        // eventService.getOne($stateParams.id).then(function (event) {
+        //   $scope.owner = event;
+        // }).finally(function () {
+        //   $scope.loading = false;
+
+        // });
 
 
         $scope.reload = function () {
@@ -113,35 +153,12 @@ define([
         }
       });
 
-          
 
 
 
 
-
-          $scope.getListings = function(ownerID) {
-
-            var listings = Parse.Object.extend("Listings");
-            var query = new Parse.Query(listings);
-          //query.equalTo("parentID", ownerID);
-          query.find({
-            success: function(results) {
-              alert("Successfully retrieved " + results.length + " scores.");
-                // Do something with the returned Parse.Object values
-                $scope.events = results;
-              //   for (var i = 0; i < results.length; i++) {
-              //     var object = results[i];
-              //     alert(object.id + ' - ' + object.get('playerName'));
-              //   }
-            },
-            error: function(error) {
-              alert("Error: " + error.code + " " + error.message);
-            }
-          });
         };
-
-      };
-    }
-    ]);
+      }
+      ]);
 });
 

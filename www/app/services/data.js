@@ -655,11 +655,12 @@ define([
         alias: 'messages',
         title: 'Messages',
         icon: 'ion-email-unread'
-      },  {
-        alias: 'listing/1',
-        title: 'Listings',
-        icon: 'ion-ios-pricetags'
-      }
+       }
+       //{
+      //   alias: 'listing/1',
+      //   title: 'Listings',
+      //   icon: 'ion-ios-pricetags'
+      // }
       ];
 
 
