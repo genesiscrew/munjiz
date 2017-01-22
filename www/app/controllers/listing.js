@@ -90,7 +90,7 @@ define([
 
 
         // Start loading and load listingOwner and there listings
-        $scope.loading = false;
+        $scope.loading = true;
         $scope.getProfileAndListings($stateParams.id);
 
 

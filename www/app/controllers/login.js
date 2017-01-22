@@ -51,8 +51,8 @@ define([
 
 
             $scope.$watchGroup(['user.username', 'user.password'], function (newVal) {
-              var user = newVal[0] != undefined && newVal[0].length > 4,
-              password = newVal[1] != undefined && newVal[1].length > 4;
+              var user = newVal[0] !== undefined && newVal[0].length > 4,
+              password = newVal[1] !== undefined && newVal[1].length > 4;
               $scope.ready = !!(user && password);
             });
 
@@ -75,7 +75,7 @@ define([
 
                      // query to see if a user exists in DB with the 
                       //same fb id as the one who logged in through fb
-
+                      console.log(user);
                       var query = new Parse.Query("User");
                       query.equalTo('username', response.id);
                       query.find({
@@ -94,15 +94,15 @@ define([
                       // there is no user in DB with similar FB ID
                       if (!user.existed() && !foundUser) {
 
-                        alert("New user " + firstname + " " + "signed up and logged in through Facebook!");
-                        var createuser = Parse.User.current();
-
+                        alert("New user " + response.first_name + " " + "signed up and logged in through Facebook!");
                           // updating user record based on accesible facebook data
-                          createuser.set('username', response.id);
-                          createuser.set('email', response.email);
-                          createuser.set('firstName', response.first_name);
-                          createuser.set('lastName', response.last_name);
-                          createuser.save();
+                          console.log(response);
+                          user.set('username', response.id);
+                          user.set('email', response.email);
+                          user.set('firstName', response.first_name);
+                          user.set('lastName', response.last_name);
+                          user.set('imageURL', response.picture.data.url);
+                          user.save();
 
                           // go to dashbboard
                           alert("Created new user");
@@ -132,7 +132,7 @@ define([
               Parse.FacebookUtils.logIn(null, {
                 success: function (user) {                  
                       // Gets facebook details of user who succesfully logged in into facebook
-                      FB.api('/me?fields=first_name, last_name, email', function (response) {
+                      FB.api('/me?fields=first_name, last_name, email, picture', function (response) {
                        $scope.checkUserDetails(response, user);
                      });              
 
