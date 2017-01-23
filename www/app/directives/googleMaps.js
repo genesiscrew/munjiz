@@ -18,10 +18,12 @@ define([
               scope: {
                   events: '=',
                   apiKey: '@',
-                  searching: '='
+
                  
               },
               restrict: 'A',
+              replace: true,
+              transclude: false,
 
               link: function (scope, element) {
                   var counter = 0,
@@ -32,7 +34,9 @@ define([
                       object2,
                       mylat,
                       mylong,
-                      eventsReady = false;
+                      eventsReady = false,
+                      searchedItem;
+
 
                   function addClick(marker, id) {
                       $window.google.maps.event.addListener(marker, 'click', function () {
@@ -42,33 +46,34 @@ define([
                       });
                   }
 
-                 
                   
+
+                
+
+                  // this function adds markers on the map only for the users who have items matching the search, not sure but
+                  // maybe can apply lazy loading here as well? thoughts?
+
                   function makeMarkers() {
 
-                      //if (eventsReady || !scope.events) {
-                      //  return;
-                      //}
 
+
+
+                   
                       eventsReady = true;
 
                       var i = 0;
                          
                       var query = new Parse.Query('Listings');
-                      query.include(' parent');
+                      query.include('parent');
                       query.find({
                           success: function (results) {
-                              //window.alert("Successfully retrieved " + results.length + " scores.");
-                               
-                              //console.log(userService.username);
+
                               // Do something with the returned Parse.Object values
                               for (var i = 0; i < results.length; i++) {
                                   object = results[i];
                                   object2 = object.get('parent');
                                   // code below draws marker for all users in DB except for logged in user.
-                                  
-                                  if (Parse.User.current().id != object2.id) {
-                                      // alert(Parse.User.current().id);
+                                  if (Parse.User.current().id != object2.id && object.get('title') == searchedItem )  {
                                       console.log("marker added");
                                       var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
                                       mapsMarker = new $window.google.maps.Marker({
@@ -79,7 +84,7 @@ define([
                                           clickable: true
                                       });
                                       gmarkers.push(mapsMarker);
-                                      alert(gmarkers.length);
+                                   
                                   }
 
                               }
@@ -91,25 +96,60 @@ define([
                       });
 
 
+
+
                   }
-                  
-                  var watcher1 = scope.$watch(function () {
-                      return scope.searching;
-                  }, function (searching) {
-                      if (searching) {
-                          if (map) {
-                              alert(searching);
-                              //TODO: update markers on map based on search string
-                              removeMarkers();
-                              //makeMarkers();
+                  // this function adds markers on the map only for all users in DB, would need to be modified to 
+                  // be a lazy loading of some sort since we dont want to load all the users but only those inside the 
+                  // part of map that is showing, hence TODO: lazy loading
+
+                  function makeMarkersforUsers() {
+
+                      //if (eventsReady || !scope.events) {
+                      //  return;
+                      //}
+
+                      eventsReady = true;
+
+                      var i = 0;
+
+                      var query = new Parse.Query('User');
+                      //query.include(' parent');
+                      query.find({
+                          success: function (results) {
+                              // Do something with the returned Parse.Object values
+                              for (var i = 0; i < results.length; i++) {
+                                  object = results[i];
+                                 
+                                  
+                                  // code below draws marker for all users in DB except for logged in user.
+
+                                  if (Parse.User.current().id != object.id) {
+                                      // alert(Parse.User.current().id);
+                                     
+                                      var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+                                      mapsMarker = new $window.google.maps.Marker({
+                                          position: new $window.google.maps.LatLng(object.get('lat'), object.get('long')),
+                                          map: map,
+
+                                          icon: image,
+                                          clickable: true
+                                      });
+                                      gmarkers.push(mapsMarker);
+                                      
+                                  }
+
+                              }
+
+                          },
+                          error: function (error) {
+                              alert("Error: " + error.code + " " + error.message);
                           }
-                          watcher1();
-                      }
-                      else {
-                          //alert("nothing searched");
-                      }
-                  });
-                  
+                      });
+
+                      
+                  }
+               
 
                   function removeMarkers() {
                       for (i = 0; i < gmarkers.length; i++) {
@@ -118,6 +158,7 @@ define([
                   }
                   
                   function makeMapAndMarkers() {
+                      console.log("making map");
                      
                       var mapOptions = {
                           zoom: 13,
@@ -125,9 +166,32 @@ define([
                       };
                       if (!map) {
                           map = new $window.google.maps.Map(element[0], mapOptions);
-                          scope.imap = map;
-                         
+                          // add a keyboard listener to the map, this probably needs to be modified for mobile use
+                          // since key pressed would be different than ENTER
+                          google.maps.event.addDomListener(document, 'keyup', function (e) {
+                              var div = document.getElementById('search').value
 
+                             
+
+                              var code = (e.keyCode ? e.keyCode : e.which);
+
+                              if(code == 13) {
+                                  if (searchedItem != div) {
+                                      searchedItem = div;
+                                          // here we remove the markers, and redraw them based on new search
+                                          removeMarkers();
+                                          makeMarkers();
+
+                                      }
+
+                                  
+
+                                  }
+
+                            
+                          });
+                         
+                         
                           if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
 
                               var myloc = new google.maps.Marker({
@@ -160,7 +224,7 @@ define([
                    
 
                    
-                      makeMarkers();
+                      makeMarkersforUsers();
                   }
 
                   //load google maps api script async, avoiding 'document.write' error

@@ -12,26 +12,18 @@ define([
     '$ionicNavBarDelegate',
     function ($scope, $state, eventService, $ionicNavBarDelegate) {
 
-       $ionicNavBarDelegate.showBackButton(false);
+        $ionicNavBarDelegate.showBackButton(false);
 
-       $scope.apiKey = 'AIzaSyBLn2Bi6M50mbmml_uq-jzcZKDMKR_OyTY';
+        $scope.apiKey = 'AIzaSyBLn2Bi6M50mbmml_uq-jzcZKDMKR_OyTY';
         $scope.height = window.screen.height;
         $scope.width = window.screen.width;
         $scope.search = {};
-        $scope.makeMarkings = function () {
+        
+       
 
-
-            if ($scope.search.string) {
-                $scope.searching = $scope.search.string;
-                
-            }
-            
-            
-         
-        }
 
         
-
+      // code below belong to template and is not currently being used
       $scope.goToList = function () {
         $state.go('results', {
           search: $scope.search.string,

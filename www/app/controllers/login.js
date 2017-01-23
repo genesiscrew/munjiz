@@ -145,8 +145,8 @@ define([
                       if (!user.existed() && !foundUser) {
                           // coming here means the user does not exist in database and also 
                           // there is no user in DB with similar FB ID
-                          alert("New user signed up and logged in through Facebook!");
-                          window.alert("about to create new user");
+                         // alert("New user signed up and logged in through Facebook!");
+                          //window.alert("about to create new user");
                           var createuser = Parse.User.current();
                           // updating user record based on accesible facebook data
                           createuser.set('username', userID);
@@ -166,7 +166,7 @@ define([
                       } else {
                           // the current parse user is already in the database,
                           ///so we just proceed to the dashboard
-                          alert("User already signed up and just logged in through Facebook!");
+                          //alert("User already signed up and just logged in through Facebook!");
                    
                           userService.username = user.name;
                           userService.isLogged = true;;
