@@ -11,9 +11,13 @@ define([
     '$window',
     '$ionicPopup',
     'eventService',
-    function ($scope, $stateParams, $window, $ionicPopup, eventService) {
+    '$state',
+    function ($scope, $stateParams, $window, $ionicPopup, eventService, $state) {
       $scope.loading = true;
 
+       $scope.editProfile = function(){
+          $state.go('edit_profile');
+        };
 
       $scope.getProfile = function(objectID) {
 
@@ -29,9 +33,11 @@ define([
               profile.imageURL = profile.get("imageURL");
               profile.number = profile.get("streetNumber");
               profile.street = profile.get("street");
-              profile.city = profile.get("city");     
+              profile.city = profile.get("city");  
+              profile.hours = profile.get("hours");     
+   
 
-              profile.id = 1;
+              profile.id = Parse.User.current().id;
 
               $scope.profile = profile;            
 

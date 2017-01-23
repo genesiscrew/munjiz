@@ -47,8 +47,8 @@ define([
             newListing.set("parent", Parse.User.current());
             newListing.save();
           }
-          alert("Successfully added listing");
-          $state.go("listing");
+          var objectId = Parse.User.current().id;
+          $state.go("listing", {id:objectId});
         }
 
 

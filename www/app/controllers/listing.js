@@ -20,7 +20,6 @@ define([
 
 
         $scope.addListing = function(){
-          console.log('hi');
           $state.go('new_listing');
         };
 
@@ -55,14 +54,13 @@ define([
         };
 
         $scope.getListings = function(owner) {
-          console.log(owner);
           var listingsQuery = Parse.Object.extend("Listings");
           var query = new Parse.Query(listingsQuery);
           query.equalTo("parent", owner);
           // TODO query.include
           query.find({
             success: function(results) {
-
+              console.log('Found ' + results.length + " listings");
               var listings = [];
               console.log(results);
               for (var i = 0; i < results.length; i++) {

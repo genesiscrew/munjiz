@@ -1,7 +1,14 @@
 <ion-view>
   <ion-nav-title>Details</ion-nav-title>
+
+  <ion-nav-buttons side="right">
+    <div class="button button-clear icon ion-edit" ng-click="editProfile()">
+    </div>
+  </ion-nav-buttons>
+
+
   <ion-content padding="true">
-    <ion-refresher class="spinner-balanced" on-refresh="reload()"></ion-refresher>
+    <ion-refresher class="spinner-balanced" on-refresh="reload()" ng-hide="loading"></ion-refresher>
     <div class="text-center">
       <ion-spinner class="spinner-balanced" ng-show="loading"></ion-spinner>
     </div>
@@ -28,18 +35,17 @@
         <ion-item href="/#/listing/{{profile.id}}">
           View sellers produce
         </ion-item>
-      </ion-list>
+     
       <br>
 
-      <ion-list>
-        <ion-item class="item-divider item-icon-right"><b>Avaliable Hours</b> <i class="icon ion-ios-calendar-outline"></i></ion-item>
-    <!--     <ion-item ng-repeat="date in profile.dates2">
-          {{date.day + ' ' + date.open + ' - ' + date.close}}
-        </ion-item> -->
+        <!-- Hours -->
 
-        <ion-item>
-         Monday 10AM- 5PM
+        <ion-item class="item-divider item-icon-right"><b>Avaliable Hours</b> <i class="icon ion-ios-calendar-outline"></i>
         </ion-item>
+
+        <ion-item ng-repeat="date in profile.hours">
+            {{date}}
+        </ion-item> 
       </ion-list>
 
       <br>

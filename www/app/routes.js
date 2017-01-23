@@ -8,7 +8,9 @@ define([
   'controllers/listing',
   'controllers/chat',
   'controllers/login',
-  'controllers/new_listing'
+  'controllers/new_listing',
+  'controllers/edit_profile',
+
 
 ], function (app) {
   'use strict';
@@ -36,6 +38,12 @@ define([
           url: '/profile/:id',
           controller: 'ProfileCtrl',
           templateUrl: 'app/templates/profile.html'
+        })
+
+        .state('edit_profile', {
+          url: '/edit_profile/',
+          controller: 'EditProfileCtrl',
+          templateUrl: 'app/templates/edit_profile.html'
         })
 
         .state('listing', {
