@@ -1,0 +1,75 @@
+<ion-view>
+  <ion-nav-title>Details</ion-nav-title>
+
+  <ion-nav-buttons side="right">
+    <div class="button button-clear icon ion-android-done"  ng-click="save()">
+    </div>
+  </ion-nav-buttons>
+
+  <ion-content padding="true">
+    <div class="text-center">
+      <ion-spinner class="spinner-balanced" ng-show="loading"></ion-spinner>
+    </div>
+    <div>
+
+      <div class="text-center">
+        <img ng-src="{{profile.imageURL}}" class="image">
+      </div>
+
+
+      <ion-list>
+
+        <!-- Email -->
+        <ion-item class="item-divider item-icon-right"><b>Email</b> <i class="icon ion-profile"></i></ion-item>
+        <ion-item>
+          <input style="border:0;  width: 100%;" ng-model="profile.email"></input>
+        </ion-item>
+        <br>
+
+        <!-- Street -->
+        <ion-item class="item-divider item-icon-right"><b>Address</b> <i class="icon ion-profile"></i></ion-item>
+        <ion-item>
+          <input style="border:0; width: 100%;" ng-model="profile.street"></input>
+        </ion-item>
+        <br>
+
+
+        <!-- City -->
+        <ion-item class="item-divider item-icon-right"><b>City</b> <i class="icon ion-profile"></i></ion-item>
+        <ion-item>
+          <input style="border:0; width: 100%;" ng-model="profile.city"></input>
+        </ion-item>
+        <br>
+
+        <!-- Hours -->
+
+        <ion-item class="item-divider item-icon-right"><b>Avaliable Hours</b> 
+            <div class="button icon ion-plus" style="border:0;" ng-click="addHour()">
+            </div>
+
+        </ion-item>
+
+        <ion-item ng-repeat="date in profile.hours track by $index">
+            <input style="border:0; width: 100%;" ng-model="profile.hours[$index]"></input>
+        </ion-item> 
+
+      </ion-list>
+      <br>     
+
+    </div>
+  </ion-content>
+  <ion-footer-bar class="bar-stable">
+    <div class="buttons">
+      <div class="button button-clear" ng-disabled="loading" ng-click="map()">
+        <i class="icon ion-map"></i> Maps
+      </div>
+    </div>
+    <h1 class="title"></h1>
+    <div class="buttons">
+      <div class="button button-clear" ng-disabled="loading" ng-click="report()">
+        Report
+        <i class="icon ion-android-alert"></i>
+      </div>
+    </div>
+  </ion-footer-bar>
+</ion-view>

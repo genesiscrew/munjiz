@@ -30,8 +30,6 @@ define([
                   version: 'v2.8'
 
               });
-              sAuth.watchAuthenticationStatusChange();
-              console.log("i am there");
               FB.AppEvents.logPageView();
               // FB.Event.subscribe('auth.login', function (response) {
               //     userService.username = $scope.user.username;
@@ -52,142 +50,81 @@ define([
           }(document, 'script', 'facebook-jssdk'));
 
 
-
-
-
           $scope.$watchGroup(['user.username', 'user.password'], function (newVal) {
-              var user = newVal[0] != undefined && newVal[0].length > 4,
-              password = newVal[1] != undefined && newVal[1].length > 4;
-
+              var user = newVal[0] !== undefined && newVal[0].length > 4,
+              password = newVal[1] !== undefined && newVal[1].length > 4;
               $scope.ready = !!(user && password);
           });
 
 
           $scope.login = function (user) {
-              console.log(user);
               Parse.User.logIn(user.username, user.password, {
                   success: function (user) {
-                      // Do stuff after successful login.
-                      console.log("i am logged in");
                       $state.go('dashboard');
                   },
                   error: function (user, error) {
-                      // error
-                      // alert("Error: " + error.message);
+                      alert("Error: " + error.message);
                   }
               });
           };
 
 
+          $scope.checkUserDetails = function(response, user){
 
-          $scope.facebookLogin = function () {
+              var foundUser = false;
 
-              FB.getLoginStatus(function (response) {
-                  console.log(response);
-                  console.log("i am logged in");
-
+              // query to see if a user exists in DB with the 
+              //same fb id as the one who logged in through fb
+              console.log(user);
+              var query = new Parse.Query("User");
+              query.equalTo('username', response.id);
+              query.find({
+                  success: function (results) {
+                      if(results.length > 0)
+                          foundUser = true;
+                          
+                  },
+                  error: function (error) {
+                      alert("Error: " + error.code + " " + error.message);
+                  }
               });
-          };
 
+
+              // coming here means the user does not exist in database and also 
+              // there is no user in DB with similar FB ID
+              if (!user.existed() && !foundUser) {
+
+                  alert("New user " + response.first_name + " " + "signed up and logged in through Facebook!");
+                  // updating user record based on accesible facebook data
+                  console.log(response);
+                  user.set('username', response.id);
+                  user.set('email', response.email);
+                  user.set('firstName', response.first_name);
+                  user.set('lastName', response.last_name);
+                  user.set('imageURL', response.picture.data.url);
+                  user.save();
+
+                  // go to dashbboard
+                  alert("Created new user");
+                  $state.go("dashboard");
+
+              } else {
+                  // the current parse user is already in the database,
+                  // so we just proceed to the dashboard
+                  alert("Logged in!");
+                  $state.go("dashboard");
+              }
+          }
 
           //Todo
           $scope.fbLogin = function () {
 
-              console.log('facebook login');
-
+              // Already signed in - go straight to dashboard
               FB.getLoginStatus(function (response) {
-                  console.log(response);
-                  if (response.status === 'connected') {
-                      console.log('Logged in.');
-                     
-                      ;
-                      //$state.go('dashboard');
+                  if (response.status === 'connected') {                           
+                      $state.go('dashboard');
                       return;
                   }
               });
-              
-              
-              Parse.FacebookUtils.logIn(null, {
-                  success: function (user) {
-                      console.log('success ');
-                      var userID;
-                      var email;
-                      var firstname;
-                      var lastname;
-                      var foundUser = false;
-                      // gets facebook details of user who succesfully logged in into facebook
-                      FB.api('/me?fields=first_name, last_name, email', function (response) {
-                          userID = response.id;
-                          email = response.email;
-                          firstname = response.first_name;
-                          lastname = response.last_name;
-                      });
-                      // query to see if a user exists in DB with the 
-                      //same fb id as the one who logged in through fb
-                      var query = new Parse.Query("User");
-                      query.include('username');
-                      query.find({
-                          success: function (results) {
-                              for (var i = 0; i < results.length; i++) {
-                                  var object = results[i];
-                                 
-                                  if (object.get("username") == userID) {
-                                      foundUser = true;
-                                      }
-                              }
-                             
-                           
-                          },
-                          error: function (error) {
-                              alert("Error: " + error.code + " " + error.message);
-                          }
-                      });
-                      if (!user.existed() && !foundUser) {
-                          // coming here means the user does not exist in database and also 
-                          // there is no user in DB with similar FB ID
-                         // alert("New user signed up and logged in through Facebook!");
-                          //window.alert("about to create new user");
-                          var createuser = Parse.User.current();
-                          // updating user record based on accesible facebook data
-                          createuser.set('username', userID);
-                          createuser.set('email', email);
-                          createuser.set('firstName', firstname);
-                          createuser.set('lastName', lastname);
-                          createuser.save();
-                          // the code below is used to store details of current logged in user
-                          // i think it is sort of redundant now as i have found out that
-                          // parse.user.current() basically provides similar functionality
-                          userService.username = Parse.User.current().get('username');
-                          userService.isLogged = true;
-                          // go to dashbboard
-                          $state.go("dashboard");
-                          return;
-
-                      } else {
-                          // the current parse user is already in the database,
-                          ///so we just proceed to the dashboard
-                          //alert("User already signed up and just logged in through Facebook!");
-                   
-                          userService.username = user.name;
-                          userService.isLogged = true;;
-                          $state.go("dashboard");
-
-                      }
-                  },
-                  error: function (user, error) {
-                      // console.log(user.getObjectId());
-                      console.log("wttf");
-                      alert("Error: " + error.message);
-                      //  alert("User cancelled the Facebook login or did not fully authorize.");
-                  }
-              });
-              
-          };
-
-
-
-      }
-    ]);
-});
 
 

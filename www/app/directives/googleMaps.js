@@ -9,17 +9,17 @@ define([
       '$state',
       '$window',
       'userService',
-      
 
-      
-     
+
+
+
       function ($state, $window, userService) {
           return {
               scope: {
                   events: '=',
                   apiKey: '@',
 
-                 
+
               },
               restrict: 'A',
               replace: true,
@@ -46,9 +46,9 @@ define([
                       });
                   }
 
-                  
 
-                
+
+
 
                   // this function adds markers on the map only for the users who have items matching the search, not sure but
                   // maybe can apply lazy loading here as well? thoughts?
@@ -58,11 +58,11 @@ define([
 
 
 
-                   
+
                       eventsReady = true;
 
                       var i = 0;
-                         
+
                       var query = new Parse.Query('Listings');
                       query.include('parent');
                       query.find({
@@ -73,18 +73,18 @@ define([
                                   object = results[i];
                                   object2 = object.get('parent');
                                   // code below draws marker for all users in DB except for logged in user.
-                                  if (Parse.User.current().id != object2.id && object.get('title') == searchedItem )  {
+                                  if (Parse.User.current().id != object2.id && object.get('title') == searchedItem) {
                                       console.log("marker added");
                                       var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
                                       mapsMarker = new $window.google.maps.Marker({
                                           position: new $window.google.maps.LatLng(object2.get('lat'), object2.get('long')),
                                           map: map,
-             
+
                                           icon: image,
                                           clickable: true
                                       });
                                       gmarkers.push(mapsMarker);
-                                   
+
                                   }
 
                               }
@@ -120,13 +120,13 @@ define([
                               // Do something with the returned Parse.Object values
                               for (var i = 0; i < results.length; i++) {
                                   object = results[i];
-                                 
-                                  
+
+
                                   // code below draws marker for all users in DB except for logged in user.
 
                                   if (Parse.User.current().id != object.id) {
                                       // alert(Parse.User.current().id);
-                                     
+
                                       var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
                                       mapsMarker = new $window.google.maps.Marker({
                                           position: new $window.google.maps.LatLng(object.get('lat'), object.get('long')),
@@ -136,7 +136,7 @@ define([
                                           clickable: true
                                       });
                                       gmarkers.push(mapsMarker);
-                                      
+
                                   }
 
                               }
@@ -147,19 +147,19 @@ define([
                           }
                       });
 
-                      
+
                   }
-               
+
 
                   function removeMarkers() {
                       for (i = 0; i < gmarkers.length; i++) {
                           gmarkers[i].setMap(null);
                       }
                   }
-                  
+
                   function makeMapAndMarkers() {
                       console.log("making map");
-                     
+
                       var mapOptions = {
                           zoom: 13,
                           disableDefaultUI: true
@@ -171,31 +171,31 @@ define([
                           google.maps.event.addDomListener(document, 'keyup', function (e) {
                               var div = document.getElementById('search').value
 
-                             
+
 
                               var code = (e.keyCode ? e.keyCode : e.which);
 
-                              if(code == 13) {
+                              if (code == 13) {
                                   if (searchedItem != div) {
                                       searchedItem = div;
-                                          // here we remove the markers, and redraw them based on new search
-                                          removeMarkers();
-                                          makeMarkers();
-
-                                      }
-
-                                  
+                                      // here we remove the markers, and redraw them based on new search
+                                      removeMarkers();
+                                      makeMarkers();
 
                                   }
 
-                            
+
+
+                              }
+
+
                           });
-                         
-                         
+
+
                           if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
 
                               var myloc = new google.maps.Marker({
-                                  
+
                                   clickable: false,
                                   icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
                                                                                   new google.maps.Size(22, 22),
@@ -221,9 +221,9 @@ define([
                               // ...
                           });
                       }
-                   
 
-                   
+
+
                       makeMarkersforUsers();
                   }
 
@@ -238,9 +238,9 @@ define([
                       cbId = '_gmap_' + counter;
                       $window[cbId] = makeMapAndMarkers;
                       apiKey = 'key=' + scope.apiKey + '&';
-                  
 
-                     
+
+
                       wf = document.createElement('script');
                       wf.src = ('https:' === document.location.protocol ? 'https' : 'http') +
                            '://maps.googleapis.com/maps/api/js?' + apiKey + 'v=3&callback=' + cbId;
@@ -255,8 +255,8 @@ define([
                       //window.alert("inject google");
                   } else {
                       makeMapAndMarkers();
-                     
-                      
+
+
                   }
               }
           };

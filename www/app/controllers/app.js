@@ -11,7 +11,7 @@ define([
       '$ionicScrollDelegate',
       '$sce',
       '$ionicPopup',
-     '$ionicHistory',
+      '$ionicHistory',
       'pageService',
       '$state',
       'userService',
@@ -62,10 +62,7 @@ define([
           }).then(function (res) {
             if (res) {
                 Parse.User.logOut();
-                FB.logout(function(response) {
-  // user is now logged out
-});
-                $ionicHistory.clearCache();
+           $ionicHistory.clearCache();
                 $ionicHistory.clearHistory();
                 
                 $ionicHistory.nextViewOptions({ disableBack: false, historyRoot: true });
@@ -73,6 +70,17 @@ define([
                
         }
       });
+        };
+
+
+        $scope.goCurrentUserListings = function(){
+          var objectId = Parse.User.current().id;
+          $state.go("listing", {id: objectId});
+        };
+
+         $scope.goProfile = function(){
+          var objectId = Parse.User.current().id;
+          $state.go("profile", {id: objectId});
         };
 
 

@@ -1,0 +1,26 @@
+<ion-view title="Create a new Listing">
+<ion-nav-title>Create a new Listing</ion-nav-title>
+    <ion-content>
+
+        <ion-list>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Title</span>
+                <input type="text" placeholder="Title" ng-model="listing.title">
+            </label>
+            <label class="item item-input item-floating-label ">
+                <span class="input-label">Description</span>
+                <input type="text" placeholder="Description" ng-model="listing.desc" class="padding-bottom">
+            </label>
+            <label class="item item-input item-floating-label ">
+                <span class="input-label">Price</span>
+                <input type="tel" placeholder="Price" ng-model="listing.price" class="padding-bottom">
+            </label>
+
+            <button class="button button-block button-balanced" ng-click="createListing()" ng-disabled="!ready">Create</button>
+           
+        </ion-list>
+    </ion-content>
+    <ion-footer-bar class="bar bar-footer bar-light" ui-sref="signup">
+        <h1 class="title">Don't have an account ?</h1>
+    </ion-footer-bar>
+</ion-view>

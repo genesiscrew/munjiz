@@ -15,42 +15,69 @@ define([
       'eventService',
       'listingService',
       'userService',
-      function ($scope, $stateParams, $window, $ionicPopup, eventService, listingService, userService) {
+      '$state',
+      function ($scope, $stateParams, $window, $ionicPopup, eventService, listingService, userService, $state) {
 
-        $scope.loading = true;
-        var object;
-        var object2;
 
-        $scope.getListings = function(ownerID) {
+        $scope.addListing = function(){
+          $state.go('new_listing');
+        };
 
+
+        $scope.getProfileAndListings = function(objectId) {
+
+          var query = new Parse.Query(Parse.User);
+          query.equalTo("objectId", objectId);
+          query.find({
+            success: function(result) {  
+              if(result.length != 1){
+                alert("User not found");
+                return;
+              }
+
+              var profile = result[0];
+              profile.name = profile.get("firstName") + " " + profile.get("lastName");
+              profile.city = profile.get("city");
+              profile.imageURL = profile.get("imageURL");
+              profile.number = profile.get("streetNumber");
+              profile.street = profile.get("street");
+              profile.city = profile.get("city");     
+
+              $scope.listingOwner = profile; 
+              $scope.getListings(profile);
+
+            },
+            error: function(error) {
+              alert("Error: " + error.code + " " + error.message);
+            }
+          });
+        };
+
+        $scope.getListings = function(owner) {
           var listingsQuery = Parse.Object.extend("Listings");
           var query = new Parse.Query(listingsQuery);
-          query.equalTo("parent", Parse.User.current());
-          console.log(Parse.User.current().id);
+          query.equalTo("parent", owner);
+          // TODO query.include
           query.find({
             success: function(results) {
-
+              console.log('Found ' + results.length + " listings");
               var listings = [];
-              console.log(results.length);
+              console.log(results);
               for (var i = 0; i < results.length; i++) {
                 var listing = results[i];
                 if(listing.get("show")){
                   listing.title = listing.get("title");
                   listing.desc = listing.get("desc");
-                  
                   listing.price = listing.get("price");
                   listing.imageURL = listing.get("imageURL");
-                  object = listing.get('parent');
-                  object2 = object.get('username');
-                  console.log('listing' + listing.title);
-
-                  listings.push(listing);
-                  
+                  listing.parent = listing.get('parent');
+                  listing.username = listing.get('username');
+                  listings.push(listing);  
                 }
               }
 
               $scope.events = listings;
-             // alert("Successful");
+              $scope.loading = false;
 
            },
            error: function(error) {
@@ -60,17 +87,10 @@ define([
         };
 
 
+        // Start loading and load listingOwner and there listings
+        $scope.loading = true;
+        $scope.getProfileAndListings($stateParams.id);
 
-        // Hardcoded
-        $scope.getListings(2);
-
-
-        eventService.getOne($stateParams.id).then(function (event) {
-          $scope.owner = event;
-        }).finally(function () {
-          $scope.loading = false;
-
-        });
 
 
         $scope.reload = function () {
@@ -117,29 +137,9 @@ define([
 
 
 
-          $scope.getListings = function(ownerID) {
 
-            var listings = Parse.Object.extend("Listings");
-            var query = new Parse.Query(listings);
-          //query.equalTo("parentID", ownerID);
-          query.find({
-            success: function(results) {
-              alert("Successfully retrieved " + results.length + " scores.");
-                // Do something with the returned Parse.Object values
-                $scope.events = results;
-              //   for (var i = 0; i < results.length; i++) {
-              //     var object = results[i];
-              //     alert(object.id + ' - ' + object.get('playerName'));
-              //   }
-            },
-            error: function(error) {
-              alert("Error: " + error.code + " " + error.message);
-            }
-          });
         };
-
-      };
-    }
-    ]);
+      }
+      ]);
 });
 
