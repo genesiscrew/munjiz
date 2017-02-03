@@ -54,7 +54,7 @@ define([
 
         .state('chat', {
           url: '/chat/:senderID/:recieverID',
-          controller: 'AppCtrl',
+          controller: 'ChatCtrl',
           templateUrl: 'app/templates/chat.html'
         })
 

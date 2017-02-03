@@ -81,7 +81,12 @@ define([
          $scope.goProfile = function(){
           var objectId = Parse.User.current().id;
           $state.go("profile", {id: objectId});
-        };
+         };
+
+         $scope.goChat = function () {
+             var objectId = Parse.User.current().id;
+             $state.go("chat", { id: objectId });
+         };
 
 
    }
