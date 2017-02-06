@@ -22,7 +22,8 @@ define([
                 
                   var pubnub = new PubNub({
                       publishKey: 'pub-c-30d2f626-ff6d-4379-bad2-a2513d33a646',
-                      subscribeKey: 'sub-c-4b18eb38-e884-11e6-81cc-0619f8945a4f'
+                      subscribeKey: 'sub-c-4b18eb38-e884-11e6-81cc-0619f8945a4f',
+                      uuid: Parse.User.current().get('firstName'),
                   })
                   
                   // Grab references for all of our elements.
@@ -74,7 +75,7 @@ define([
                           $scope.data.username = Parse.User.current().get('firstName');
                           messageList.push(messagetobeSent);
                           $scope.messages = messageList;
-                          console.log($scope.messages[0].text)
+                          console.log(Parse.User.current().get('firstName'));
                           pubnub.publish({
                               channel: 'chat',
                               message: {

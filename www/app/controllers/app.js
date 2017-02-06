@@ -15,7 +15,9 @@ define([
       'pageService',
       '$state',
       'userService',
-      function ($scope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, $ionicHistory, pageService, $state, userService) {
+      '$timeout',
+      '$ionicLoading',
+      function ($scope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, $ionicHistory, pageService, $state, userService, $timeout, $ionicLoading) {
         $scope.ready = true;
 
         pageService.get().then(function (pages) {
@@ -62,11 +64,16 @@ define([
           }).then(function (res) {
             if (res) {
                 Parse.User.logOut();
-           $ionicHistory.clearCache();
-                $ionicHistory.clearHistory();
+                $timeout(function (res) {
+                    $ionicLoading.hide();
+                    $ionicHistory.clearCache();
+                    $ionicHistory.clearHistory();
+                    console.log("logging out of facebook");
+                    FB.logout();
+                    $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
+                    $state.go('login');
+                }, 30);
                 
-                $ionicHistory.nextViewOptions({ disableBack: false, historyRoot: true });
-                $state.go('login');
                
         }
       });
