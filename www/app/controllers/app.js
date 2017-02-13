@@ -1,7 +1,7 @@
 define([
   'app',
   'services/page',
-  'services/user'
+  'services/user',
   ], function (app) {
     'use strict';
 

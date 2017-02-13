@@ -4,16 +4,36 @@ define([
 
   ], function (app) {
     'use strict';
-
+var pubnub;
+console.log("about to run the app");
   // the run blocks
-  app.run([
+  app.
+  factory('PubNubService', function() {
+    pubnub = null;
+    var authKey = PUBNUB.uuid();
+    
+    console.log("pubnub id is: " + authKey);
+
+    pubnub = PUBNUB.init({
+      publish_key: 'pub-c-30d2f626-ff6d-4379-bad2-a2513d33a646',
+      subscribe_key: 'sub-c-4b18eb38-e884-11e6-81cc-0619f8945a4f',
+      auth_key: authKey,
+      origin: 'pubsub.pubnub.com',
+      ssl: false
+    })
+    console.log("pubnub created");
+    return pubnub;
+  
+  })
+  .run([
     '$ionicPlatform',
     '$state',
     'userService',
+    '$rootScope',
 
     // 'parse-starter.controllers', 
     // 'parse-starter.factories',
-    function ($ionicPlatform, $state, userService) {
+    function ($ionicPlatform, $state, userService, $rootScope) {
 
 
       $ionicPlatform.ready(function() {
@@ -27,6 +47,9 @@ define([
           // org.apache.cordova.statusbar required
           StatusBar.styleDefault();
         }
+
+         $rootScope.start= false;
+         $rootScope.pubnub = pubnub;
 
         console.log("about to initialize parse");
         Parse.initialize("uvQmMNsdZStxEvEfMeMdrH85sGW7wKMl8Ms2Bm0j", "YHcdSEyXhQ8qX0vykcFCerM4rQmajQG22iu44BvT", "0gauJiwUIqjTabTNOOZEcgE17wGxFyKtPq8g40sm", "z4wnNa2HnXgPly14Z3sDzxl8LDlMwj6WroUMuamT");

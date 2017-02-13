@@ -1,7 +1,7 @@
 var require = {
   baseUrl: 'app',
   paths: {
-    'ionic': '../lib/ionic/js/ionic.bundle.min'
+    'ionic': '../lib/ionic/js/ionic.bundle.min',
     // jquery: '../lib/jquery/jquery.min.js'
   }
   // if you are using jquery you have to add a shim for ionic and add jquery as deps
