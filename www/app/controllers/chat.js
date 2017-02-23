@@ -13,8 +13,9 @@ define([
         '$ionicPopup',
         '$rootScope',
         'PubNubService',
+        'md5',
 
-        function ($scope, $stateParams, $ionicPopup, $rootScope, PubNubService) {
+        function ($scope, $stateParams, $ionicPopup, $rootScope, PubNubService, md5) {
 
 
 
@@ -24,9 +25,12 @@ define([
             // Initialize the PubNub API connection.
             var message1 = "";
             var pubnub = PubNubService;
+            getHistory();
             console.log(pubnub.uuid());
             var messageReceived = {};
             var existingListener;
+            var md =  md5.createHash('hamid' || '');
+            console.log(md);
 
        if (!$rootScope.start) {
     // Initialize the PubNub service
@@ -39,47 +43,24 @@ define([
     $rootScope.start = true;
   }
          
-function initializePub() {
 
 
-addListener();
-
-}
-
- function addListener() {
-     console.log("i should start publishing");
-  /**   if (!existingListener) {
-          existingListener = pubnub.addListener({
-                status: function(statusEvent) {
-                    console.log("i should start listening");
-                    console.log(statusEvent);
-       
-    },
-                message: function (message) {
-                    if (message) {
-                    console.log(message)
-                    }
-                    
-                }
-            });
-           
-
-
-     }
-     */
-   
- };    
+ 
 
 function getHistory() {
+    console.log("getting history");
     pubnub.history({
       channel: 'chat',
       count: 30,
       callback: function(messages) {
         messages[0].forEach(function(m){ 
-         console.log(m);
+            console.log(m.text);
+         $scope.messages.push(m);
         });
+
       }
     });
+    //$scope.$apply();
   }
       // Subscribe to messages coming in from the channel.
             
@@ -99,10 +80,8 @@ function getHistory() {
      
     pubnub.publish({
                     channel: 'chat',
-                    message: $scope.data.message,
-                      callback: function(m) {
-                      console.log(m);
-            }
+                    message: $scope.data,
+              
 
 
                 }
@@ -119,16 +98,19 @@ function getHistory() {
             $scope.messages = [];
 
             // Handles all the messages coming in from pubnub.subscribe.
+
             function handleMessage(message) {
                 /** var messageEl = $("<li class='message'>"
                      + "<span class='username'>" + message.username + ": </span>"
                      + message.text
                      + "</li>"); */
-                console.log("we recevied message from someone");
-                $scope.data.username = message.username;
-                messageList.push(message);
-                $scope.messages = messageList;
-                console.log(messageList);
+                console.log("we recevied message from: " + message.username);
+                $scope.data = message;
+               
+                $scope.messages.push(message);
+                $scope.$apply();
+                //$scope.data = null;
+               
 
                 // Scroll to bottom of page
                 //  $("html, body").animate({ scrollTop: $(document).height() - $(window).height() }, 'slow');
@@ -141,7 +123,7 @@ function getHistory() {
 
            
 
-            initializePub();       
+                
 
             $scope.sendMessage = function (event) {
                 message1 = messageContent.value;
@@ -151,13 +133,13 @@ function getHistory() {
                         username: Parse.User.current().get('firstName'),
                         text: message1
                     }
-                    $scope.data.message = messagetobeSent;
-                    $scope.data.username = Parse.User.current().get('firstName');
-                    messageList.push(messagetobeSent);
-                    $scope.messages = messageList;
+                    $scope.data = messagetobeSent;
+                  //  $scope.messages.push($scope.data);
                     console.log(Parse.User.current().get('firstName'));
                     publish();
-                    getHistory();
+                   // $scope.apply();
+                   // $scope.data = null;
+                   // getHistory();
                     
 
                     messageContent.value = "Message";
@@ -168,6 +150,7 @@ function getHistory() {
 
             $scope.getBubbleClass = function (username) {
                 var classname = 'from-them';
+                console.log("formatting chat");
                 if ($scope.messageIsMine(username)) {
                     classname = 'from-me';
                 }
@@ -175,7 +158,7 @@ function getHistory() {
             };
 
             $scope.messageIsMine = function (username) {
-                return $scope.data.username === Parse.User.current().get('firstName');
+                return username === Parse.User.current().get('firstName');
             };
             // Also send a message when the user hits the enter button in the text area.
             /* messageContent.bind('keydown', function (event) {
