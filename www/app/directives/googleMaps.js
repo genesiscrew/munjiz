@@ -10,11 +10,12 @@ define([
         '$window',
         'userService',
         '$ionicPopup',
+        '$rootScope',
 
 
 
 
-        function ($state, $window, userService, $ionicPopup) {
+        function ($state, $window, userService, $ionicPopup, $rootScope) {
             return {
                 scope: {
                     events: '=',
@@ -49,6 +50,8 @@ define([
                                    onTap: function(e) { 
 
                                        console.log(marker.userID);
+                                       $rootScope.userID = marker.userID;
+                                       $state.go('chat');
                                    }
 
 
