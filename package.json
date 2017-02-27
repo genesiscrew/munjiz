@@ -23,7 +23,10 @@
     "cordova-plugin-console",
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
-    "com.ionic.keyboard"
+    "com.ionic.keyboard",
+    "cordova-plugin-image-picker",
+    "cordova-plugin-camera",
+    "cordova-plugin-file"
   ],
   "cordovaPlatforms": [
     "android"

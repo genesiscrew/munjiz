@@ -1,8 +1,5 @@
 define([
     'app',
-    'services/event',
-
-
 
 ], function (app) {
     'use strict';

@@ -1,6 +1,6 @@
 .listing_image {
-	width: 60px;
-	height: 60px;
+	height: 80px;
+	width: 80px;
 }
 
 .listing_list {
@@ -13,4 +13,16 @@
 
 .listing-background {
 	/*background-color: #7C84AE; */
+}
+
+.listing-title {
+	font-size: 18px;
+}
+
+.listing-desc {
+	font-size: 14px;
+}
+
+.listing-left {
+	width: 30%;
 }

@@ -1,6 +1,5 @@
 define([
   'app',
-  'services/event',
   'directives/googleMaps'
 ], function (app) {
   'use strict';
@@ -11,8 +10,7 @@ define([
     '$state',
     '$timeout',
     '$ionicHistory',
-    'eventService',
-    function ($scope, $stateParams, $state, $timeout, $ionicHistory, eventService) {
+    function ($scope, $stateParams, $state, $timeout, $ionicHistory) {
       var first = true;
       $scope.apiKey = 'AIzaSyCFWBnX_93y1BDsgY2UR2urgt9E79bDQwM';
       $scope.limit = 10;
@@ -20,47 +18,10 @@ define([
         list: false
       };
 
-      // show next 10
-      $scope.loadMore = function () {
-        if (!first) {
-          $timeout(function () {
-            $scope.limit += 10;
-            $scope.$broadcast('scroll.infiniteScrollComplete');
-          }, 2000);
-          return;
-        }
-        first = false;
-
-        var wheelChair = $stateParams.wheelChair === 'true',
-            wheelChairLift = $stateParams.wheelChairLift === 'true',
-            search = $stateParams.search;
-
-        if (wheelChair !== $scope.wheelChair || wheelChairLift !== $scope.wheelChairLift || search !== $scope.search) {
-          $scope.wheelChair = wheelChair;
-          $scope.wheelChairLift = wheelChairLift;
-          $scope.search = search;
-          $scope.loading = true;
-          eventService.search(search, wheelChair, wheelChairLift).then(function (events) {
-            $scope.limit = 10;
-            $scope.events = events;
-          }).finally(function () {
-            $scope.loading = false;
-            $scope.$broadcast('scroll.infiniteScrollComplete');
-          });
-        } else {
-          $scope.$broadcast('scroll.infiniteScrollComplete');
-        }
-      };
 
       $scope.reload = function () {
         $scope.loading = true;
-        eventService.search($scope.search, $scope.wheelChair, $scope.wheelChairLift).then(function (events) {
-          $scope.limit = 10;
-          $scope.events = events;
-        }).finally(function () {
-          $scope.loading = false;
-          $scope.$broadcast('scroll.refreshComplete');
-        });
+        $scope.loading = false;
       };
 
       $scope.goToMap = function () {

@@ -94,7 +94,6 @@ define([
                       // there is no user in DB with similar FB ID
                       if (!user.existed() && !foundUser) {
 
-                        alert("New user " + response.first_name + " " + "signed up and logged in through Facebook!");
                           // updating user record based on accesible facebook data
                           console.log(response);
                           user.set('username', response.id);
@@ -111,7 +110,6 @@ define([
                         } else {
                           // the current parse user is already in the database,
                           // so we just proceed to the dashboard
-                          alert("Logged in!");
                           $state.go("dashboard");
                         }
                       }

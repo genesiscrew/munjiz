@@ -5,44 +5,39 @@
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
   <title></title>
 
+  <!-- ngCordova -->
   <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+
   <!-- compiled css output -->
   <link href="css/ionic.app.css" rel="stylesheet">
 
-    <!-- Parse --> 
-     <script src="lib/parse-js-sdk/lib/parse.js"></script> 
-      <!-- pubnub --> 
-     <script src="http://cdn.pubnub.com/pubnub.min.js"></script>
-     <script src="lib/angular/angular.js"></script>
-     <!-- md5 -->
-   
-   <script src="lib/angular-md5/angular-md5.js"></script>
-    
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
-    <!-- load requirejs config -->
-    <script src="main.js"></script>
-    <!-- load requirejs -->
-  <script src="lib/requirejs/require.min.js"></script>
-    <!-- load boot-script - it loads configs, routes, runs and bootstraps the app -->
-    <script src="app/boot.js"></script>
-   
-      
-   
+  <!-- Parse --> 
+  <script src="lib/parse-js-sdk/lib/parse.js"></script> 
 
- 
-     
+  <!-- pubnub --> 
+  <script src="http://cdn.pubnub.com/pubnub.min.js"></script>
+  <script src="lib/angular/angular.js"></script>
+
+  <!-- md5 -->
+  <script src="lib/angular-md5/angular-md5.js"></script>
+
+  <!-- For the image selector --> 
+  <script src="directives/ng-cordova.min.js"></script>
+
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="cordova.js"></script>
+  <!-- load requirejs config -->
+  <script src="main.js"></script>
+  <!-- load requirejs -->
+  <script src="lib/requirejs/require.min.js"></script>
+  <!-- load boot-script - it loads configs, routes, runs and bootstraps the app -->
+  <script src="app/boot.js"></script>    
 
   <link href="css/style.css" rel="stylesheet">
-
-  
-
-  
-
-
+ 
 </head>
-<body ng-controller="AppCtrl" ng-show="ready" class="ng-hide">
 
+<body ng-controller="AppCtrl" ng-show="ready" class="ng-hide">
   <ion-side-menus enable-menu-with-back-views="true">
     <!-- Left menu -->
     <ion-side-menu side="left">
@@ -51,7 +46,7 @@
       </ion-header-bar>
       <ion-content class="background-royal">
         <ion-list>
-            <!-- Generic -->
+          <!-- Generic -->
 
           <ion-item class="item-royal item-icon-right" ng-repeat="page in pages" menu-close href="#/{{page.alias}}">
 
@@ -59,25 +54,25 @@
             <i class="icon" ng-class="page.icon"></i>
           </ion-item>
 
-              <!-- Profile -->
-              <ion-item class="item-royal item-icon-right" menu-close ng-click="goProfile()">
+          <!-- Profile -->
+          <ion-item class="item-royal item-icon-right" menu-close ng-click="goProfile()">
             Profile
             <i class="icon ion-person" ></i>
           </ion-item>
 
-            <!-- Chat -->
-            <ion-item class="item-royal item-icon-right" menu-close ng-click="goChat()">
-                Message
-                <i class="icon ion-person"></i>
-            </ion-item>
+          <!-- Chat -->
+          <ion-item class="item-royal item-icon-right" menu-close ng-click="goChat()">
+            Message
+            <i class="icon ion-person"></i>
+          </ion-item>
 
-              <!-- Listing -->
-              <ion-item class="item-royal item-icon-right" menu-close ng-click="goCurrentUserListings()">
+          <!-- Listing -->
+          <ion-item class="item-royal item-icon-right" menu-close ng-click="goCurrentUserListings()">
             Listings
             <i class="icon ion-ios-pricetags" ></i>
           </ion-item>
 
-              <!-- Signout -->
+          <!-- Signout -->
 
           <ion-item class="item-royal item-icon-right" menu-close ng-click="logout()">
             Sign out
@@ -104,5 +99,6 @@
    </ion-side-menu-content>
 
  </ion-side-menus>
-</body>
+</body> 
+
 </html>

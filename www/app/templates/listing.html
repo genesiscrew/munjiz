@@ -2,13 +2,13 @@
   <ion-nav-title>Listings</ion-nav-title>
   
   <ion-nav-buttons side="right">
-    <div class="button button-clear icon ion-plus-round" ng-disabled="loading"  ng-click="addListing()">
+    <div class="button button-clear icon ion-plus-round" ng-click="addListing()">
     </div>
   </ion-nav-buttons>
 
   <ion-content padding="true" class="has-footer">
 
-    <ion-refresher class="spinner-balanced" on-refresh="reload()"></ion-refresher>
+    <ion-refresher class="spinner-balanced" on-refresh="reload()" ng-hide="loading"></ion-refresher>
     <div class="text-center">
       <ion-spinner class="spinner-balanced" ng-show="loading"></ion-spinner>
     </div>
@@ -17,23 +17,22 @@
       <h4><b>{{listingOwner.city}}</b> <small>{{listingOwner.district}} </small></h4>
       <br>
 
-
-
       <ion-list class="margin-bottom listing-background">        
 
         <ion-item ng-repeat="event in events">
           <div class="row">
-            <div class="col text-left">
-              <img ng-src="{{event.imageURL}}" class="image listing_image">
+            <div class="col-30">
+              <img ng-src="{{event.imageURL}}" class="listing_image">
             </div>
-            <div class="col col-70">
-              <p> {{event.title}} </p>
-              <p> {{event.price}} </p>
+            <div class="col-70 padding" class="text-left">
+          
+              <p style="font-size: 18px; text-align: left; white-space: normal;"> {{event.title}} </p>
+              <p style="font-size: 12px; text-align: left; white-space: normal;"> {{event.desc}} </p>
+              <p style="font-size: 14px; text-align: left; white-space: normal;"> {{event.price}} </p>
+
             </div>
           </div>
-          <div class="row">
-            <p> {{event.desc}} </p>
-          </div>  
+      
         </ion-item>
 
       </ion-list>

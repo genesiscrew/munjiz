@@ -16,6 +16,10 @@
                 <input type="tel" placeholder="Price" ng-model="listing.price" class="padding-bottom">
             </label>
 
+            <button class="button button-full button-positive" ng-click="addMedia()">
+                    Add image
+            </button>
+
             <button class="button button-block button-balanced" ng-click="createListing()" ng-disabled="!ready">Create</button>
            
         </ion-list>

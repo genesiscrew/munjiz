@@ -11,7 +11,9 @@ define([
       '$ionicHistory',
       '$rootScope',
       '$state',
-      function ($scope, userService, $ionicHistory, $rootScope, $state) {
+      '$ionicActionSheet',
+      '$cordovaCamera',
+      function ($scope, userService, $ionicHistory, $rootScope, $state, $ionicActionSheet, $cordovaCamera) {
 
         $scope.ready = false;
         $scope.listing = {};
@@ -49,12 +51,47 @@ define([
           }
           var objectId = Parse.User.current().id;
           $state.go("listing", {id:objectId});
-        }
+        };
+
+
+        $scope.addMedia = function() {
+          $scope.hideSheet = $ionicActionSheet.show({
+            buttons: [
+            { text: 'Take photo' },
+            { text: 'Photo from library' }
+            ],
+            titleText: 'Add images',
+            cancelText: 'Cancel',
+            buttonClicked: function(index) {
+              $scope.getPhoto();
+            }
+          });
+        };
+
+
+        $scope.getPhoto = function() {
+
+          var options = {
+            quality: 50,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM,
+            mediaType: Camera.MediaType.ALLMEDIA,
+            saveToPhotoAlbum: true
+          };
+
+          $cordovaCamera.getPicture(options).then(function(imageData) {
+            console.log("img URI= " + imageData);        
+            // Here you will be getting image data 
+            }, function(err) {
+              alert("Failed because: " + err);
+              console.log('Failed because: ' + err);
+            });
+        };
 
 
 
-      }
-      ]);
+    }
+    ]);
   });
 
 

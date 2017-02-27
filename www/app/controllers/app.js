@@ -17,6 +17,7 @@ define([
       'userService',
       '$timeout',
       '$ionicLoading',
+
       function ($scope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, $ionicHistory, pageService, $state, userService, $timeout, $ionicLoading) {
         $scope.ready = true;
 
@@ -73,8 +74,6 @@ define([
                     $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
                     $state.go('login');
                 }, 30);
-                
-               
         }
       });
         };
