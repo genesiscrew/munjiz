@@ -26,6 +26,8 @@ define([
             var message1 = "";
             var chatRoom = 'chat';
             var user;
+            var foundChat = false;
+
 
 
             if ($rootScope.userID) {
@@ -34,15 +36,56 @@ define([
                 var y = Number(Parse.User.current().get('username'));
                 if (x > y) {
                     chatRoom = x + "" + y;
-                    if (!chatRoomExists(chatRoom)) {
-                        createChatRoom();
-                    };
+                  var query = new Parse.Query('ChatRooms');
+                //query.include(' parent');
+                query.find({
+                    success: function (results) {
+                        // Do something with the returned Parse.Object values
+                        foundChat = false;
+                        for (var i = 0; i < results.length; i++) {
+                            var object = results[i];
+                            if (chatRoom == object.get('chat_name')) {
+                                console.log("chat room exists");
+                                foundChat = true;
+
+                            }
+
+                        }
+                        if (!foundChat) {
+                            console.log("chat room  does not exist");
+                             createChatRoom();
+
+                        }
+
+                    }
+                });
+
                 }
                 else {
                     chatRoom = y + "" + x;
-                    if (!chatRoomExists(chatRoom)) {
-                        createChatRoom();
-                    };
+
+                    var query = new Parse.Query('ChatRooms');
+                    //query.include(' parent');
+                    query.find({
+                        success: function (results) {
+                            // Do something with the returned Parse.Object values
+                            foundChat = false;
+                            for (var i = 0; i < results.length; i++) {
+                                var object = results[i];
+                                if (chatRoom == object.get('chat_name')) {
+                                    console.log("chat room exists");
+                                    foundChat = true;
+
+                                }
+
+                            }
+                            if (!foundChat) {
+                                createChatRoom();
+
+                            }
+
+                        }
+                    });
                 }
 
             }
@@ -94,18 +137,18 @@ define([
                             if ($rootScope.userID == object.get('username')) {
                                 var Chat = Parse.Object.extend("ChatRooms");
                                 var newChat = new Chat();
-                                newChat.set("chat_from", Parse.User.current());
+                                newChat.set("chat_from", Parse.User.current().id);
                                 newChat.save();
                                 newChat.set("chat_to", object.id);
                                 // console.log("USER IS" + user);
-                               // newChat.set("chat_to", { "__type": "Pointer", "className": "_User", "objectId": object.id });
+                                // newChat.set("chat_to", { "__type": "Pointer", "className": "_User", "objectId": object.id });
                                 newChat.save();
                                 newChat.set("chat_name", chatRoom);
                                 newChat.save();
                                 newChat.save();
 
                                 console.log("chat room added to DB succesfully");
-                        
+
 
                             }
                         }
@@ -116,7 +159,7 @@ define([
 
 
             }
-            function chatRoomExists(chatname) {
+            function chatRoomExists() {
 
 
                 var query = new Parse.Query('ChatRooms');
@@ -124,15 +167,21 @@ define([
                 query.find({
                     success: function (results) {
                         // Do something with the returned Parse.Object values
+                        foundChat = false;
                         for (var i = 0; i < results.length; i++) {
                             var object = results[i];
-                            if (chatname == object.get('name')) {
+                            if (chatRoom == object.get('chat_name')) {
                                 console.log("chat room exists");
-                                return true;
+                                foundChat = true;
+
                             }
+
                         }
-                        console.log("chat room  does not exist");
-                        return false;
+                        if (!foundChat) {
+                            console.log("chat room  does not exist");
+
+                        }
+
                     }
                 });
             }
