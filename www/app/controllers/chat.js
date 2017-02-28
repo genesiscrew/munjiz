@@ -32,10 +32,15 @@ define([
                 var y = Number(Parse.User.current().get('username'));
                 if (x > y) {
                     chatRoom = x + "" + y;
+                    if (!chatRoomExists(chatRoom)) {
+                        createChatRoom();
+                    };
                 }
                 else {
-
                     chatRoom = y + "" + x;
+                    if (!chatRoomExists(chatRoom)) {
+                        createChatRoom();
+                    };
                 }
 
             }
@@ -43,7 +48,7 @@ define([
                 console.log("no user found");
 
             }
-            
+
             var pubnub = PubNubService;
             getHistory();
             console.log(pubnub.uuid());
@@ -66,7 +71,62 @@ define([
             }
 
 
+            function createChatRoom() {
+                // chat room does not exist so we set up new chat room in DB
+                console.log("about to add chat room to DB");
+                var Chat = Parse.Object.extend("ChatRooms");
+                var newChat = new Chat();
+                newChat.set("chat_from", Parse.User.current());
+                newChat.save();
+                newChat.set("chat_to", getUser());
+                newChat.save();
+                newChat.set("chat_name", chatRoom);
+                newChat.save();
+                newChat.save();
 
+     console.log("chat room added to DB succesfully");
+
+            }
+            function chatRoomExists(chatname) {
+
+
+                var query = new Parse.Query('ChatRooms');
+                //query.include(' parent');
+                query.find({
+                    success: function (results) {
+                        // Do something with the returned Parse.Object values
+                        for (var i = 0; i < results.length; i++) {
+                            var object = results[i];
+                            if (chatname == object.get('name')) {
+                                console.log("chat room exists");
+                                return true;
+                            }
+                        }
+                        console.log("chat room  does not exist");
+                        return false;
+                    }
+                });
+            }
+
+             function getUser() {
+
+
+                var query = new Parse.Query('User');
+                //query.include(' parent');
+                query.find({
+                    success: function (results) {
+                        // Do something with the returned Parse.Object values
+                        for (var i = 0; i < results.length; i++) {
+                            var object = results[i];
+                            if ($rootScope.userID == object.get('username')) {
+                              console.log("object is" + object.get("username"));
+                                return object;
+                            }
+                        }
+                       
+                    }
+                });
+            }
 
 
             function getHistory() {
