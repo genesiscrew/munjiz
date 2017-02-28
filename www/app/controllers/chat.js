@@ -25,9 +25,11 @@ define([
             // Initialize the PubNub API connection.
             var message1 = "";
             var chatRoom = 'chat';
+            var user;
 
 
             if ($rootScope.userID) {
+
                 var x = Number($rootScope.userID);
                 var y = Number(Parse.User.current().get('username'));
                 if (x > y) {
@@ -70,21 +72,48 @@ define([
                 $rootScope.start = true;
             }
 
+            function getUser() {
+
+
+
+            }
+
 
             function createChatRoom() {
                 // chat room does not exist so we set up new chat room in DB
-                console.log("about to add chat room to DB");
-                var Chat = Parse.Object.extend("ChatRooms");
-                var newChat = new Chat();
-                newChat.set("chat_from", Parse.User.current());
-                newChat.save();
-                newChat.set("chat_to", getUser());
-                newChat.save();
-                newChat.set("chat_name", chatRoom);
-                newChat.save();
-                newChat.save();
 
-     console.log("chat room added to DB succesfully");
+                var query = new Parse.Query('User');
+                //query.include(' parent');
+                console.log("getting the user");
+                query.find({
+                    success: function (results) {
+                        // Do something with the returned Parse.Object values
+                        for (var i = 0; i < results.length; i++) {
+                            var object = results[i];
+                            console.log("looping throug users");
+                            if ($rootScope.userID == object.get('username')) {
+                                var Chat = Parse.Object.extend("ChatRooms");
+                                var newChat = new Chat();
+                                newChat.set("chat_from", Parse.User.current());
+                                newChat.save();
+                                newChat.set("chat_to", object.id);
+                                // console.log("USER IS" + user);
+                               // newChat.set("chat_to", { "__type": "Pointer", "className": "_User", "objectId": object.id });
+                                newChat.save();
+                                newChat.set("chat_name", chatRoom);
+                                newChat.save();
+                                newChat.save();
+
+                                console.log("chat room added to DB succesfully");
+                        
+
+                            }
+                        }
+
+                    }
+                });
+
+
 
             }
             function chatRoomExists(chatname) {
@@ -108,25 +137,7 @@ define([
                 });
             }
 
-             function getUser() {
 
-
-                var query = new Parse.Query('User');
-                //query.include(' parent');
-                query.find({
-                    success: function (results) {
-                        // Do something with the returned Parse.Object values
-                        for (var i = 0; i < results.length; i++) {
-                            var object = results[i];
-                            if ($rootScope.userID == object.get('username')) {
-                              console.log("object is" + object.get("username"));
-                                return object;
-                            }
-                        }
-                       
-                    }
-                });
-            }
 
 
             function getHistory() {
