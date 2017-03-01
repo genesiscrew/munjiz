@@ -6,11 +6,11 @@ define([
   'controllers/results',
   'controllers/profile',
   'controllers/listing',
+  'controllers/messages',
   'controllers/chat',
   'controllers/login',
   'controllers/new_listing',
   'controllers/edit_profile',
-
 
 ], function (app) {
   'use strict';
@@ -58,7 +58,6 @@ define([
           controller: 'ChatCtrl',
           templateUrl: 'app/templates/chat.html'
         })
-
         .state('new_listing', {
           url: '/new_listing',
           controller: 'NewListingCtrl',
@@ -69,10 +68,16 @@ define([
           url: '/login',
           controller: 'LoginCtrl',
           templateUrl: 'app/templates/login.html'
+        })
+
+        .state('messages', {
+          url: '/messages',
+          controller: 'MessageCtrl',
+          templateUrl: 'app/templates/messages.html'
         });
 
 
-        
+
     }
   ]);
 });

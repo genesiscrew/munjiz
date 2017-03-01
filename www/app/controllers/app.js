@@ -95,6 +95,12 @@ define([
              $state.go("chat", { id: objectId });
          };
 
+          $scope.goMessages = function () {
+             var objectId = Parse.User.current().id;
+             console.log("i am here");
+             $state.go("messages", { id: objectId });
+         };
+
 
    }
    ]);

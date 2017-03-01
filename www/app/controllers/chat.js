@@ -36,29 +36,29 @@ define([
                 var y = Number(Parse.User.current().get('username'));
                 if (x > y) {
                     chatRoom = x + "" + y;
-                  var query = new Parse.Query('ChatRooms');
-                //query.include(' parent');
-                query.find({
-                    success: function (results) {
-                        // Do something with the returned Parse.Object values
-                        foundChat = false;
-                        for (var i = 0; i < results.length; i++) {
-                            var object = results[i];
-                            if (chatRoom == object.get('chat_name')) {
-                                console.log("chat room exists");
-                                foundChat = true;
+                    var query = new Parse.Query('ChatRooms');
+                    //query.include(' parent');
+                    query.find({
+                        success: function (results) {
+                            // Do something with the returned Parse.Object values
+                            foundChat = false;
+                            for (var i = 0; i < results.length; i++) {
+                                var object = results[i];
+                                if (chatRoom == object.get('chat_name')) {
+                                    console.log("chat room exists");
+                                    foundChat = true;
+
+                                }
+
+                            }
+                            if (!foundChat) {
+                                console.log("chat room  does not exist");
+                                createChatRoom();
 
                             }
 
                         }
-                        if (!foundChat) {
-                            console.log("chat room  does not exist");
-                             createChatRoom();
-
-                        }
-
-                    }
-                });
+                    });
 
                 }
                 else {
@@ -140,8 +140,11 @@ define([
                                 newChat.set("chat_from", Parse.User.current().id);
                                 newChat.save();
                                 newChat.set("chat_to", object.id);
-                                // console.log("USER IS" + user);
-                                // newChat.set("chat_to", { "__type": "Pointer", "className": "_User", "objectId": object.id });
+                                newChat.save();
+                                newChat.set("chat_from_name", Parse.User.current().get("firstName"));
+                                newChat.save();
+                                console.log(object.get("username"));
+                                newChat.set("chat_to_name", object.get("firstName"));
                                 newChat.save();
                                 newChat.set("chat_name", chatRoom);
                                 newChat.save();
