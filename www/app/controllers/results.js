@@ -22,6 +22,7 @@ define([
       $scope.reload = function () {
         $scope.loading = true;
         $scope.loading = false;
+
       };
 
       $scope.goToMap = function () {

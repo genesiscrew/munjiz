@@ -1,23 +1,23 @@
 define([
   'app',
   'services/data'
-], function (app) {
-  'use strict';
+  ], function (app) {
+    'use strict';
 
-  app.service('pageService', [
-    '$q',
-    '$timeout',
-    'dataService',
-    function ($q, $timeout, dataService) {
-      this.get = function () {
-        var deferred = $q.defer();
+    app.service('pageService', [
+      '$q',
+      '$timeout',
+      'dataService',
+      function ($q, $timeout, dataService) {
+        this.get = function () {
+          var deferred = $q.defer();
 
-        $timeout(function () {
-          deferred.resolve(angular.copy(dataService.pages));
-        }, 1000);
+          $timeout(function () {
+            deferred.resolve(angular.copy(dataService.pages));
+          }, 1000);
 
-        return deferred.promise;
-      };
-    }
-  ]);
-});
+          return deferred.promise;
+        };
+      }
+      ]);
+  });

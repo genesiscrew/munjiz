@@ -19,9 +19,9 @@ define([
         $scope.listing = {};
 
         $scope.$watchGroup(['listing.title', 'listing.desc', 'listing.price'], function (newVal) {
-          var title = newVal[0] != undefined,
-          desc = newVal[1] != undefined,
-          price = newVal[2] != undefined;
+          var title = newVal[0] !== undefined,
+          desc = newVal[1] !== undefined,
+          price = newVal[2] !== undefined;
           
           // check all are valid inputs
           if(title && desc && price){
