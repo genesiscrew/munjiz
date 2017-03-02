@@ -152,7 +152,7 @@ define([
 
                                             icon: image,
                                             clickable: true,
-                                            userID: object.get('username')
+                                            userID: object.id
 
                                         });
                                         gmarkers.push(mapsMarker);

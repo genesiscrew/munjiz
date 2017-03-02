@@ -4,7 +4,10 @@
 
        <ion-list class="margin-bottom listing-background">
             <ion-item ng-repeat="message in messages">
-            {{message.username}}
+            
+             <div class="button button-clear" ng-disabled="loading" ng-click="goChat(message.chatSource)">
+         <i class="icon ion-person"></i> {{message.username}}
+      </div>
             </ion-item>
              
        </ion-list>

@@ -27,15 +27,24 @@ define([
             var chatRoom = 'chat';
             var user;
             var foundChat = false;
+            var pubnub = PubNubService;
+
 
 
 
             if ($rootScope.userID) {
+                console.log("confirming userid as:" + $rootScope.userID);
 
-                var x = Number($rootScope.userID);
-                var y = Number(Parse.User.current().get('username'));
+
+                var x = $rootScope.userID;
+                var y = Parse.User.current().id;
+                console.log("the fuckuser id is" + x);
+
                 if (x > y) {
                     chatRoom = x + "" + y;
+                    
+                    console.log("the fucking chat room name is:" +chatRoom);
+                    getHistory();
                     var query = new Parse.Query('ChatRooms');
                     //query.include(' parent');
                     query.find({
@@ -63,7 +72,8 @@ define([
                 }
                 else {
                     chatRoom = y + "" + x;
-
+                     console.log("the fucking chat room name is:" + chatRoom);
+                    getHistory();
                     var query = new Parse.Query('ChatRooms');
                     //query.include(' parent');
                     query.find({
@@ -94,9 +104,8 @@ define([
 
             }
 
-            var pubnub = PubNubService;
-            getHistory();
-            console.log(pubnub.uuid());
+            
+           // console.log(pubnub.uuid());
             var messageReceived = {};
             var existingListener;
 
@@ -134,7 +143,7 @@ define([
                         for (var i = 0; i < results.length; i++) {
                             var object = results[i];
                             console.log("looping throug users");
-                            if ($rootScope.userID == object.get('username')) {
+                            if ($rootScope.userID == object.id) {
                                 var Chat = Parse.Object.extend("ChatRooms");
                                 var newChat = new Chat();
                                 newChat.set("chat_from", Parse.User.current().id);
@@ -194,7 +203,7 @@ define([
 
             function getHistory() {
                 console.log("getting history");
-                console.log(chatRoom);
+                console.log("the current chat rooom is:" + chatRoom);
                 pubnub.history({
                     channel: chatRoom,
                     count: 30,
@@ -206,7 +215,7 @@ define([
 
                     }
                 });
-                //$scope.$apply();
+                
             }
             // Subscribe to messages coming in from the channel.
 

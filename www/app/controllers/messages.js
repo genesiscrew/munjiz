@@ -21,8 +21,12 @@ define([
 
             var userID = Parse.User.current().id;
 
+    
+
             $scope.$on("$ionicView.enter", function (event) {
-                console.log("ENTERED");
+                console.log("search DB for chat rooms");
+                $scope.messages = [];
+                chats = [];
                 var query = new Parse.Query('ChatRooms');
                 //query.include(' parent');
                 query.find({

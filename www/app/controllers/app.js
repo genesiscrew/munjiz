@@ -7,6 +7,7 @@ define([
 
     app.controller('AppCtrl', [
       '$scope',
+      '$rootScope',
       '$ionicModal',
       '$ionicScrollDelegate',
       '$sce',
@@ -17,7 +18,7 @@ define([
       'userService',
       '$timeout',
       '$ionicLoading',
-      function ($scope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, $ionicHistory, pageService, $state, userService, $timeout, $ionicLoading) {
+      function ($scope, $rootScope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, $ionicHistory, pageService, $state, userService, $timeout, $ionicLoading) {
         $scope.ready = true;
 
         pageService.get().then(function (pages) {
@@ -90,8 +91,10 @@ define([
           $state.go("profile", {id: objectId});
          };
 
-         $scope.goChat = function () {
+         $scope.goChat = function (chatSource) {
              var objectId = Parse.User.current().id;
+             console.log("chat source is from:" + chatSource);
+             $rootScope.userID = chatSource;
              $state.go("chat", { id: objectId });
          };
 
