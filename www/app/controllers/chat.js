@@ -14,8 +14,10 @@ define([
         '$rootScope',
         'PubNubService',
         'md5',
+        '$ionicScrollDelegate',
+        '$timeout',
 
-        function ($scope, $stateParams, $ionicPopup, $rootScope, PubNubService, md5) {
+        function ($scope, $stateParams, $ionicPopup, $rootScope, PubNubService, md5, $ionicScrollDelegate, $timeout) {
 
 
 
@@ -28,6 +30,16 @@ define([
             var user;
             var foundChat = false;
             var pubnub = PubNubService;
+
+            $scope.$on("$ionicView.afterEnter", function (event) {
+                console.log("i should be scrolling down");
+                $timeout(function () {
+                    $ionicScrollDelegate.scrollBottom();
+                });
+
+
+            });
+
 
 
 
@@ -42,8 +54,8 @@ define([
 
                 if (x > y) {
                     chatRoom = x + "" + y;
-                    
-                    console.log("the fucking chat room name is:" +chatRoom);
+
+                    console.log("the fucking chat room name is:" + chatRoom);
                     getHistory();
                     var query = new Parse.Query('ChatRooms');
                     //query.include(' parent');
@@ -72,7 +84,7 @@ define([
                 }
                 else {
                     chatRoom = y + "" + x;
-                     console.log("the fucking chat room name is:" + chatRoom);
+                    console.log("the fucking chat room name is:" + chatRoom);
                     getHistory();
                     var query = new Parse.Query('ChatRooms');
                     //query.include(' parent');
@@ -104,8 +116,8 @@ define([
 
             }
 
-            
-           // console.log(pubnub.uuid());
+
+            // console.log(pubnub.uuid());
             var messageReceived = {};
             var existingListener;
 
@@ -209,13 +221,13 @@ define([
                     count: 30,
                     callback: function (messages) {
                         messages[0].forEach(function (m) {
-                            console.log(m.text);
+                            console.log("messages as: " + m.text);
                             $scope.messages.push(m);
                         });
 
                     }
                 });
-                
+
             }
             // Subscribe to messages coming in from the channel.
 
@@ -264,6 +276,11 @@ define([
 
                 $scope.messages.push(message);
                 $scope.$apply();
+              console.log($scope.messages[$scope.messages.length-1]);
+                $timeout(function () {
+                    $ionicScrollDelegate.scrollBottom(true);
+                }, 300);
+
                 //$scope.data = null;
 
 
