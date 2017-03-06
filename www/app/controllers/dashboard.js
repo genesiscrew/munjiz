@@ -18,9 +18,12 @@ define([
         $scope.height = window.screen.height;
         $scope.width = window.screen.width;
         $scope.search = {};
+        $scope.listview = false;
         
        
-
+  $scope.toggleList = function() {
+        $scope.listView = $scope.listView === false ? true: false;
+    };
 
         
       // code below belong to template and is not currently being used

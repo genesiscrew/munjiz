@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
@@ -9,38 +10,39 @@
   <!-- compiled css output -->
   <link href="css/ionic.app.css" rel="stylesheet">
 
-    <!-- Parse --> 
-     <script src="lib/parse-js-sdk/lib/parse.js"></script> 
-      <!-- pubnub --> 
-     <script src="http://cdn.pubnub.com/pubnub.min.js"></script>
-     <script src="lib/angular/angular.js"></script>
-     <!-- md5 -->
-   
-   <script src="lib/angular-md5/angular-md5.js"></script>
-    
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
-    <!-- load requirejs config -->
-    <script src="main.js"></script>
-    <!-- load requirejs -->
-  <script src="lib/requirejs/require.min.js"></script>
-    <!-- load boot-script - it loads configs, routes, runs and bootstraps the app -->
-    <script src="app/boot.js"></script>
-   
-      
-   
+  <!-- Parse -->
+  <script src="lib/parse-js-sdk/lib/parse.js"></script>
+  <!-- pubnub -->
+  <script src="http://cdn.pubnub.com/pubnub.min.js"></script>
+  <script src="lib/angular/angular.js"></script>
+  <!-- md5 -->
 
- 
-     
+  <script src="lib/angular-md5/angular-md5.js"></script>
+
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="cordova.js"></script>
+  <!-- load requirejs config -->
+  <script src="main.js"></script>
+  <!-- load requirejs -->
+  <script src="lib/requirejs/require.min.js"></script>
+  <!-- load boot-script - it loads configs, routes, runs and bootstraps the app -->
+  <script src="app/boot.js"></script>
+
+
+
+
+
+
 
   <link href="css/style.css" rel="stylesheet">
 
-  
 
-  
+
+
 
 
 </head>
+
 <body ng-controller="AppCtrl" ng-show="ready" class="ng-hide">
 
   <ion-side-menus enable-menu-with-back-views="true">
@@ -51,41 +53,44 @@
       </ion-header-bar>
       <ion-content class="background-royal">
         <ion-list>
-            <!-- Generic -->
-
+          <!-- Generic -->
+          <!--
           <ion-item class="item-royal item-icon-right" ng-repeat="page in pages" menu-close href="#/{{page.alias}}">
 
             {{page.title}}
             <i class="icon" ng-class="page.icon"></i>
           </ion-item>
+-->
+          <!-- Profile -->
 
-              <!-- Profile -->
-              <ion-item class="item-royal item-icon-right" menu-close ng-click="goProfile()">
+          <ion-item class="item-royal item-icon-right" menu-close ng-click="goDashBoard()">
+            Find
+            <i class="icon ion-search"></i>
+          </ion-item>
+
+
+          <!-- Profile -->
+          <ion-item class="item-royal item-icon-right" menu-close ng-click="goProfile()">
             Profile
-            <i class="icon ion-person" ></i>
+            <i class="icon ion-person"></i>
           </ion-item>
 
-            <!-- Chat -->
-            <ion-item class="item-royal item-icon-right" menu-toggle ng-click="goMessages()">
-                Message
-                <i class="icon ion-person"></i>
-            </ion-item>
 
-              <!-- Listing -->
-              <ion-item class="item-royal item-icon-right" menu-close ng-click="goCurrentUserListings()">
+          <!-- Listing -->
+          <ion-item class="item-royal item-icon-right" menu-close ng-click="goCurrentUserListings()">
             Listings
-            <i class="icon ion-ios-pricetags" ></i>
+            <i class="icon ion-ios-pricetags"></i>
           </ion-item>
 
-              <!-- Signout -->
+          <!-- Signout -->
 
           <ion-item class="item-royal item-icon-right" menu-close ng-click="logout()">
             Sign out
-            <i class="icon ion-log-out" ></i>
+            <i class="icon ion-log-out"></i>
           </ion-item>
 
         </ion-list>
-        
+
       </ion-content>
     </ion-side-menu>
 
@@ -93,16 +98,28 @@
       <!-- The nav bar that will be updated as we navigate -->
       <ion-nav-bar class="bar-energized">
         <ion-nav-back-button></ion-nav-back-button>
-        <ion-nav-buttons side="left">
-         <!-- Toggle left side menu -->
-         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-       </ion-nav-buttons>
-     </ion-nav-bar>
-     <!-- where the initial view template will be rendered -->
-     <ion-nav-view>
-     </ion-nav-view>
-   </ion-side-menu-content>
 
- </ion-side-menus>
+        <ion-nav-buttons side="left">
+          <!-- Toggle left side menu -->
+          <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+        </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+          <!-- Toggle left side menu -->
+
+          <button ng-click="goMessages()" class="button button-icon icon ion-ios-chatbubble badge-container">
+               <div ng-bind-html="messageNotification"></div>
+              <!-- <span class="badge-assertive badge">5</span> -->
+
+         </button>
+        </ion-nav-buttons>
+
+      </ion-nav-bar>
+      <!-- where the initial view template will be rendered -->
+      <ion-nav-view>
+      </ion-nav-view>
+    </ion-side-menu-content>
+
+  </ion-side-menus>
 </body>
+
 </html>

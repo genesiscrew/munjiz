@@ -30,6 +30,7 @@ define([
             var user;
             var foundChat = false;
             var pubnub = PubNubService;
+            var historyCount = 0;
 
             $scope.$on("$ionicView.afterEnter", function (event) {
                 console.log("i should be scrolling down");
@@ -55,7 +56,7 @@ define([
                 if (x > y) {
                     chatRoom = x + "" + y;
 
-                    console.log("the fucking chat room name is:" + chatRoom);
+                    // we updload history using the chatroom we just created
                     getHistory();
                     var query = new Parse.Query('ChatRooms');
                     //query.include(' parent');
@@ -68,6 +69,8 @@ define([
                                 if (chatRoom == object.get('chat_name')) {
                                     console.log("chat room exists");
                                     foundChat = true;
+                                    // if chat room exists, we check history count of messages in parse with pubnub
+                                    checkHistoryCount();
 
                                 }
 
@@ -84,7 +87,7 @@ define([
                 }
                 else {
                     chatRoom = y + "" + x;
-                    console.log("the fucking chat room name is:" + chatRoom);
+
                     getHistory();
                     var query = new Parse.Query('ChatRooms');
                     //query.include(' parent');
@@ -97,6 +100,7 @@ define([
                                 if (chatRoom == object.get('chat_name')) {
                                     console.log("chat room exists");
                                     foundChat = true;
+                                    checkHistoryCount();
 
                                 }
 
@@ -168,6 +172,7 @@ define([
                                 newChat.set("chat_to_name", object.get("firstName"));
                                 newChat.save();
                                 newChat.set("chat_name", chatRoom);
+                                newChat.set("HistoryCount", 0);
                                 newChat.save();
                                 newChat.save();
 
@@ -218,12 +223,14 @@ define([
                 console.log("the current chat rooom is:" + chatRoom);
                 pubnub.history({
                     channel: chatRoom,
-                    count: 30,
+                    count: 1000000,
                     callback: function (messages) {
                         messages[0].forEach(function (m) {
                             console.log("messages as: " + m.text);
+                            historyCount++;
                             $scope.messages.push(m);
                         });
+                        console.log("history count is: " + historyCount);
 
                     }
                 });
@@ -243,18 +250,49 @@ define([
 
 
 
+
+
             function publish() {
 
                 pubnub.publish({
                     channel: chatRoom,
                     message: $scope.data,
+                });
+                pubnub.publish({
+                    channel: 'Global',
+                    to: $scope.data.to,
+                    from: $scope.data.from,
+                    message: $scope.data,
+
+                });
 
 
 
-                }
 
-                );
             };
+
+            function checkHistoryCount() {
+
+                var query = new Parse.Query('ChatRooms');
+                query.find({
+                    success: function (results) {
+                        // Do something with the returned Parse.Object values
+                        foundChat = false;
+                        for (var i = 0; i < results.length; i++) {
+                            var object = results[i];
+                            if (chatRoom == object.get('chat_name')) {
+                                var historicalCount = object.get('HistoryCount');
+                                if (historyCount != historicalCount) {
+                                    console.log("we have a new motherfucking message, histories dont match");
+                                    //newMessagesReceived = true;
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+            }
 
 
             // Grab references for all of our elements.
@@ -272,11 +310,28 @@ define([
                      + message.text
                      + "</li>"); */
                 console.log("we recevied message from: " + message.username);
+
                 $scope.data = message;
 
                 $scope.messages.push(message);
+                var query = new Parse.Query('ChatRooms');
+                query.find({
+                    success: function (results) {
+                        // Do something with the returned Parse.Object values
+                        for (var i = 0; i < results.length; i++) {
+                            var object = results[i];
+                            if (chatRoom == object.get('chat_name')) {
+                                console.log(" i am HERE NOW and history count for" + object.id + "is:" + historyCount);
+                                object.set("HistoryCount", ++historyCount);
+                                object.save();
+                                
+                            }
+                        }
+                    }
+                });
+
                 $scope.$apply();
-              console.log($scope.messages[$scope.messages.length-1]);
+                console.log($scope.messages[$scope.messages.length - 1]);
                 $timeout(function () {
                     $ionicScrollDelegate.scrollBottom(true);
                 }, 300);
@@ -303,16 +358,24 @@ define([
                 if (message1 != '') {
                     var messagetobeSent = {
                         username: Parse.User.current().get('firstName'),
-                        text: message1
+                        text: message1,
+                        to: $rootScope.userID,
+                        from: Parse.User.current().id
                     }
                     $scope.data = messagetobeSent;
                     //  $scope.messages.push($scope.data);
                     console.log(Parse.User.current().get('firstName'));
                     publish();
-                    // $scope.apply();
-                    // $scope.data = null;
-                    // getHistory();
 
+                    /**  pubnub.whereNow(
+                          {
+                              uuid: Parse.User.current().id,
+                          },
+                          function (status, response) {
+                              // handle status, response
+                          }
+                      );
+                      */
 
                     messageContent.value = "Message";
 
@@ -338,8 +401,8 @@ define([
                   sendMessageButton.click();
                   return false;
               });
-
-
+ 
+ 
 */
 
 
