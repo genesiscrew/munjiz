@@ -149,7 +149,7 @@ define([
                 checkHistoryCount();
                 $scope.messages = messaging;
                 if (messaging) {
-                    console.log("updating message list");
+                    console.log("updating message list 2");
                 }
                 else {
                     console.log("message list is empty");
@@ -157,7 +157,7 @@ define([
 
 
                 // $scope.messages.push(message);
-              //  $scope.$apply();
+                //  $scope.$apply();
 
             })
 

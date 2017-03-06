@@ -87,12 +87,16 @@ define([
 
       pubnub.subscribe({
         channel: 'Global',
-         withPresence: true,
+        withPresence: true,
         callback: function (message) {
-          if (message.to === Parse.User.current().id) {
+          if (message.from === Parse.User.current().id) {
             //showNotification(message);
             console.log("notification working")
-            $scope.messageNotification = $sce.trustAsHtml('<span class="badge-assertive badge">5</span>'); 
+            if ($state.current.name != 'chat') {
+              $scope.messageNotification = $sce.trustAsHtml('<span class="badge-assertive badge">5</span>');
+
+            }
+
           }
           else {
             console.log("problem with notification");
