@@ -89,7 +89,7 @@ define([
         channel: 'Global',
         withPresence: true,
         callback: function (message) {
-          if (message.from === Parse.User.current().id) {
+          if (message.from != Parse.User.current().id) {
             //showNotification(message);
             console.log("notification working")
             if ($state.current.name != 'chat') {
