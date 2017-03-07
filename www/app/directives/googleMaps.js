@@ -2,7 +2,7 @@
 define([
     'app',
     'services/user'
-], function (app) {
+    ], function (app) {
     //'use strict';
 
     app.directive('googleMap', [
@@ -29,37 +29,37 @@ define([
 
                 link: function (scope, element) {
                     var counter = 0,
-                        map,
-                        mapsMarker,
-                        gmarkers = [],
-                        object,
-                        object2,
-                        mylat,
-                        mylong,
-                        eventsReady = false,
-                        searchedItem;
+                    map,
+                    mapsMarker,
+                    gmarkers = [],
+                    object,
+                    object2,
+                    mylat,
+                    mylong,
+                    eventsReady = false,
+                    searchedItem;
 
 
                     function addClick(marker) {
                         $window.google.maps.event.addListener(marker, 'click', function () {
-                            var userPopup = $ionicPopup.alert({
-                                okText: "GOT IT!",
+                            var userPopup = $ionicPopup.show({
+                                template: '<input type="password" ng-model="data.wifi">',
+                                title: 'Listing One',
+                                subTitle: 'Profile',
+                      
                                 buttons: [
-                                 { text: "chat",
-                                   type: "button-default",
-                                   onTap: function(e) { 
+                                { text: "View Listings",
+                                type: "button-default",
+                                onTap: function(e) { 
 
-                                       console.log(marker.userID);
-                                       $rootScope.userID = marker.userID;
-                                       $state.go('chat');
-                                   }
+                                 console.log(marker.userID);
+                                 $rootScope.userID = marker.userID;
+                                 $state.go('chat');
+                             }
+                         }
+                     ]
 
-
-                                 }
-
-
-                                ]
-                            });
+                 });
                         });
                     }
 
@@ -71,10 +71,6 @@ define([
                     // maybe can apply lazy loading here as well? thoughts?
 
                     function makeMarkers() {
-
-
-
-
 
                         eventsReady = true;
 
@@ -101,7 +97,7 @@ define([
                                             clickable: true
                                         });
                                         gmarkers.push(mapsMarker);
-                                         addClick(mapsMarker);
+                                        addClick(mapsMarker);
 
                                     }
 
@@ -251,9 +247,9 @@ define([
                     //load google maps api script async, avoiding 'document.write' error
                     function injectGoogle() {
                         var cbId,
-                            wf,
-                            s,
-                            apiKey;
+                        wf,
+                        s,
+                        apiKey;
 
                         //callback id
                         cbId = '_gmap_' + counter;
@@ -264,7 +260,7 @@ define([
 
                         wf = document.createElement('script');
                         wf.src = ('https:' === document.location.protocol ? 'https' : 'http') +
-                            '://maps.googleapis.com/maps/api/js?' + apiKey + 'v=3&callback=' + cbId;
+                        '://maps.googleapis.com/maps/api/js?' + apiKey + 'v=3&callback=' + cbId;
                         wf.type = 'text/javascript';
                         wf.async = 'true';
                         document.body.appendChild(wf);
@@ -282,5 +278,5 @@ define([
                 }
             };
         }
-    ]);
+        ]);
 });
