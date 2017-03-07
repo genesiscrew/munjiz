@@ -72,6 +72,7 @@ define([
 
         .state('messages', {
           url: '/messages',
+          cache: false,
           controller: 'MessageCtrl',
           templateUrl: 'app/templates/messages.html'
         });

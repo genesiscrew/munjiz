@@ -148,6 +148,7 @@ define([
 
            // $scope.$on("$ionicView.afterEnter", function (event) {
                 //   console.log("search DB for chat rooms");
+                console.log("running code");
                 messaging = [];
                 $scope.messages = [];
                 historyCount = 0;
