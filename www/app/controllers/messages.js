@@ -61,7 +61,7 @@ define([
                             //$scope.messages.push(m);
                         });
                         messaging[getUser(history)].history = count;
-                        // console.log("history count  for" + messaging[getUser(history)].chatID + "is: " + messaging[getUser(history)].history );
+                        console.log("history count  for" + messaging[getUser(history)].chatID + "is: " + messaging[getUser(history)].history);
 
                     }
                 });
@@ -78,6 +78,7 @@ define([
 
 
                         messaging[i].newMessageCount = messaging[i].history - messaging[i].historyCount;
+                        console.log("hoold up" + messaging[i].newMessageCount);
 
                     }
                     else {
@@ -132,22 +133,29 @@ define([
 
             $scope.newMessage = function (chat_ID, messageCount) {
 
-                //  console.log("we should be here");
-                checkHistoryCount();
+                console.log("we should be here");
+                console.log(messaging[getUser(chat_ID)].historyCount);
+                console.log(messaging[getUser(chat_ID)].history);
 
+
+                // stores updated historical message count into the  messaging array 
+                var newCount = messaging[getUser(chat_ID)].history - messaging[getUser(chat_ID)].historyCount;
+
+                console.log(newCount);
 
                 //console.log("message count is: " + messaging[getUser(chat_ID)].newMessageCount);
-                if (messaging[getUser(chat_ID)].newMessageCount > 0) {
+                if (messaging[getUser(chat_ID)].newMessageCount > 0 || newCount > 0) {
                     // console.log("success, chat id is: " + chat_ID);
-                    var count = String(messageCount);
-                    return $sce.trustAsHtml('<span class="badge-assertive badge">' + count + '</span>');
+                    var count = String(newCount);
+                    return $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
 
                 }
 
             }
 
-           // $scope.$on("$ionicView.afterEnter", function (event) {
-                //   console.log("search DB for chat rooms");
+            // $scope.$on("$ionicView.afterEnter", function (event) {
+            //   console.log("search DB for chat rooms");
+            $scope.InitializeCode = function () {
                 console.log("running code");
                 messaging = [];
                 $scope.messages = [];
@@ -168,7 +176,7 @@ define([
                                 chatname = object.get('chat_name');
                                 if (object.get('chat_from') == Parse.User.current().id) {
                                     historyCount = object.get('HistoryCountMe');
-                                    //  console.log("history count is " + historyCount);
+                                    console.log("history count is " + historyCount);
                                 }
                                 else {
                                     historyCount = object.get('HistoryCountTo');
@@ -211,30 +219,24 @@ define([
                             }
 
                         }
-                        // stores updated historical message count into the  messaging array 
+
                         getHistories();
                         // compares the list of historical messages to that in parse
-                        //checkHistoryCount();
-
+                        checkHistoryCount();
                     }
+
+
+
                 });
 
 
 
+
+
                 $scope.messages = messaging;
-                if (messaging) {
-                    // console.log("updating message list 2");
-                    // $scope.$apply();
-                }
-                else {
-                    // console.log("message list is empty");
-                }
+                console.log("done");
 
-
-                // $scope.messages.push(message);
-                //  
-
-         //   })
+            };
 
 
 
