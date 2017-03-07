@@ -146,7 +146,7 @@ define([
 
             }
 
-            $scope.$on("$ionicView.beforeEnter", function (event) {
+           // $scope.$on("$ionicView.afterEnter", function (event) {
                 //   console.log("search DB for chat rooms");
                 messaging = [];
                 $scope.messages = [];
@@ -233,7 +233,7 @@ define([
                 // $scope.messages.push(message);
                 //  
 
-            })
+         //   })
 
 
 
