@@ -65,7 +65,7 @@ define([
 
                     }
                 });
-                return count;
+               
             }
 
             function checkHistoryCount() {
@@ -85,6 +85,8 @@ define([
                         messaging[i].newMessageCount = 0;
 
                     }
+
+                  
 
                 }
 
@@ -133,24 +135,32 @@ define([
 
             $scope.newMessage = function (chat_ID, messageCount) {
 
-                console.log("we should be here");
-                console.log(messaging[getUser(chat_ID)].historyCount);
-                console.log(messaging[getUser(chat_ID)].history);
+               // console.log("we should be here");
+                //console.log(messaging[getUser(chat_ID)].historyCount);
+                //console.log(messaging[getUser(chat_ID)].history);
 
 
                 // stores updated historical message count into the  messaging array 
                 var newCount = messaging[getUser(chat_ID)].history - messaging[getUser(chat_ID)].historyCount;
 
-                console.log(newCount);
+                //console.log(newCount);
 
                 //console.log("message count is: " + messaging[getUser(chat_ID)].newMessageCount);
                 if (messaging[getUser(chat_ID)].newMessageCount > 0 || newCount > 0) {
                     // console.log("success, chat id is: " + chat_ID);
                     var count = String(newCount);
                     return $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
+                    
 
                 }
+            
+                
 
+            }
+
+            $scope.refresh = function() {
+        console.log("refreshed");
+                $scope.$apply();
             }
 
             // $scope.$on("$ionicView.afterEnter", function (event) {
