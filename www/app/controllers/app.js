@@ -93,7 +93,7 @@ define([
             //showNotification(message);
             console.log("notification working")
             if ($state.current.name != 'chat') {
-              $scope.messageNotification = $sce.trustAsHtml('<span class="badge-assertive badge">5</span>');
+              $scope.messageNotification = $sce.trustAsHtml('<span class="badge-assertive badge"></span>');
 
             }
 
@@ -103,6 +103,8 @@ define([
           }
         }
       });
+
+      
 
 
       $scope.goCurrentUserListings = function () {

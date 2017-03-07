@@ -37,7 +37,7 @@ define([
                 $timeout(function () {
                     $ionicScrollDelegate.scrollBottom();
                 });
-
+              //historyCount = 0;
 
             });
 
@@ -70,7 +70,7 @@ define([
                                     console.log("chat room exists");
                                     foundChat = true;
                                     // if chat room exists, we check history count of messages in parse with pubnub
-                                    checkHistoryCount();
+                                    updateHistoryCount();
 
                                 }
 
@@ -100,7 +100,7 @@ define([
                                 if (chatRoom == object.get('chat_name')) {
                                     console.log("chat room exists");
                                     foundChat = true;
-                                    checkHistoryCount();
+                                    updateHistoryCount();
 
                                 }
 
@@ -172,8 +172,9 @@ define([
                                 newChat.set("chat_to_name", object.get("firstName"));
                                 newChat.save();
                                 newChat.set("chat_name", chatRoom);
-                                newChat.set("HistoryCount", 0);
+                                newChat.set("HistoryCountMe", 0);
                                 newChat.save();
+                                newChat.set("HistoryCountTo", 0);
                                 newChat.save();
 
                                 console.log("chat room added to DB succesfully");
@@ -230,10 +231,12 @@ define([
                             historyCount++;
                             $scope.messages.push(m);
                         });
-                        console.log("history count is: " + historyCount);
+                        console.log("history countttt is: " + historyCount);
 
                     }
                 });
+
+                
 
             }
             // Subscribe to messages coming in from the channel.
@@ -271,7 +274,7 @@ define([
 
             };
 
-            function checkHistoryCount() {
+            function updateHistoryCount() {
 
                 var query = new Parse.Query('ChatRooms');
                 query.find({
@@ -281,7 +284,17 @@ define([
                         for (var i = 0; i < results.length; i++) {
                             var object = results[i];
                             if (chatRoom == object.get('chat_name')) {
-                                var historicalCount = object.get('HistoryCount');
+                                var historicalCount;
+                                if (object.get('chat_from') == Parse.User.current().id) {
+                                    object.set("HistoryCountMe", historyCount);
+                                   object.save();
+
+                                }
+                                else {
+                                   object.set("HistoryCountTo", historyCount);
+                                   object.save();
+                                }
+
                                 if (historyCount != historicalCount) {
                                     console.log("we have a new motherfucking message, histories dont match");
                                     //newMessagesReceived = true;
@@ -321,10 +334,21 @@ define([
                         for (var i = 0; i < results.length; i++) {
                             var object = results[i];
                             if (chatRoom == object.get('chat_name')) {
+                                ++historyCount;
                                 console.log(" i am HERE NOW and history count for" + object.id + "is:" + historyCount);
-                                object.set("HistoryCount", ++historyCount);
-                                object.save();
-                                
+                                if (object.get('chat_from') == Parse.User.current().id) {
+                                    object.set("HistoryCountMe", historyCount);
+                                    object.save();
+
+                                }
+                                else {
+                                    object.set("HistoryCountTo", historyCount);
+                                    object.save();
+
+                                }
+
+
+
                             }
                         }
                     }

@@ -3,23 +3,21 @@
   <ion-content>
 
     <ion-list class="margin-bottom listing-background">
-      <ion-item ng-repeat="message in messages">
+      <div ng-repeat="message in messages">
 
-        <div class="button button-clear " ng-disabled="loading" ng-click="goChat(message.chatSource)">
-         
-          <div class="row">
-            <div class="col-50">
- <i class="icon ion-ios-chatbubble">      
-           </i> {{message.username}}
-            </div>
-            <div class="col-50">
-              You have two new messages
-            </div>
-          </div>
+        
+          
+                <button ng-click="goChat(message.chatSource)" class="button button-icon icon ion-ios-chatbubble badge-container">                  
+      {{message.username}}  
+      
+      <div ng-bind-html="newMessage(message.chatID, message.newMessageCount)"></div>  
+    
+       </span>
+            
+                </button>
 
 
-        </div>
-      </ion-item>
+      </div>
 
     </ion-list>
 
