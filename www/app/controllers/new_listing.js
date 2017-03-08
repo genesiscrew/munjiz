@@ -12,16 +12,21 @@ define([
       '$rootScope',
       '$state',
       '$ionicActionSheet',
+      '$ionicPlatform',
       '$cordovaCamera',
-      function ($scope, userService, $ionicHistory, $rootScope, $state, $ionicActionSheet, $cordovaCamera) {
+      function ($scope, userService, $ionicHistory, $rootScope, $state, $ionicActionSheet, $ionicPlatform, $cordovaCamera) {
+
+        $ionicPlatform.ready(function() {
+
+        });
 
         $scope.ready = false;
         $scope.listing = {};
 
         $scope.$watchGroup(['listing.title', 'listing.desc', 'listing.price'], function (newVal) {
-          var title = newVal[0] != undefined,
-          desc = newVal[1] != undefined,
-          price = newVal[2] != undefined;
+          var title = newVal[0] !== undefined,
+          desc = newVal[1] !== undefined,
+          price = newVal[2] !== undefined;
           
           // check all are valid inputs
           if(title && desc && price){
@@ -29,14 +34,13 @@ define([
           }else{
             $scope.ready = false;
           }
-
         });
 
 
         $scope.createListing = function(){
 
           if(!$scope.ready){
-            alert("Please ensure you have filled out all fields");
+            alert("Please ensure you have filled out all the fields");
           }else{
 
             console.log(Parse.User.current());
@@ -47,6 +51,7 @@ define([
             newListing.set("price", $scope.listing.price);
             newListing.set("show", true);
             newListing.set("parent", Parse.User.current());
+            newListing.set("image", $scope.imageURI);
             newListing.save();
           }
           var objectId = Parse.User.current().id;
@@ -63,14 +68,15 @@ define([
             titleText: 'Add images',
             cancelText: 'Cancel',
             buttonClicked: function(index) {
-              $scope.getPhoto();
+              $scope.getPhoto(index);
             }
           });
         };
 
-
-        $scope.getPhoto = function() {
-
+        // index = 0 = photo lib
+        // index = 1 = camera
+        $scope.getPhoto = function(index) {
+          console.log(index);
           var options = {
             quality: 50,
             destinationType: Camera.DestinationType.FILE_URI,
@@ -82,16 +88,17 @@ define([
           $cordovaCamera.getPicture(options).then(function(imageData) {
             console.log("img URI= " + imageData);        
             // Here you will be getting image data 
-            }, function(err) {
-              alert("Failed because: " + err);
-              console.log('Failed because: ' + err);
-            });
+            $scope.listing.imgageURI = imageData;
+          }, function(err) {
+            alert("Failed because: " + err);
+            console.log('Failed because: ' + err);
+          });
         };
 
 
 
-    }
-    ]);
+      }
+      ]);
   });
 
 

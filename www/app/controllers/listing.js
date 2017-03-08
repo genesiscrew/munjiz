@@ -16,11 +16,9 @@ define([
       '$state',
       function ($scope, $stateParams, $window, $ionicPopup, listingService, userService, $state) {
 
-
         $scope.addListing = function(){
           $state.go('new_listing');
         };
-
 
         $scope.getProfileAndListings = function(objectId) {
 
@@ -73,7 +71,6 @@ define([
                   listing.price = listing.get("price");
                   listing.imageURL = listing.get("imageURL");
                   if (listing.imageURL == null){
-                    console.log("found null");
                     listing.imageURL = "http://www.novelupdates.com/img/noimagefound.jpg";
                   }
                   listing.parent = listing.get('parent');
