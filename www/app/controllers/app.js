@@ -69,6 +69,8 @@ define([
                     $ionicLoading.hide();
                     $ionicHistory.clearCache();
                     $ionicHistory.clearHistory();
+                    console.log("logging out of facebook");
+                    FB.logout();
                     $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
                     $state.go('login');
                 }, 30);
@@ -83,7 +85,6 @@ define([
         };
 
          $scope.goProfile = function(){
-          console.log("going to profile");
           var objectId = Parse.User.current().id;
           $state.go("profile", {id: objectId});
          };

@@ -3,7 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-  <title>Food Market</title>
+  <title></title>
+
+  <!-- ngCordova -->
+  <script src="lib/ngCordova/dist/ng-cordova.js"></script>
 
   <!-- compiled css output -->
   <link href="css/ionic.app.css" rel="stylesheet">
@@ -18,33 +21,23 @@
   <!-- md5 -->
   <script src="lib/angular-md5/angular-md5.js"></script>
 
-  <!-- cordova script (this will be a 404 during development) -->
-  <script src="lib/ngCordova/dist/ng-cordova.js"></script>
-  <script src="cordova.js"></script>
+  <!-- For the image selector --> 
+  <script src="directives/ng-cordova.min.js"></script>
 
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="cordova.js"></script>
   <!-- load requirejs config -->
   <script src="main.js"></script>
-
   <!-- load requirejs -->
   <script src="lib/requirejs/require.min.js"></script>
-
   <!-- load boot-script - it loads configs, routes, runs and bootstraps the app -->
-  <script src="app/boot.js"></script>
+  <script src="app/boot.js"></script>    
 
-  <!-- Facebook -->
-  <script src="cdv-plugin-fb-connect.js"></script>
-  <script src="facebook-js-sdk.js"></script>
-
-  <!-- styles -->
   <link href="css/style.css" rel="stylesheet">
-
+ 
 </head>
 
 <body ng-controller="AppCtrl" ng-show="ready" class="ng-hide">
-
- <div id="fb-root"></div>
- <script src="lib/facebookConnectPlugin.js"></script>
- 
   <ion-side-menus enable-menu-with-back-views="true">
     <!-- Left menu -->
     <ion-side-menu side="left">
