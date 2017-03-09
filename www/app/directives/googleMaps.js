@@ -12,9 +12,6 @@ define([
         '$ionicPopup',
         '$rootScope',
 
-
-
-
         function ($state, $window, userService, $ionicPopup, $rootScope) {
             return {
                 scope: {
@@ -279,4 +276,5 @@ define([
             };
         }
         ]);
+
 });
