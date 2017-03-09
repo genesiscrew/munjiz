@@ -1,6 +1,11 @@
+/* Light grey text color: #756C6A; */
+/* Energised (blue) color: #4fc4f6; */
+
+
+
 .listing_image {
-	width: 60px;
-	height: 60px;
+	height: 80px;
+	width: 80px;
 }
 
 .listing_list {
@@ -11,6 +16,101 @@
 	padding-bottom: 30px;
 }
 
-.listing-background {
-	/*background-color: #7C84AE; */
+.listing-title {
+	font-size: 18px;
 }
+
+.listing-desc {
+	font-size: 14px;
+}
+
+.listing-left {
+	width: 30%;
+}
+
+
+.input-label {
+	color : #fff;
+	margin-bottom: 12px;
+}
+
+.input-label {
+	color : black;
+}
+.input {
+	background-color: #fff!important;
+	padding-bottom: 5px !important;
+}
+
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+.username-input{
+	margin-top:50px;
+	font-size: 18px !important;
+}
+
+.password-input{
+	font-size: 18px !important;
+}
+
+.item{
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	border-bottom: 0px;
+}
+
+.top-login-item {
+	margin-top: 100px;
+}
+
+.no-padding{
+	margin-left: 40px;
+	margin-right: 40px;
+	width: 100%;
+	border-radius: 64px;
+	text-align: center;
+	padding-top:5px;
+	padding-bottom: 5px;
+	margin-left:0px;
+}
+
+.forgot-password-button {
+	padding-top: 15px;
+	font-size: 12px;
+}
+
+
+.item-floating-label .placeholder-icon {
+	position: absolute;
+	bottom: 9px;
+	left: 20px;
+	font-size: 24px;
+	margin-top: 15px !important;
+	padding-top: 15px !important;
+	
+}
+
+.item-floating-label {
+	padding-left: 60px !important;
+}
+
+.h1, .h2, .h3, .h4, .h5 {
+	color : #000 !important;
+}
+
+.listing-divider{
+	border-bottom: 2px !important;
+	border-bottom-style: solid !important;
+	margin-bottom: 10px
+	margin-top:10px;
+	color: #756C6A !important;
+}
+
+.light-grey-color {
+	color: #756C6A;
+}
+
+

@@ -1,66 +1,27 @@
 <ion-view>
-  <ion-nav-title>EventFinder <i class="icon ion-ios-location"></i></ion-nav-title>
-   
+
+  <ion-nav-title>FoodFinder <i class="icon ion-ios-location"></i></ion-nav-title>
+
   <ion-content padding="false" class="has-header" scroll="false">
      
-     
-
           <!--the div below enables the search form to stack on top of map, note that position has been hard coded and might render
              differently depending on screen size, needs to be tested -->
       
           
-          <div id="map" data-tap-disabled="true" google-map center="center" style="height:100%; width: 100%;" searching = "searching" api-key="{{apiKey}}" events="events">
+          <div id="map" data-tap-disabled="true" google-map center="center" style="height:100%; width: 100%;"  api-key="{{apiKey}}" events="events">
         
            </div>
 
           <div style="position: absolute;  top: 0px; margin:0px;
                 width: {{width}}px; height:inherit ; background-color: transparent;">
-              <form name="form.search" ng-submit="form.search.$valid && makeMarkings()"  >
+              <form name="form.search"  ng-submit="form.search.$valid"  >
                   <label class="item item-input">
                       <i class="icon ion-search placeholder-icon"></i>
-                      <input type="text" id ="search" ng-model="search.string" required="required" placeholder="What are you looking for?">
+                      <input type="text"  id= "search" ng-model="search.string" required="required" placeholder="What are you looking for?">
                   </label>
                   <br />
               </form>
           </div>
-         
-
-
-
-
-
-
-
+        
 </ion-content>
- 
-  <!-- <ion-contnent class="has-sub-header">
-
- 
-
-</ion-contnent> -->
-
-<!--   <ion-content ng-show="show.list" class="background-stable">
-    <ion-refresher on-refresh="reload()">
-    </ion-refresher> -->
-<!--     <div ng-show="show.list">
-      <ion-list>
-        <ion-item ui-sref="detail({id: event.id})" class="item-royal item-avatar item-icon-right" ng-repeat="event in events | limitTo:limit">
-          <img ng-src="{{event.thumb}}">
-          <h2>{{event.name}}</h2>
-          <p>
-            <b>{{event.city}}</b> / District {{event.district}}<br>
-            {{event.street}} {{event.number}}, {{event.zip}} {{event.city}}
-          </p>
-          <i class="icon ion-ios-arrow-right"></i>
-        </ion-item>
-        <ion-item class="text-center item-royal" ng-if="events && !events.length">No events found :(</ion-item>
-      </ion-list>
-    </div> -->
-   <!--  <ion-infinite-scroll
-      ng-if="!events || events.length > limit"
-      class=""
-      on-infinite="loadMore()">
-    </ion-infinite-scroll> -->
-
-
 </ion-view>

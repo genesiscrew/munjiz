@@ -1,7 +1,6 @@
 /* global ionic, define */
 define([
   'app',
-  'services/event'
   ], function (app) {
     'use strict';
 
@@ -10,9 +9,8 @@ define([
       '$stateParams',
       '$window',
       '$ionicPopup',
-      'eventService',
       '$state',
-      function ($scope, $stateParams, $window, $ionicPopup, eventService, $state) {
+      function ($scope, $stateParams, $window, $ionicPopup, $state) {
         $scope.loading = true;
 
         $scope.save = function(){

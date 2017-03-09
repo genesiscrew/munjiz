@@ -1,24 +1,42 @@
-<ion-view>
-  <ion-nav-title>EventFinder <i class="icon ion-ios-location"></i></ion-nav-title>
+<script src="lib/pubnub-angular/dist/pubnub-angular.js"></script>
+    <ion-view view-title="Chats" ng-init="checkUser()">
+        <ion-nav-title>EventFinder <i class="icon ion-ios-location"></i></ion-nav-title>
+        <ion-content class="padding">
 
-      <ion-content>
-        <div class="list">
-            <a class="item item-avatar" ng-repeat="chat in chats" href="https://twitter.com/{{chat.user}}">
-                <img ng-src="{{chat.imgURL}}">
-                <h2>{{chat.user}}</h2>
-                <p>{{chat.message}}</p>
-            </a>
-        </div>
-        <form>
-            <div class="list">
-                <div class="item item-input-inset">
-                    <label class="item-input-wrapper" style="background-color: #fff">
-                        <input type="text" placeholder="Message" ng-model="chat.message" style="background-color: #fff">
+
+            <section class="chats">
+
+
+                <ion-pane>
+                    <span ng-repeat="message in messages track by $index">
+                        <!-- <span ng-show="!message.notification"> -->
+
+                        <p class="username" ng-show="!messageIsMine(message.username)">{{message.username}}</p>
+                        <div ng-class='getBubbleClass(message.username)'>
+                            <p ng-bind="message.text"></p>
+                        </div>
+                        <div class="clear"></div>
+                        <!--  </span>  -->
+                        <!--  <span ng-show="message.notification">  -->
+                        <!--   <p class="notification" ng-bind="message.message"></p> -->
+                        <!--  </span> -->
+                    </span>
+
+
+                </ion-pane>
+                </section>
+
+</ion-content>
+            <form name="sendMessageForm" ng-submit="sendMessage()" novalidate>
+                <ion-footer-bar class="bar-stable item-input-inset message-footer" keyboard-attach>
+                    <label class="item-input-wrapper">
+                        <input id="messageContent" ng-model="data.message" class="input-message" type="text" placeholder="Message">
                     </label>
-                    <button class="button button-positive ion ion-ios7-chatbubble" ng-click="sendChat(chat)"></button>
-                </div>
-            </div>
-        </form>
-    </ion-content>
-
-</ion-view>
+                    <div class="footer-btn-wrap">
+                        <button class="button button-icon icon ion-ios-paperplane footer-btn" id="sendMessageButton" type="submit"
+                                ng-disabled="!data.message || data.message === ''"></button>
+                    </div>
+                </ion-footer-bar>
+            </form>
+       
+    </ion-view>

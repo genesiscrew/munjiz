@@ -1,7 +1,7 @@
 define([
   'app',
   'services/page',
-  'services/user'
+  'services/user',
   ], function (app) {
     'use strict';
 
@@ -15,7 +15,10 @@ define([
       'pageService',
       '$state',
       'userService',
-      function ($scope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, $ionicHistory, pageService, $state, userService) {
+      '$timeout',
+      '$ionicLoading',
+
+      function ($scope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, $ionicHistory, pageService, $state, userService, $timeout, $ionicLoading) {
         $scope.ready = true;
 
         pageService.get().then(function (pages) {
@@ -62,12 +65,13 @@ define([
           }).then(function (res) {
             if (res) {
                 Parse.User.logOut();
-           $ionicHistory.clearCache();
-                $ionicHistory.clearHistory();
-                
-                $ionicHistory.nextViewOptions({ disableBack: false, historyRoot: true });
-                $state.go('login');
-               
+                $timeout(function (res) {
+                    $ionicLoading.hide();
+                    $ionicHistory.clearCache();
+                    $ionicHistory.clearHistory();
+                    $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
+                    $state.go('login');
+                }, 30);
         }
       });
         };
@@ -79,9 +83,15 @@ define([
         };
 
          $scope.goProfile = function(){
+          console.log("going to profile");
           var objectId = Parse.User.current().id;
           $state.go("profile", {id: objectId});
-        };
+         };
+
+         $scope.goChat = function () {
+             var objectId = Parse.User.current().id;
+             $state.go("chat", { id: objectId });
+         };
 
 
    }

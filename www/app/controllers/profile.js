@@ -1,8 +1,6 @@
 /* global ionic, define */
 define([
-  'app',
-  'services/event'
-], function (app) {
+  'app'], function (app) {
   'use strict';
 
   app.controller('ProfileCtrl', [
@@ -10,9 +8,8 @@ define([
     '$stateParams',
     '$window',
     '$ionicPopup',
-    'eventService',
     '$state',
-    function ($scope, $stateParams, $window, $ionicPopup, eventService, $state) {
+    function ($scope, $stateParams, $window, $ionicPopup, $state) {
       $scope.loading = true;
 
        $scope.editProfile = function(){
@@ -24,7 +21,7 @@ define([
           var query = new Parse.Query(Parse.User);
           query.equalTo("objectId", objectID);
           query.find({
-            success: function(result) {  
+            success: function(result, reloading) {  
 
               var profile = result[0];
 
@@ -35,30 +32,25 @@ define([
               profile.street = profile.get("street");
               profile.city = profile.get("city");  
               profile.hours = profile.get("hours");     
-   
-
               profile.id = Parse.User.current().id;
+              $scope.profile = profile;   
 
-              $scope.profile = profile;            
-
-              $scope.loading = false;
-              console.log(profile);
-
+              console.log("done");         
+              if(reloading){
+                 $scope.$broadcast('scroll.refreshComplete');
+              }else{
+                $scope.loading = false;
+              }
             },
             error: function(error) {
               alert("Error: " + error.code + " " + error.message);
             }
           });
         };
-      console.log($stateParams.id);
-      $scope.getProfile($stateParams.id);
+      $scope.getProfile($stateParams.id, false);
 
       $scope.reload = function () {
-        eventService.getOne($stateParams.id).then(function (event) {
-          $scope.event = event;
-        }).finally(function () {
-          $scope.$broadcast('scroll.refreshComplete');
-        });
+          $scope.getProfile($stateParams.id, true);
       };
 
       $scope.call = function () {
