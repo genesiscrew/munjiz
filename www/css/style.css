@@ -1,3 +1,8 @@
+/* Light grey text color: #756C6A; */
+/* Energised (blue) color: #4fc4f6; */
+
+
+
 .listing_image {
 	height: 80px;
 	width: 80px;
@@ -9,10 +14,6 @@
 
 .fucker {
 	padding-bottom: 30px;
-}
-
-.listing-background {
-	/*background-color: #7C84AE; */
 }
 
 .listing-title {
@@ -27,9 +28,6 @@
 	width: 30%;
 }
 
-.background, .background .pane, .background .item, .background .item-complex .item-content {
-	background-color: #000;
-}
 
 .input-label {
 	color : #fff;
@@ -91,8 +89,7 @@ input:-webkit-autofill {
 	left: 20px;
 	font-size: 24px;
 	margin-top: 15px !important;
-		padding-top: 15px !important;
-
+	padding-top: 15px !important;
 	
 }
 
@@ -101,12 +98,19 @@ input:-webkit-autofill {
 }
 
 .h1, .h2, .h3, .h4, .h5 {
-    color : #000 !important;
+	color : #000 !important;
 }
 
-.listing a.item{
-border-top: 2px !important; 
-border-left: 2px !important;
-border-right: 2px !important;
-border-bottom: 2px !important;
+.listing-divider{
+	border-bottom: 2px !important;
+	border-bottom-style: solid !important;
+	margin-bottom: 10px
+	margin-top:10px;
+	color: #756C6A !important;
 }
+
+.light-grey-color {
+	color: #756C6A;
+}
+
+

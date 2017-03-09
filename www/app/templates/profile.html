@@ -22,7 +22,7 @@
       </div>
 
       <ion-list>
-        <ion-item class="item-divider item-icon-right listing"><b>Address</b> <i class="icon ion-location"></i></ion-item>
+        <ion-item class="item-divider item-icon-right listing-divider"><b>Address</b> <i class="icon ion-location"></i></ion-item>
         <ion-item>
           {{profile.number}} {{profile.street}}<br>
           {{profile.zip}} {{profile.city}}
@@ -31,7 +31,7 @@
       <br>
 
       <ion-list>
-        <ion-item class="item-divider item-icon-right listing"><b>Produce</b> <i class="icon ion-ios-nutrition"></i></ion-item>
+        <ion-item class="item-divider item-icon-right listing-divider"><b>Produce</b> <i class="icon ion-ios-nutrition"></i></ion-item>
         <ion-item href="/#/listing/{{profile.id}}">
           View sellers produce
         </ion-item>
@@ -40,7 +40,7 @@
 
         <!-- Hours -->
 
-        <ion-item class="item-divider item-icon-right listing"><b>Avaliable Hours</b> <i class="icon ion-ios-calendar-outline"></i>
+        <ion-item class="item-divider item-icon-right listing-divider"><b>Avaliable Hours</b> <i class="icon ion-ios-calendar-outline"></i>
         </ion-item>
 
         <ion-item ng-repeat="date in profile.hours">
@@ -50,12 +50,12 @@
 
       <br>
       <ion-list>
-        <ion-item class="item-divider item-icon-right listing"><b>Contact</b> <i class="icon ion-chatboxes"></i></ion-item>
+        <ion-item class="item-divider item-icon-right listing-divider"><b>Contact</b> <i class="icon ion-chatboxes"></i></ion-item>
         <ion-item class="item-icon-right" ng-click="call()">
           Message us
-          <i class="icon ion-email"></i>
+          <i class="icon ion-email light-grey-color"></i>
         </ion-item>
-        <ion-item class="item-icon-right" ng-click="call()">
+        <ion-item class="item-icon-right light-grey-color" ng-click="call()">
           Call us
           <i class="icon ion-android-call"></i>
         </ion-item>

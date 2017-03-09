@@ -3578,7 +3578,7 @@ cite {
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-  color: #fff;
+  color: #756C6A;
   font-weight: 500;
   font-family: Roboto;
   line-height: 1.2; }
@@ -8816,7 +8816,7 @@ a.button {
   border-color: #fb9b1e; }
 
 .energized, a.energized {
-  color: #11a8ab; }
+  color: #4fc4f6; }
 
 .energized-bg {
   background-color: #11a8ab; }
@@ -9112,7 +9112,7 @@ a.button {
   font-weight: bold; }
 
 .image {
-  border: 2px solid #11a8ab;
+  border: 2px solid #4fc4f6;
   -webkit-border-radius: 50%;
   border-radius: 50%;
   width: 200px;
@@ -9126,8 +9126,8 @@ a.button {
   padding: 0 5px; }
 
 .spinner svg {
-  stroke: #fcb150;
-  fill: #fcb150; }
+  stroke: #4fc4f6;
+  fill: #4fc4f6; }
 
 section.chats div {
   max-width: 255px;
