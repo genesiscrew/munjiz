@@ -3545,7 +3545,7 @@ ion-infinite-scroll {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #394264;
+  background-color: #fff;
   overflow: hidden; }
 
 .view-container {
@@ -3908,8 +3908,8 @@ a.subdued {
     .bar.bar-light.bar-footer {
       background-image: linear-gradient(180deg, #ddd, #ddd 50%, transparent 50%); }
   .bar.bar-stable {
-    border-color: #383f5d;
-    background-color: #394264;
+    border-color: #11c1f3;
+    background-color: #11c1f3;
     background-image: linear-gradient(0deg, #383f5d, #383f5d 50%, transparent 50%);
     color: #fff; }
     .bar.bar-stable .title {
@@ -3953,8 +3953,8 @@ a.subdued {
     .bar.bar-balanced.bar-footer {
       background-image: linear-gradient(180deg, #fb9b1e, #1eb4f4 50%, transparent 50%); }
   .bar.bar-energized {
-    border-color: #0f9194;
-    background-color: #11a8ab;
+    border-color: #11c1f3;
+    background-color: #11c1f3;
     background-image: linear-gradient(0deg, #0f9194, #0f9194 50%, transparent 50%);
     color: #fff; }
     .bar.bar-energized .title {
@@ -9100,9 +9100,9 @@ a.button {
   background-color: #50597b; }
 
 .item.item-divider {
-  background-color: #394264;
+  background-color: #fff;
   border-width: 0px;
-  color: #fff; }
+  color: #756C6A; }
 
 .item > .item-content > p {
   color: #fff; }
@@ -9213,3 +9213,11 @@ p.notification {
 
 .username-list {
   line-height: 38px; }
+
+
+.bar .buttons .button.button-icon {
+  .icon::before, &::before, &.icon-left::before, &.icon-right::before {
+    font-size: 24px;
+    line-height: 24px;
+  }
+}
