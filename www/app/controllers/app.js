@@ -23,6 +23,7 @@ define([
       var pubnub = PubNubService;
       var message = false;
       $scope.ready = true;
+      $rootScope.totalMessages = 0;
       pubnub.set_uuid(Parse.User.current().id);
 
       pageService.get().then(function (pages) {
@@ -93,7 +94,13 @@ define([
             //showNotification(message);
             console.log("notification working")
             if ($state.current.name != 'chat') {
-              $scope.messageNotification = $sce.trustAsHtml('<span class="badge-assertive badge"></span>');
+             console.log("root scope total is " + $rootScope.totalMessages);
+             if (!$rootScope.totalMessages) {
+             $rootScope.totalMessages = Parse.User.current.get('total_unread');
+             }
+                var newCount = String($rootScope.totalMessages);
+              $scope.messageNotification = $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
+               $scope.$apply();
               
 
             }

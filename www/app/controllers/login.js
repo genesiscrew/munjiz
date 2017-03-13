@@ -102,6 +102,7 @@ define([
                           user.set('firstName', response.first_name);
                           user.set('lastName', response.last_name);
                           user.set('imageURL', response.picture.data.url);
+                          user.set('total_unread', 0);
                           user.save();
 
                           // go to dashbboard

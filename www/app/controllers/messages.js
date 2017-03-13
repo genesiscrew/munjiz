@@ -13,8 +13,6 @@ define([
         'PubNubService',
         '$sce',
         '$ionicLoading',
-
-
         function ($scope, $stateParams, $ionicPopup, $rootScope, PubNubService, $sce, $ionicLoading) {
 
             $scope.messages = [];
@@ -41,15 +39,6 @@ define([
                 duration: 1000
             });
 
-            /** $scope.hide = function () {
-                 $ionicLoading.hide().then(function () {
-                     console.log("The loading indicator is now hidden");
-                 });
-             };
-             */
-
-
-
 
 
             var notifyState = function (state, callback) {
@@ -58,7 +47,7 @@ define([
                 setTimeout(function () {
                     /* Do something */
                     if (callback) {
-                       
+
                         callback();
                     }
                 }, 0);
@@ -113,12 +102,12 @@ define([
                                 var a = chats.indexOf(chatname);
                                 if (a == -1) {
                                     chats.push(chatname);
-                                   
+
                                     messaging.push(message);
 
                                     // $scope.messages = messaging;
                                     // $scope.messages.push(message);
-                                   // console.log("updating message listtttt");
+                                    // console.log("updating message listtttt");
                                     //$scope.$apply();
                                 }
 
@@ -129,7 +118,7 @@ define([
 
                         $scope.messages = messaging;
                         //console.log(woh);
-                       // console.log("mtherfucking message length " + messaging.length);
+                        // console.log("mtherfucking message length " + messaging.length);
                         getNotifications();
 
                     }
@@ -144,7 +133,7 @@ define([
 
             function getNotifications() {
 
-               
+
                 for (var i = 0; i < messaging.length; i++) {
 
                     getHistory(messaging[i].chatID, i);
@@ -173,28 +162,40 @@ define([
 
                 //for (var i = 0; i < messaging.length; i++) {
 
-              
+
                 //console.log("success hsitory is : " + messaging[i].history);
                 //  console.log("success hsitorical is : " + messaging[i].historyCount);
                 if (messaging[i].history != messaging[i].historyCount) {
 
 
                     messaging[i].newMessageCount = messaging[i].history - messaging[i].historyCount;
+                    console.log("success, chat id ");
+                    $rootScope.totalMessages = $rootScope.totalMessages + messaging[i].newMessageCount;
+                    
+                    var user = Parse.User.current();
+                    console.log(user);
+                    user.set('total_unread', $rootScope.totalMessages);
+                    user.save();
                     //console.log("hoold up" + messaging[i].newMessageCount);
 
                 }
                 else {
                     messaging[i].newMessageCount = 0;
+                    $rootScope.totalMessages = $rootScope.totalMessages + messaging[i].newMessageCount
+                    var user = Parse.User.current();
+                     console.log(user);
+                    user.set('total_unread', $rootScope.totalMessages);
+                    user.save();
 
                 }
 
-               // console.log("message list is ready");
+                // console.log("message list is ready");
 
             }
 
 
             function getHistory(history, i) {
-               
+
                 //   console.log("the current chat rooom is:" + history);
                 var count = 0;
 
@@ -209,7 +210,7 @@ define([
                         });
                         //  console.log("count is " + messaging[getUser(history)].chatID);
                         messaging[getUser(history)].history = count;
-                       // console.log("history count  for" + messaging[getUser(history)].chatID + "is: " + messaging[getUser(history)].history);
+                        // console.log("history count  for" + messaging[getUser(history)].chatID + "is: " + messaging[getUser(history)].history);
                         checkHistoryCount(i);
                         if (i == messaging.length - 1) {
                             loading = false;
@@ -230,11 +231,9 @@ define([
 
 
                 // stores updated historical message count into the  messaging array 
-                var newCount = messaging[getUser(chat_ID)].history - messaging[getUser(chat_ID)].historyCount;
-                //console.log("message count is: " + messaging[getUser(chat_ID)].history);
-                if (messaging[getUser(chat_ID)].newMessageCount > 0 || newCount > 0) {
-                    //console.log("success, chat id is: " + chat_ID);
-                    var count = String(newCount);
+                if (messaging[getUser(chat_ID)].newMessageCount > 0) {
+
+                    var newCount = String(messaging[getUser(chat_ID)].newMessageCount);
                     return $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
 
 
@@ -254,7 +253,7 @@ define([
             };
 
 
-    
+
 
             // $scope.$on("$ionicView.afterEnter", function (event) {
             //   console.log("search DB for chat rooms");
