@@ -96,7 +96,7 @@ define([
             if ($state.current.name != 'chat') {
              console.log("root scope total is " + $rootScope.totalMessages);
              if (!$rootScope.totalMessages) {
-             $rootScope.totalMessages = Parse.User.current.get('total_unread');
+             $rootScope.totalMessages = Parse.User.current().get('total_unread');
              }
                 var newCount = String($rootScope.totalMessages);
               $scope.messageNotification = $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
