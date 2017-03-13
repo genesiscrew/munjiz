@@ -290,10 +290,7 @@ define([
                                    object.save();
 
                                 }
-                                else {
-                                   object.set("HistoryCountTo", historyCount);
-                                   object.save();
-                                }
+
 
                                 if (historyCount != historicalCount) {
                                     console.log("we have a new motherfucking message, histories dont match");

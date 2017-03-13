@@ -22,7 +22,7 @@ define([
             var userName = "";
             var chats = [];
             var pubnub = PubNubService;
-            var historyCount;
+            var historyCount = 0;
             var loading = true;
 
 
@@ -76,10 +76,11 @@ define([
                                 chatname = object.get('chat_name');
                                 if (object.get('chat_from') == Parse.User.current().id) {
                                     historyCount = object.get('HistoryCountMe');
-                                    //console.log("history count is " + historyCount);
+                                    console.log("history count is " + historyCount);
                                 }
                                 else {
                                     historyCount = object.get('HistoryCountTo');
+                                     console.log("history count isssss " + historyCount);
                                 }
 
                                 //    while (!chatname) {
@@ -176,7 +177,7 @@ define([
                     console.log(user);
                     user.set('total_unread', $rootScope.totalMessages);
                     user.save();
-                    //console.log("hoold up" + messaging[i].newMessageCount);
+                    console.log("hoold up" + messaging[i].newMessageCount);
 
                 }
                 else {
@@ -210,7 +211,8 @@ define([
                         });
                         //  console.log("count is " + messaging[getUser(history)].chatID);
                         messaging[getUser(history)].history = count;
-                        // console.log("history count  for" + messaging[getUser(history)].chatID + "is: " + messaging[getUser(history)].history);
+                        console.log(count);
+                       //  console.log("history count  for" + messaging[getUser(history)].chatID + "is: " + messaging[getUser(history)].history);
                         checkHistoryCount(i);
                         if (i == messaging.length - 1) {
                             loading = false;
