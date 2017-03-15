@@ -60,9 +60,9 @@ define([
 
       $scope.$on('$ionicView.loaded', function () {
         if (Parse.User.current()) {
-          
-        $rootScope.totalMessages =  Parse.User.current().get("total_unread");
-        console.log("success and here it is: " + $rootScope.totalMessages);
+
+          $rootScope.totalMessages = Parse.User.current().get("total_unread");
+          console.log("success and here it is: " + $rootScope.totalMessages);
         }
       });
 
@@ -97,8 +97,15 @@ define([
       $scope.messageNotification = function () {
         var newCount = String($rootScope.totalMessages);
 
+        if ($rootScope.totalMessages) {
 
-        return $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
+          return $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
+        }
+
+        else {
+          return "";
+        }
+
         $scope.$apply();
       }
 
@@ -129,7 +136,7 @@ define([
 
 
 
-      $scope.$on("$ionicView.enter", function (event, data) {
+    /**  $scope.$on("$ionicView.enter", function (event, data) {
 
         console.log("i am here: " + $rootScope.totalMessages);
 
@@ -146,7 +153,7 @@ define([
         }
 
       });
-
+*/
 
 
 
