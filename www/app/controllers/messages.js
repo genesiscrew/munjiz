@@ -22,7 +22,8 @@ define([
             var userName = "";
             var chats = [];
             var pubnub = PubNubService;
-            var historyCount = 0;
+            var historyCountMe = 0;
+            var historyCountFrom = 0;
             var loading = true;
 
 
@@ -60,7 +61,8 @@ define([
                 var woh = "fuck";
                 messaging = [];
                 $scope.messages = [];
-                historyCount = 0;
+                historyCountMe = 0;
+                historyCountFrom = 0;
                 chats = [];
                 var query = new Parse.Query('ChatRooms');
                 //query.include(' parent');
@@ -75,12 +77,12 @@ define([
                                 //   console.log("user belongs to this chat room");
                                 chatname = object.get('chat_name');
                                 if (object.get('chat_from') == Parse.User.current().id) {
-                                    historyCount = object.get('HistoryCountMe');
-                                    console.log("history count is " + historyCount);
+                                    historyCountMe = object.get('HistoryCountMe');
+                                    historyCountFrom = object.get('HistoryCountTo');
                                 }
                                 else {
-                                    historyCount = object.get('HistoryCountTo');
-                                     console.log("history count isssss " + historyCount);
+                                    historyCountMe = object.get('HistoryCountTo');
+                                     historyCountFrom = object.get('HistoryCountMe');
                                 }
 
                                 //    while (!chatname) {
@@ -98,7 +100,7 @@ define([
                                     userName = object.get('chat_from_name');
                                 }
 
-                                var message = { chatID: chatname, chatSource: chatFrom, username: userName, historyCount: historyCount };
+                                var message = { chatID: chatname, chatSource: chatFrom, username: userName, historyCountMe: historyCountMe, historyCountFrom: historyCountFrom,  };
                                 // console.log(message);
                                 var a = chats.indexOf(chatname);
                                 if (a == -1) {
@@ -164,13 +166,13 @@ define([
                 //for (var i = 0; i < messaging.length; i++) {
 
 
-                //console.log("success hsitory is : " + messaging[i].history);
-                //  console.log("success hsitorical is : " + messaging[i].historyCount);
-                if (messaging[i].history != messaging[i].historyCount) {
+                console.log("success hsitory is : " + messaging[i].historyCountMe) ;
+                  console.log("success hsitorical is : " + messaging[i].historyCountFrom);
+                if (messaging[i].historyCountMe < messaging[i].historyCountFrom) {
 
 
-                    messaging[i].newMessageCount = messaging[i].history - messaging[i].historyCount;
-                    console.log("success, chat id ");
+             messaging[i].newMessageCount = messaging[i].historyCountFrom - messaging[i].historyCountMe;
+                    console.log("success, message count :  " + messaging[i].newMessageCount );
                    // $rootScope.totalMessages = $rootScope.totalMessages + messaging[i].newMessageCount;
                     
                     var user = Parse.User.current();
@@ -182,11 +184,7 @@ define([
                 }
                 else {
                     messaging[i].newMessageCount = 0;
-                  //  $rootScope.totalMessages = $rootScope.totalMessages + messaging[i].newMessageCount
-                    var user = Parse.User.current();
-                     console.log(user);
-                    //user.set('total_unread', $rootScope.totalMessages);
-                    user.save();
+                  
 
                 }
 
@@ -211,7 +209,7 @@ define([
                         });
                         //  console.log("count is " + messaging[getUser(history)].chatID);
                         messaging[getUser(history)].history = count;
-                        console.log(count);
+                        console.log("count is : " + count);
                        //  console.log("history count  for" + messaging[getUser(history)].chatID + "is: " + messaging[getUser(history)].history);
                         checkHistoryCount(i);
                         if (i == messaging.length - 1) {

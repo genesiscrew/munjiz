@@ -32,6 +32,7 @@ define([
             var pubnub = PubNubService;
             var historyCount = 0;
 
+
             $scope.$on("$ionicView.afterEnter", function (event) {
                 console.log("i should be scrolling down");
                 $timeout(function () {
@@ -221,7 +222,7 @@ define([
 
             function getHistory() {
                 console.log("getting history");
-                console.log("the current chat rooom is:" + chatRoom);
+                //console.log("the current historycount is:" + historyCount);
                 pubnub.history({
                     channel: chatRoom,
                     count: 1000000,
@@ -231,7 +232,7 @@ define([
                             historyCount++;
                             $scope.messages.push(m);
                         });
-                        console.log("history countttt is: " + historyCount);
+                        console.log("history counttTTTtt is: " + historyCount);
 
                     }
                 });
@@ -286,13 +287,27 @@ define([
                             if (chatRoom == object.get('chat_name')) {
                                 var historicalCount;
                                 if (object.get('chat_from') == Parse.User.current().id) {
-                                    object.set("HistoryCountMe", historyCount);
-                                    object.save();
+                                    if (object.get("HistoryCountTo") > historyCount) {
+                                        historyCount = object.get("HistoryCountTo");
+                                         object.set("HistoryCountMe", object.get("HistoryCountTo"));
+                                        object.save();
+                                    }
+                                    else {
+                                        object.set("HistoryCountMe", historyCount);
+                                        object.save();
+                                    }
 
                                 }
                                 else {
-                                    object.set("HistoryCountTo", historyCount);
-                                    object.save();
+                                    if (object.get("HistoryCountMe") > historyCount) {
+                                        historyCount = object.get("HistoryCountMe");
+                                         object.set("HistoryCountTo", object.get("HistoryCountMe"));
+                                        object.save();
+                                    }
+                                    else {
+                                        object.set("HistoryCountTo", historyCount);
+                                        object.save();
+                                    }
 
                                 }
 
@@ -397,7 +412,7 @@ define([
                     //query.include(' parent');
                     query.equalTo("objectId", $rootScope.userID);
                     console.log("getting the user");
-                    Parse.Cloud.run('incrementChatCount', {objectId: $rootScope.userID}, {
+                    Parse.Cloud.run('incrementChatCount', { objectId: $rootScope.userID }, {
                         success: function (results) {
                             console.log("success");
 
@@ -406,7 +421,7 @@ define([
                             console.error(error);
                         }
                     });
-                  
+
 
 
 
