@@ -37,7 +37,7 @@ define([
                 $timeout(function () {
                     $ionicScrollDelegate.scrollBottom();
                 });
-              //historyCount = 0;
+                //historyCount = 0;
 
             });
 
@@ -236,7 +236,7 @@ define([
                     }
                 });
 
-                
+
 
             }
             // Subscribe to messages coming in from the channel.
@@ -287,7 +287,12 @@ define([
                                 var historicalCount;
                                 if (object.get('chat_from') == Parse.User.current().id) {
                                     object.set("HistoryCountMe", historyCount);
-                                   object.save();
+                                    object.save();
+
+                                }
+                                else {
+                                    object.set("HistoryCountTo", historyCount);
+                                    object.save();
 
                                 }
 
@@ -387,16 +392,23 @@ define([
                     //  $scope.messages.push($scope.data);
                     console.log(Parse.User.current().get('firstName'));
                     publish();
+                    // Parse.Cloud.useMasterKey();
+                    var query = new Parse.Query('User');
+                    //query.include(' parent');
+                    query.equalTo("objectId", $rootScope.userID);
+                    console.log("getting the user");
+                    Parse.Cloud.run('incrementChatCount', {objectId: $rootScope.userID}, {
+                        success: function (results) {
+                            console.log("success");
 
-                    /**  pubnub.whereNow(
-                          {
-                              uuid: Parse.User.current().id,
-                          },
-                          function (status, response) {
-                              // handle status, response
-                          }
-                      );
-                      */
+                        },
+                        error: function (error) {
+                            console.error(error);
+                        }
+                    });
+                  
+
+
 
                     messageContent.value = "Message";
 

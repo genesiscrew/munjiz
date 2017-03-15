@@ -171,21 +171,21 @@ define([
 
                     messaging[i].newMessageCount = messaging[i].history - messaging[i].historyCount;
                     console.log("success, chat id ");
-                    $rootScope.totalMessages = $rootScope.totalMessages + messaging[i].newMessageCount;
+                   // $rootScope.totalMessages = $rootScope.totalMessages + messaging[i].newMessageCount;
                     
                     var user = Parse.User.current();
                     console.log(user);
-                    user.set('total_unread', $rootScope.totalMessages);
+                   // user.set('total_unread', $rootScope.totalMessages);
                     user.save();
                     console.log("hoold up" + messaging[i].newMessageCount);
 
                 }
                 else {
                     messaging[i].newMessageCount = 0;
-                    $rootScope.totalMessages = $rootScope.totalMessages + messaging[i].newMessageCount
+                  //  $rootScope.totalMessages = $rootScope.totalMessages + messaging[i].newMessageCount
                     var user = Parse.User.current();
                      console.log(user);
-                    user.set('total_unread', $rootScope.totalMessages);
+                    //user.set('total_unread', $rootScope.totalMessages);
                     user.save();
 
                 }

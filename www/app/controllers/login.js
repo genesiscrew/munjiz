@@ -121,7 +121,8 @@ define([
           $scope.fbLogin = function () {
               // Already signed in - go straight to dashboard
               FB.getLoginStatus(function (response) {
-                if (response.status === 'connected') {                           
+                if (response.status === 'connected') {
+                  console.log("going to dashbboard")  ;                         
                   $state.go('dashboard');
                   return;
                 }

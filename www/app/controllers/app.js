@@ -24,7 +24,7 @@ define([
       var message = false;
       $scope.ready = true;
       $rootScope.totalMessages = 0;
-      pubnub.set_uuid(Parse.User.current().id);
+      //pubnub.set_uuid(Parse.User.current().id);
 
       pageService.get().then(function (pages) {
         $scope.pages = pages;
@@ -94,14 +94,14 @@ define([
             //showNotification(message);
             console.log("notification working")
             if ($state.current.name != 'chat') {
-             console.log("root scope total is " + $rootScope.totalMessages);
-             if (!$rootScope.totalMessages) {
-             $rootScope.totalMessages = Parse.User.current().get('total_unread');
-             }
-                var newCount = String($rootScope.totalMessages);
+              console.log("root scope total is " + $rootScope.totalMessages);
+              //if (!$rootScope.totalMessages) {
+              $rootScope.totalMessages = $rootScope.totalMessages + 1;
+              // }
+              var newCount = String($rootScope.totalMessages);
               $scope.messageNotification = $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
-               $scope.$apply();
-              
+              $scope.$apply();
+
 
             }
 
@@ -112,7 +112,27 @@ define([
         }
       });
 
-      
+      $scope.$on("$ionicView.enter", function (event, data) {
+
+        console.log("i am here: "  + $rootScope.totalMessages );
+    
+        if ($rootScope.totalMessages > 0) {
+          $scope.messageNotification = $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
+          $scope.$apply();
+        }
+        else {
+
+          $scope.messageNotification = $sce.trustAsHtml('');
+          $scope.$apply();
+
+
+        }
+
+      });
+
+
+
+
 
 
       $scope.goCurrentUserListings = function () {
