@@ -97,7 +97,7 @@ define([
       $scope.messageNotification = function () {
         var newCount = String($rootScope.totalMessages);
 
-        if ($rootScope.totalMessages) {
+        if ($rootScope.totalMessages > 0) {
 
           return $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
         }

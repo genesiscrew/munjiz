@@ -356,12 +356,14 @@ define([
                                 ++historyCount;
                                 console.log(" i am HERE NOW and history count for" + object.id + "is:" + historyCount);
                                 if (object.get('chat_from') == Parse.User.current().id) {
-                                    object.set("HistoryCountMe", historyCount);
+                                    var old = object.get("HistoryCountMe");
+                                    object.set("HistoryCountMe", old+1);
                                     object.save();
 
                                 }
                                 else {
-                                    object.set("HistoryCountTo", historyCount);
+                                    var old = object.get("HistoryCountTo");
+                                    object.set("HistoryCountTo", old+1 );
                                     object.save();
 
                                 }
