@@ -291,6 +291,7 @@ define([
                                         historyCount = object.get("HistoryCountTo");
                                          object.set("HistoryCountMe", object.get("HistoryCountTo"));
                                         object.save();
+                                        $rootScope.totalMessages = $rootScope.totalMessages  - (object.get("HistoryCountTo")-object.get("HistoryCountMe"));
                                     }
                                     else {
                                         object.set("HistoryCountMe", historyCount);
@@ -303,6 +304,7 @@ define([
                                         historyCount = object.get("HistoryCountMe");
                                          object.set("HistoryCountTo", object.get("HistoryCountMe"));
                                         object.save();
+                                         $rootScope.totalMessages = $rootScope.totalMessages  - (object.get("HistoryCountMe")-object.get("HistoryCountTo"));
                                     }
                                     else {
                                         object.set("HistoryCountTo", historyCount);

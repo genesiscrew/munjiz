@@ -48,7 +48,8 @@ define([
             userService.username = Parse.User.current().get('username');
             
             if (Parse.User.current().get('total_unread') > 0) {
-              $rootScope.totalMessages = Parse.User.current().get('total_unread');
+              
+              console.log("the damn total is: " + $rootScope.totalMessages);
             }
             else {
 

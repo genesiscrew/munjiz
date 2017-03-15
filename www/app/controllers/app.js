@@ -58,6 +58,14 @@ define([
         $scope.modal.hide();
       };
 
+      $scope.$on('$ionicView.loaded', function () {
+        if (Parse.User.current()) {
+          
+        $rootScope.totalMessages =  Parse.User.current().get("total_unread");
+        console.log("success and here it is: " + $rootScope.totalMessages);
+        }
+      });
+
 
 
       $scope.logout = function () {
@@ -86,6 +94,14 @@ define([
         });
       };
 
+      $scope.messageNotification = function () {
+        var newCount = String($rootScope.totalMessages);
+
+
+        return $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
+        $scope.$apply();
+      }
+
       pubnub.subscribe({
         channel: 'Global',
         withPresence: true,
@@ -98,9 +114,8 @@ define([
               //if (!$rootScope.totalMessages) {
               $rootScope.totalMessages = $rootScope.totalMessages + 1;
               // }
-              var newCount = String($rootScope.totalMessages);
-              $scope.messageNotification = $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
-              $scope.$apply();
+
+              $scope.messageNotification();
 
 
             }
@@ -112,10 +127,12 @@ define([
         }
       });
 
+
+
       $scope.$on("$ionicView.enter", function (event, data) {
 
-        console.log("i am here: "  + $rootScope.totalMessages );
-    
+        console.log("i am here: " + $rootScope.totalMessages);
+
         if ($rootScope.totalMessages > 0) {
           $scope.messageNotification = $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
           $scope.$apply();
