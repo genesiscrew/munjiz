@@ -229,7 +229,7 @@ define([
                     callback: function (messages) {
                         messages[0].forEach(function (m) {
                             console.log("messages as: " + m.text);
-                            historyCount++;
+                           // historyCount++;
                             $scope.messages.push(m);
                         });
                         console.log("history counttTTTtt is: " + historyCount);
@@ -287,7 +287,8 @@ define([
                             if (chatRoom == object.get('chat_name')) {
                                 var historicalCount;
                                 if (object.get('chat_from') == Parse.User.current().id) {
-                                    if (object.get("HistoryCountTo") > object.get("HistoryCountMe")) {
+                                     historyCount = object.get("HistoryCountTo")
+                             /**       if (object.get("HistoryCountTo") > object.get("HistoryCountMe")) {
                                         historyCount = object.get("HistoryCountTo");
                                         // object.set("HistoryCountMe", object.get("HistoryCountTo"));
                                         object.save();
@@ -297,10 +298,12 @@ define([
                                         object.set("HistoryCountMe", historyCount);
                                         object.save();
                                     }
+                                    */
 
                                 }
                                 else {
-                                    if (object.get("HistoryCountMe") > object.get("HistoryCountTe")) {
+                                     historyCount = object.get("HistoryCountTo");
+                                 /**   if (object.get("HistoryCountMe") > object.get("HistoryCountTe")) {
                                         historyCount = object.get("HistoryCountMe");
                                         //  object.set("HistoryCountTo", object.get("HistoryCountMe"));
                                         object.save();
@@ -310,6 +313,7 @@ define([
                                         object.set("HistoryCountTo", historyCount);
                                         object.save();
                                     }
+                                    */
 
                                 }
 
@@ -356,14 +360,14 @@ define([
                                 ++historyCount;
                                 console.log(" i am HERE NOW and history count for" + object.id + "is:" + historyCount);
                                 if (object.get('chat_from') == Parse.User.current().id) {
-                                    var old = object.get("HistoryCountMe");
-                                    object.set("HistoryCountMe", old+1);
+                                    //var old = object.get("HistoryCountMe");
+                                    object.set("HistoryCountMe", historyCount);
                                     object.save();
 
                                 }
                                 else {
-                                    var old = object.get("HistoryCountTo");
-                                    object.set("HistoryCountTo", old+1 );
+                                   // var old = object.get("HistoryCountTo");
+                                    object.set("HistoryCountTo", historyCount);
                                     object.save();
 
                                 }
