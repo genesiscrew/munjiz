@@ -293,7 +293,22 @@ define([
                                     if (object.get("HistoryCountTo") > object.get("HistoryCountMe")) {
                                         console.log("we are heere4");
                                         historyCount = object.get("HistoryCountTo");
-                                        $rootScope.totalMessages = $rootScope.totalMessages - (object.get("HistoryCountTo") - object.get("HistoryCountMe"));
+                                        var amount = (object.get("HistoryCountTo") - object.get("HistoryCountMe"));
+                                        $rootScope.totalMessages = $rootScope.totalMessages - amount;
+                                        var query = new Parse.Query('User');
+                                        //query.include(' parent');
+                                        query.equalTo("objectId", $rootScope.userID);
+                                        //  console.log("getting the user");
+                                        Parse.Cloud.run('decrementChatCount', { objectId: $rootScope.userID, amount: amount }, {
+                                            success: function (results) {
+                                                console.log("success");
+
+                                            },
+                                            error: function (error) {
+                                                console.error(error);
+                                            }
+                                        });
+                                        $rootScope.messageNotification();
                                         object.set("HistoryCountMe", object.get("HistoryCountTo"));
                                         object.save();
 
@@ -308,7 +323,22 @@ define([
                                     //
                                     if (object.get("HistoryCountMe") > object.get("HistoryCountTo")) {
                                         historyCount = object.get("HistoryCountMe");
-                                        $rootScope.totalMessages = $rootScope.totalMessages - (object.get("HistoryCountMe") - object.get("HistoryCountTo"));
+                                        var amount = (object.get("HistoryCountMe") - object.get("HistoryCountTo"));
+                                        $rootScope.totalMessages = $rootScope.totalMessages - amount;
+                                        var query = new Parse.Query('User');
+                                        //query.include(' parent');
+                                        query.equalTo("objectId", $rootScope.userID);
+                                        //  console.log("getting the user");
+                                        Parse.Cloud.run('decrementChatCount', { objectId: $rootScope.userID, amount: amount }, {
+                                            success: function (results) {
+                                                console.log("success");
+
+                                            },
+                                            error: function (error) {
+                                                console.error(error);
+                                            }
+                                        });
+                                        $rootScope.messageNotification();
                                         console.log("should not be here");
                                         object.set("HistoryCountTo", object.get("HistoryCountMe"));
                                         object.save();

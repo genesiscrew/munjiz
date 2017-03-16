@@ -94,7 +94,7 @@ define([
         });
       };
 
-      $scope.messageNotification = function () {
+      $rootScope.messageNotification = function () {
         var newCount = String($rootScope.totalMessages);
 
         if ($rootScope.totalMessages > 0) {
