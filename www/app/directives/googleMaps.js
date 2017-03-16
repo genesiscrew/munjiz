@@ -45,17 +45,18 @@ define([
                             var userPopup = $ionicPopup.alert({
                                 okText: "GOT IT!",
                                 buttons: [
-                                 { text: "chat",
-                                   type: "button-default",
-                                   onTap: function(e) { 
+                                    {
+                                        text: "chat",
+                                        type: "button-default",
+                                        onTap: function (e) {
 
-                                       console.log(marker.userID);
-                                       $rootScope.userID = marker.userID;
-                                       $state.go('chat');
-                                   }
+                                            console.log(marker.userID);
+                                            $rootScope.userID = marker.userID;
+                                            $state.go('chat');
+                                        }
 
 
-                                 }
+                                    }
 
 
                                 ]
@@ -101,7 +102,7 @@ define([
                                             clickable: true
                                         });
                                         gmarkers.push(mapsMarker);
-                                         addClick(mapsMarker);
+                                        addClick(mapsMarker);
 
                                     }
 
@@ -244,8 +245,10 @@ define([
                         }
 
 
+                        if (Parse.User.current()) {
+                            makeMarkersforUsers();
+                        }
 
-                        makeMarkersforUsers();
                     }
 
                     //load google maps api script async, avoiding 'document.write' error

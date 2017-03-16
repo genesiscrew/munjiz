@@ -95,7 +95,12 @@ define([
       };
 
       $rootScope.messageNotification = function () {
-        var newCount = String($rootScope.totalMessages);
+        var newCount;
+          
+        if ($rootScope.totalMessages) {
+           newCount = String($rootScope.totalMessages);
+        }
+
 
         if ($rootScope.totalMessages > 0) {
 
@@ -107,6 +112,8 @@ define([
         }
 
         $scope.$apply();
+
+        
       }
 
       pubnub.subscribe({
@@ -136,24 +143,24 @@ define([
 
 
 
-    /**  $scope.$on("$ionicView.enter", function (event, data) {
-
-        console.log("i am here: " + $rootScope.totalMessages);
-
-        if ($rootScope.totalMessages > 0) {
-          $scope.messageNotification = $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
-          $scope.$apply();
-        }
-        else {
-
-          $scope.messageNotification = $sce.trustAsHtml('');
-          $scope.$apply();
-
-
-        }
-
-      });
-*/
+      /**  $scope.$on("$ionicView.enter", function (event, data) {
+  
+          console.log("i am here: " + $rootScope.totalMessages);
+  
+          if ($rootScope.totalMessages > 0) {
+            $scope.messageNotification = $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
+            $scope.$apply();
+          }
+          else {
+  
+            $scope.messageNotification = $sce.trustAsHtml('');
+            $scope.$apply();
+  
+  
+          }
+  
+        });
+  */
 
 
 

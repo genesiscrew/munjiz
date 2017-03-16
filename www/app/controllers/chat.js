@@ -33,6 +33,8 @@ define([
             var historyCount = 0;
 
 
+
+
             $scope.$on("$ionicView.afterEnter", function (event) {
                 // console.log("i should be scrolling down");
                 $timeout(function () {
@@ -297,7 +299,7 @@ define([
                                         $rootScope.totalMessages = $rootScope.totalMessages - amount;
                                         var query = new Parse.Query('User');
                                         //query.include(' parent');
-                                        query.equalTo("objectId", $rootScope.userID);
+                                       query.equalTo("objectId", $rootScope.userID);
                                         //  console.log("getting the user");
                                         Parse.Cloud.run('decrementChatCount', { objectId: $rootScope.userID, amount: amount }, {
                                             success: function (results) {
@@ -307,7 +309,7 @@ define([
                                             error: function (error) {
                                                 console.error(error);
                                             }
-                                        });
+                                        }); 
                                         $rootScope.messageNotification();
                                         object.set("HistoryCountMe", object.get("HistoryCountTo"));
                                         object.save();
@@ -324,7 +326,7 @@ define([
                                     if (object.get("HistoryCountMe") > object.get("HistoryCountTo")) {
                                         historyCount = object.get("HistoryCountMe");
                                         var amount = (object.get("HistoryCountMe") - object.get("HistoryCountTo"));
-                                        $rootScope.totalMessages = $rootScope.totalMessages - amount;
+                                       $rootScope.totalMessages = $rootScope.totalMessages - amount;
                                         var query = new Parse.Query('User');
                                         //query.include(' parent');
                                         query.equalTo("objectId", $rootScope.userID);
@@ -338,6 +340,7 @@ define([
                                                 console.error(error);
                                             }
                                         });
+                                        
                                         $rootScope.messageNotification();
                                         console.log("should not be here");
                                         object.set("HistoryCountTo", object.get("HistoryCountMe"));
