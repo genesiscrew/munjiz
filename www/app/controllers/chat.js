@@ -287,33 +287,33 @@ define([
                             if (chatRoom == object.get('chat_name')) {
                                 var historicalCount;
                                 if (object.get('chat_from') == Parse.User.current().id) {
-                                     historyCount = object.get("HistoryCountTo")
-                             /**       if (object.get("HistoryCountTo") > object.get("HistoryCountMe")) {
+                                     //historyCount = object.get("HistoryCountMe");
+                                   if (object.get("HistoryCountTo") > object.get("HistoryCountMe")) {
                                         historyCount = object.get("HistoryCountTo");
-                                        // object.set("HistoryCountMe", object.get("HistoryCountTo"));
+                                         $rootScope.totalMessages = $rootScope.totalMessages - (object.get("HistoryCountTo") - object.get("HistoryCountMe"));
+                                         object.set("HistoryCountMe", object.get("HistoryCountTo"));
                                         object.save();
-                                        $rootScope.totalMessages = $rootScope.totalMessages - (object.get("HistoryCountTo") - object.get("HistoryCountMe"));
+                                       
                                     }
                                     else {
-                                        object.set("HistoryCountMe", historyCount);
-                                        object.save();
+                                        historyCount = object.get("HistoryCountMe");
                                     }
-                                    */
+                                    
 
                                 }
                                 else {
-                                     historyCount = object.get("HistoryCountTo");
-                                 /**   if (object.get("HistoryCountMe") > object.get("HistoryCountTe")) {
+                                     //
+                                    if (object.get("HistoryCountMe") > object.get("HistoryCountTo")) {
                                         historyCount = object.get("HistoryCountMe");
-                                        //  object.set("HistoryCountTo", object.get("HistoryCountMe"));
+                                         $rootScope.totalMessages = $rootScope.totalMessages - (object.get("HistoryCountMe") - object.get("HistoryCountTo"));
+                                          object.set("HistoryCountTo", object.get("HistoryCountMe"));
                                         object.save();
-                                        $rootScope.totalMessages = $rootScope.totalMessages - (object.get("HistoryCountMe") - object.get("HistoryCountTo"));
+                                       
                                     }
                                     else {
-                                        object.set("HistoryCountTo", historyCount);
-                                        object.save();
+                                        historyCount = object.get("HistoryCountTo");
                                     }
-                                    */
+                                    
 
                                 }
 
