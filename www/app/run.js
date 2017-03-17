@@ -85,5 +85,18 @@ define([
       return pubnub;
 
     })
+    .factory('ShareFactory', function(){
+    var data = {
+        number: ''
+    };
+    return{
+        setValue: function(number){
+            data.number = number;
+        },
+        getValue: function(){
+            return data.number
+        }
+    };
+});
 
 });

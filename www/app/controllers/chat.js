@@ -16,8 +16,9 @@ define([
         'md5',
         '$ionicScrollDelegate',
         '$timeout',
+        'ShareFactory',
 
-        function ($scope, $stateParams, $ionicPopup, $rootScope, PubNubService, md5, $ionicScrollDelegate, $timeout) {
+        function ($scope, $stateParams, $ionicPopup, $rootScope, PubNubService, md5, $ionicScrollDelegate, $timeout, ShareFactory) {
 
 
 
@@ -31,6 +32,11 @@ define([
             var foundChat = false;
             var pubnub = PubNubService;
             var historyCount = 0;
+
+            $scope.number = '';
+            $scope.$watch('number', function (newValue, oldValue) {
+                if (newValue !== oldValue) ShareFactory.setValue(newValue);
+            });
 
 
 
@@ -297,7 +303,7 @@ define([
                                         historyCount = object.get("HistoryCountTo");
                                         var amount = (object.get("HistoryCountTo") - object.get("HistoryCountMe"));
                                         console.log("amount is: " + amount);
-                                        $rootScope.totalMessages = $rootScope.totalMessages - amount;
+                                        $scope.number = $scope.number - amount;
                                         var query = new Parse.Query('User');
                                         //query.include(' parent');
                                         query.equalTo("objectId", $rootScope.userID);
@@ -327,7 +333,7 @@ define([
                                     if (object.get("HistoryCountMe") > object.get("HistoryCountTo")) {
                                         historyCount = object.get("HistoryCountMe");
                                         var amount = (object.get("HistoryCountMe") - object.get("HistoryCountTo"));
-                                        $rootScope.totalMessages = $rootScope.totalMessages - amount;
+                                        $scope.number = $scope.number - amount;
                                         var query = new Parse.Query('User');
                                         //query.include(' parent');
                                         query.equalTo("objectId", $rootScope.userID);

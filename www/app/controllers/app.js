@@ -19,9 +19,11 @@ define([
     '$timeout',
     '$ionicLoading',
     'PubNubService',
-    function ($scope, $rootScope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, $ionicHistory, pageService, $state, userService, $timeout, $ionicLoading, PubNubService) {
+    'ShareFactory',
+    function ($scope, $rootScope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, $ionicHistory, pageService, $state, userService, $timeout, $ionicLoading, PubNubService, ShareFactory) {
       var pubnub = PubNubService;
       var message = false;
+
       $scope.ready = true;
       $rootScope.totalMessages = 0;
       //pubnub.set_uuid(Parse.User.current().id);
@@ -58,13 +60,19 @@ define([
         $scope.modal.hide();
       };
 
+      $scope.$watch(function () { return ShareFactory.getValue(); },
+        function (newValue, oldValue) {
+          if (newValue !== oldValue) { $scope.number = newValue };
+        });
+
       $scope.$on('$ionicView.loaded', function () {
         if (Parse.User.current()) {
 
-          $rootScope.totalMessages = Parse.User.current().get("total_unread");
-          console.log("success and here it is: " + $rootScope.totalMessages);
+          $scope.number = Parse.User.current().get("total_unread");
+          //console.log("success and here it is: " + $rootScope.totalMessages);
         }
       });
+
 
 
 
@@ -94,25 +102,32 @@ define([
         });
       };
 
+
       $rootScope.messageNotification = function () {
         var newCount;
-        console.log("big big success");
+      //  console.log("big big success");
 
-        /** $timeout(function () {
-         
-           console.log("root scope total is " + $rootScope.totalMessages);
- 
-         }, 50);
-         */
+        var query = new Parse.Query('User');
+        //query.include(' parent');
+        query.equalTo("objectId", Parse.User.current().id);
+        query.first({
+          success: function (object) {
+            $scope.number = object.get("total_unread");
+            console.log("fuck me it works : " + object.get("total_unread"));
+          },
+          error: function (error) {
+            alert("Error: " + error.code + " " + error.message);
+          }
+        });
 
-        $rootScope.totalMessages = Parse.User.current().get("total_unread");
-        console.log("root scope total is " + Parse.User.current().get("total_unread"));
-        if ($rootScope.totalMessages) {
-          newCount = String($rootScope.totalMessages);
-        }
+        var count = $scope.number;
+        //$rootScope.totalMessages = count + 1;
+        console.log("root scope total is " + $scope.number);
 
 
-        if ($rootScope.totalMessages > 0) {
+        if ($scope.number > 0) {
+
+          newCount = String($scope.number);
 
           return $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
         }
@@ -137,9 +152,11 @@ define([
 
 
               // }
-
+ console.log("how many");
               $scope.messageNotification();
-              $scope.$apply();
+             // $scope.$apply();
+              $state.reload();
+
 
             }
 
