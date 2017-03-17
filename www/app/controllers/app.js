@@ -96,9 +96,19 @@ define([
 
       $rootScope.messageNotification = function () {
         var newCount;
-          
+        console.log("big big success");
+
+        /** $timeout(function () {
+         
+           console.log("root scope total is " + $rootScope.totalMessages);
+ 
+         }, 50);
+         */
+
+        $rootScope.totalMessages = Parse.User.current().get("total_unread");
+        console.log("root scope total is " + Parse.User.current().get("total_unread"));
         if ($rootScope.totalMessages) {
-           newCount = String($rootScope.totalMessages);
+          newCount = String($rootScope.totalMessages);
         }
 
 
@@ -111,9 +121,9 @@ define([
           return "";
         }
 
-        $scope.$apply();
 
-        
+
+
       }
 
       pubnub.subscribe({
@@ -122,15 +132,14 @@ define([
         callback: function (message) {
           if (message.from != Parse.User.current().id) {
             //showNotification(message);
-            console.log("notification working")
             if ($state.current.name != 'chat') {
-              console.log("root scope total is " + $rootScope.totalMessages);
-              //if (!$rootScope.totalMessages) {
-              $rootScope.totalMessages = $rootScope.totalMessages + 1;
+
+
+
               // }
 
               $scope.messageNotification();
-
+              $scope.$apply();
 
             }
 
