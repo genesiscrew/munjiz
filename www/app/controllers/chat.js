@@ -512,7 +512,8 @@ define([
                                         object.save();
 
                                     }
-                                    else {
+                                    
+                                    if (object.get('chat_to_online') == true) {
                                         // var old = object.get("HistoryCountTo");
                                         console.log("shoud not be here")
                                         object.set("HistoryCountTo", historyCount);
