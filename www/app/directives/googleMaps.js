@@ -193,13 +193,14 @@ define([
                             google.maps.event.addDomListener(document, 'keyup', function (e) {
                                 var div = document.getElementById('search').value
 
-
+                           
 
                                 var code = (e.keyCode ? e.keyCode : e.which);
 
                                 if (code == 13) {
                                     if (searchedItem != div) {
                                         searchedItem = div;
+                                        console.log("search function working");
                                         // here we remove the markers, and redraw them based on new search
                                         removeMarkers();
                                         makeMarkers();

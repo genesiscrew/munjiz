@@ -42,11 +42,50 @@ define([
 
 
             $scope.$on("$ionicView.afterEnter", function (event) {
-                // console.log("i should be scrolling down");
+                console.log("entered chat");
                 $timeout(function () {
                     $ionicScrollDelegate.scrollBottom();
                 });
-                //historyCount = 0;
+                var query = new Parse.Query('ChatRooms');
+                //query.include(' parent');
+                query.equalTo("chat_name", chatRoom);
+                query.first({
+                    success: function (results) {
+                        console.log("great grea success");
+                        if (results.get('chat_from') == Parse.User.current().id) {
+                            results.set("chat_from_online", true);
+                            results.save();
+                        }
+                        else {
+                            results.set("chat_to_online", true);
+                            results.save();
+                        }
+
+                    }
+                });
+
+            });
+
+
+            $scope.$on("$ionicView.leave", function (event) {
+                console.log("we have exited chat");
+                var query = new Parse.Query('ChatRooms');
+                //query.include(' parent');
+                query.equalTo("chat_name", chatRoom);
+                query.first({
+                    success: function (results) {
+                        console.log("great grea success");
+                        if (results.get('chat_from') == Parse.User.current().id) {
+                            results.set("chat_from_online", false);
+                            results.save();
+                        }
+                        else {
+                            results.set("chat_to_online", false);
+                            results.save();
+                        }
+
+                    }
+                });
 
             });
 
@@ -258,7 +297,13 @@ define([
                     handleMessage(m);
 
                 },
+                presence: function (presenceEvent) {
+                    console.log("HALLIUUKAAAAL");
+                }
+
+
             });
+
 
 
 
@@ -308,17 +353,22 @@ define([
                                         //query.include(' parent');
                                         query.equalTo("objectId", $rootScope.userID);
                                         //  console.log("getting the user");
-                                        Parse.Cloud.run('decrementChatCount', { objectId: Parse.User.current().id, amount: amount }, {
-                                            success: function (results) {
-                                                console.log("success");
+                                        var current_unread = Parse.User.current().get("total_unread");
+                                        console.log("WOHOOOOO" + current_unread);
+                                        if (current_unread > 0) {
+                                            Parse.Cloud.run('decrementChatCount', { objectId: Parse.User.current().id, amount: amount }, {
+                                                success: function (results) {
+                                                    console.log("success");
 
-                                            },
-                                            error: function (error) {
-                                                console.error(error);
-                                            }
-                                        });
+                                                },
+                                                error: function (error) {
+                                                    console.error(error);
+                                                }
+                                            });
+                                        }
                                         $rootScope.messageNotification();
                                         object.set("HistoryCountMe", object.get("HistoryCountTo"));
+                                        console.log("history count for hamid is" + historyCount);
                                         object.save();
 
                                     }
@@ -329,7 +379,6 @@ define([
 
                                 }
                                 else {
-                                    //
                                     if (object.get("HistoryCountMe") > object.get("HistoryCountTo")) {
                                         historyCount = object.get("HistoryCountMe");
                                         var amount = (object.get("HistoryCountMe") - object.get("HistoryCountTo"));
@@ -337,16 +386,19 @@ define([
                                         var query = new Parse.Query('User');
                                         //query.include(' parent');
                                         query.equalTo("objectId", $rootScope.userID);
-                                        //  console.log("getting the user");
-                                        Parse.Cloud.run('decrementChatCount', { objectId: Parse.User.current().id, amount: amount }, {
-                                            success: function (results) {
-                                                console.log("success");
+                                        console.log("history count for adam is" + historyCount);
+                                        var current_unread = Parse.User.current().get("total_unread");
+                                        if (current_unread > 0) {
+                                            Parse.Cloud.run('decrementChatCount', { objectId: Parse.User.current().id, amount: amount }, {
+                                                success: function (results) {
+                                                    console.log("success");
 
-                                            },
-                                            error: function (error) {
-                                                console.error(error);
-                                            }
-                                        });
+                                                },
+                                                error: function (error) {
+                                                    console.error(error);
+                                                }
+                                            });
+                                        }
                                         $rootScope.messageNotification();
                                         console.log("should not be here");
                                         object.set("HistoryCountTo", object.get("HistoryCountMe"));
@@ -389,6 +441,19 @@ define([
                      + message.text
                      + "</li>"); */
                 // console.log("we recevied message from: " + message.username);
+
+                //query.include(' parent');
+                query.equalTo("objectId", $rootScope.userID);
+                //  console.log("getting the user");
+                /**       Parse.Cloud.run('decrementChatCount', { objectId: Parse.User.current().id, amount: 1 }, {
+                           success: function (results) {
+                               console.log("success");
+       
+                           },
+                           error: function (error) {
+                               console.error(error);
+                           }
+                       }); */
 
                 $scope.data = message;
 
@@ -461,20 +526,43 @@ define([
                             }
                         }
                     });
-                    // Parse.Cloud.useMasterKey();
-                    var query = new Parse.Query('User');
+  
+                    var query = new Parse.Query('ChatRooms');
                     //query.include(' parent');
-                    query.equalTo("objectId", $rootScope.userID);
-                    //  console.log("getting the user");
-                    Parse.Cloud.run('incrementChatCount', { objectId: $rootScope.userID }, {
+                    query.equalTo("chat_name", chatRoom);
+                    query.first({
                         success: function (results) {
-                            console.log("success");
+                            console.log("great grea success");
+                            if (results.get('chat_from') == Parse.User.current().id) {
+                                if (results.get("chat_to_online") == false) {
+                                    Parse.Cloud.run('incrementChatCount', { objectId: $rootScope.userID }, {
+                                        success: function (results) {
+                                            console.log("success");
 
-                        },
-                        error: function (error) {
-                            console.error(error);
+                                        },
+                                        error: function (error) {
+                                            console.error(error);
+                                        }
+                                    });
+                                }
+                            }
+                            else {
+                                if (results.get("chat_from_online") == false) {
+                                    Parse.Cloud.run('incrementChatCount', { objectId: $rootScope.userID }, {
+                                        success: function (results) {
+                                            console.log("success");
+                                        },
+                                        error: function (error) {
+                                            console.error(error);
+                                        }
+                                    });
+                                }
+
+                            }
+
                         }
                     });
+
 
 
 

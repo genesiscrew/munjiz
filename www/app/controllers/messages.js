@@ -175,8 +175,6 @@ define([
                 console.log("success hsitory is : " + messaging[i].historyCountMe);
                 console.log("success hsitorical is : " + messaging[i].historyCountFrom);
                 if (messaging[i].historyCountMe < messaging[i].historyCountFrom) {
-
-
                     messaging[i].newMessageCount = messaging[i].historyCountFrom - messaging[i].historyCountMe;
                     console.log("success, message count :  " + messaging[i].newMessageCount);
                     $timeout(function () {

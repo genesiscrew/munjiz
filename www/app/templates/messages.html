@@ -1,19 +1,18 @@
 <ion-view>
   <ion-nav-title>Messages</ion-nav-title>
-  <ion-content id = "wow">
-   
+  <ion-content id="wow">
 
-    <ion-list id = "magic" class="margin-bottom listing-background">
+
+    <ion-list id="magic" class="margin-bottom listing-background">
       <div ng-repeat="message in messages">
-        <button ng-click="goChat(message.chatSource)" class="button button-icon icon ion-ios-chatbubble badge-container">                  
-      {{message.username}}  
-      
-      <div ng-bind-html="newMessage(message.chatID, message.newMessageCount)"></div>  
-          
-                </button>
-
-
-      </div>
+        <div class="row">
+          <div class="col-50 text-left">
+            <button ng-click="goChat(message.chatSource)" class="button button-icon icon ion-ios-chatbubble badge-container">{{message.username}}</button>
+          </div>
+          <div class="col-50 text-right">
+            <div  style = "position: relative; top: 15px; right: -5px; bottom: 15px; left: -5px;" ng-bind-html="newMessage(message.chatID, message.newMessageCount)"></div>
+          </div>
+        </div>
 
     </ion-list>
 

@@ -105,15 +105,19 @@ define([
 
       $rootScope.messageNotification = function () {
         var newCount;
-      //  console.log("big big success");
+        //  console.log("big big success");
 
         var query = new Parse.Query('User');
         //query.include(' parent');
         query.equalTo("objectId", Parse.User.current().id);
         query.first({
           success: function (object) {
-            $scope.number = object.get("total_unread");
-            console.log("fuck me it works : " + object.get("total_unread"));
+            if ($state.current.name != 'chat') {
+              $scope.number = object.get("total_unread");
+              console.log("current state is: " + $state.current.name);
+            }
+    
+
           },
           error: function (error) {
             alert("Error: " + error.code + " " + error.message);
@@ -152,9 +156,9 @@ define([
 
 
               // }
- console.log("how many");
+              console.log("how many");
               $scope.messageNotification();
-             // $scope.$apply();
+              // $scope.$apply();
               $state.reload();
 
 
