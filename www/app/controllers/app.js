@@ -1,4 +1,5 @@
-define([
+
+  define([
   'app',
   'services/page',
   'services/user',

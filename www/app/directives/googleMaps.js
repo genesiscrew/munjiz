@@ -1,4 +1,4 @@
-/* globals define, document */
+
 define([
     'app',
     'services/user'

@@ -1,7 +1,6 @@
 /* global ionic, define */
 define([
   'app',
-  'services/event',
   'services/listings',
   'services/user'
   ], function (app) {
@@ -12,17 +11,14 @@ define([
       '$stateParams',
       '$window',
       '$ionicPopup',
-      'eventService',
       'listingService',
       'userService',
       '$state',
-      function ($scope, $stateParams, $window, $ionicPopup, eventService, listingService, userService, $state) {
-
+      function ($scope, $stateParams, $window, $ionicPopup, listingService, userService, $state) {
 
         $scope.addListing = function(){
           $state.go('new_listing');
         };
-
 
         $scope.getProfileAndListings = function(objectId) {
 
@@ -39,10 +35,14 @@ define([
               profile.name = profile.get("firstName") + " " + profile.get("lastName");
               profile.city = profile.get("city");
               profile.imageURL = profile.get("imageURL");
+              console.log(profile.imageURL);
+              if (profile.imageURL === null){
+                profile.imageURL = "http://placehold.it/100x100";
+              }
+
               profile.number = profile.get("streetNumber");
               profile.street = profile.get("street");
               profile.city = profile.get("city");     
-
               $scope.listingOwner = profile; 
               $scope.getListings(profile);
 
@@ -70,6 +70,9 @@ define([
                   listing.desc = listing.get("desc");
                   listing.price = listing.get("price");
                   listing.imageURL = listing.get("imageURL");
+                  if (listing.imageURL == null){
+                    listing.imageURL = "http://www.novelupdates.com/img/noimagefound.jpg";
+                  }
                   listing.parent = listing.get('parent');
                   listing.username = listing.get('username');
                   listings.push(listing);  
@@ -92,13 +95,8 @@ define([
         $scope.getProfileAndListings($stateParams.id);
 
 
-
         $scope.reload = function () {
-          eventService.getOne($stateParams.id).then(function (event) {
-            $scope.event = event;
-          }).finally(function () {
-            $scope.$broadcast('scroll.refreshComplete');
-          });
+          // TODO
         };
 
         $scope.call = function () {

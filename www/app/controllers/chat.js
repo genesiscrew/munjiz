@@ -1,6 +1,6 @@
 define([
     'app',
-    'services/event',
+
 
 
 
