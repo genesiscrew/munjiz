@@ -1,69 +1,85 @@
 <ion-view>
   <ion-nav-title>Details</ion-nav-title>
 
+  <!-- Navigation -->
   <ion-nav-buttons side="right">
     <div class="button button-clear icon ion-edit" ng-click="editProfile()">
     </div>
   </ion-nav-buttons>
 
-
+  <!-- Content -->
   <ion-content padding="true">
-    <ion-refresher class="spinner-balanced" on-refresh="reload()" ng-hide="loading"></ion-refresher>
+  <!-- Spinner -->
     <div class="text-center">
       <ion-spinner class="spinner-balanced" ng-show="loading"></ion-spinner>
     </div>
+
+    <!-- Main content div -->
     <div ng-show="!loading">
-      <h3>{{profile.name}}</h3>
-      <h4><b>{{profile.city}}</b></h4>
+
+      <!-- Profile -->
+      <h3>{{profile.attributes.firstName}} {{profile.attributes.lastName}}</h3>
+      <h4><b>{{profile.attributes.city}}</b></h4>
       <br>
 
+      <!-- Users image -->
       <div class="text-center">
         <img ng-src="{{profile.imageURL}}" class="image">
       </div>
 
       <ion-list>
-        <ion-item class="item-divider item-icon-right listing-divider"><b>Address</b> <i class="icon ion-location"></i></ion-item>
-        <ion-item>
-          {{profile.number}} {{profile.street}}<br>
-          {{profile.zip}} {{profile.city}}
-        </ion-item>
-      </ion-list>
-      <br>
 
-      <!-- Produce -->
-      <ion-list>
-        <ion-item class="item-divider item-icon-right listing-divider"><b>Produce</b> <i class="icon ion-ios-nutrition"></i></ion-item>
+        <!-- Address header -->
+        <ion-item class="item-divider item-icon-right listing-divider">
+          <b>Address</b> <i class="icon ion-location"></i>
+        </ion-item>
+
+        <!-- Address -->
+        <ion-item>
+          {{profile.attributes.streetNumber}} {{profile.attributes.street}}<br>
+          {{profile.attributes.city}} {{profile.attributes.zip}} 
+        </ion-item>
+        <br>
+
+        <!-- Produce header -->
+        <ion-item class="item-divider item-icon-right listing-divider">
+          <b>Produce</b> <i class="icon ion-ios-nutrition"></i>
+        </ion-item>
+
+        <!-- View sellers listings button -->
         <ion-item ng-click="goToUsersListings()">
           View sellers produce
         </ion-item>
-     
-      <br>
+        <br>
 
-        <!-- Hours -->
-
-        <ion-item class="item-divider item-icon-right listing-divider"><b>Avaliable Hours</b> <i class="icon ion-ios-calendar-outline"></i>
+        <!-- Hours header -->
+        <ion-item class="item-divider item-icon-right listing-divider">
+        <b>Avaliable Hours</b> <i class="icon ion-ios-calendar-outline"></i>
         </ion-item>
 
-        <ion-item ng-repeat="date in profile.hours">
-            {{date}}
+        <!-- Hours -->
+        <ion-item ng-repeat="date in profile.attributes.hours">
+          {{date}}
         </ion-item> 
-      </ion-list>
 
-      <br>
-      <ion-list>
-        <ion-item class="item-divider item-icon-right listing-divider"><b>Contact</b> <i class="icon ion-chatboxes"></i></ion-item>
+        <!-- Contact header -->
+        <ion-item class="item-divider item-icon-right listing-divider">
+          <b>Contact</b> <i class="icon ion-chatboxes"></i>
+        </ion-item>
+
         <ion-item class="item-icon-right" ng-click="call()">
           Message us
           <i class="icon ion-email light-grey-color"></i>
         </ion-item>
-        <ion-item class="item-icon-right light-grey-color" ng-click="call()">
-          Call us
-          <i class="icon ion-android-call"></i>
-        </ion-item>
+      
+      <!-- Close the list -->
       </ion-list>
 
-    </div>
+    <!-- Close the main content div and content -->  
+    </div> 
   </ion-content>
+
+  <!-- Footer -->
   <ion-footer-bar class="bar-stable">
     <div class="buttons">
       <div class="button button-clear" ng-disabled="loading" ng-click="map()">
@@ -78,4 +94,5 @@
       </div>
     </div>
   </ion-footer-bar>
+
 </ion-view>

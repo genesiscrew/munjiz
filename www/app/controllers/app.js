@@ -102,6 +102,11 @@ define([
 
 
       $rootScope.messageNotification = function () {
+        if(typeof Parse.User.current() === "undefined" || Parse.User.current() === null){
+          console.log("undefined user trying to recieve a message");
+          return;
+        }
+ 
         var newCount;
         var query = new Parse.Query('User');
         query.equalTo("objectId", Parse.User.current().id);
@@ -115,10 +120,6 @@ define([
             alert("Error: " + error.code + " " + error.message);
           }
         });
-
-        var count = $scope.number;
-        console.log("root scope total is " + $scope.number);
-
 
         if ($scope.number > 0) {
           newCount = String($scope.number);

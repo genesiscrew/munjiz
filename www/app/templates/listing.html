@@ -7,28 +7,29 @@
   </ion-nav-buttons>
 
   <ion-content padding="true" class="has-footer">
-
-    <ion-refresher class="spinner-balanced" on-refresh="reload()" ng-hide="loading"></ion-refresher>
     <div class="text-center">
       <ion-spinner class="spinner-balanced" ng-show="loading"></ion-spinner>
     </div>
-    <div ng-show="!loading">
-      <h3>{{listingOwner.name}}</h3>
-      <h4><b>{{listingOwner.city}}</b> <small>{{listingOwner.district}} </small></h4>
-      <br>
+    <div ng-show="!loading">   
+
+     <div class="text-center">
+        <h3 class="text-center">{{profile.attributes.firstName + " " + profile.attributes.lastName}}</h3>
+        <h4><b>{{profile.attributes.city}}</b></h4>
+        <br>
+     </div>
 
       <ion-list class="margin-bottom listing-background">        
 
-        <ion-item ng-repeat="event in events">
+        <ion-item ng-repeat="listing in listings" ng-show="listing.attributes.show">
           <div class="row">
             <div class="col-30">
-              <img ng-src="{{event.imageURL}}" class="listing_image">
+              <img ng-src="{{listing.imageURL}}" class="listing_image">
             </div>
             <div class="col-70 padding" class="text-left">
           
-              <p style="font-size: 18px; text-align: left; white-space: normal;"> {{event.title}} </p>
-              <p style="font-size: 12px; text-align: left; white-space: normal;"> {{event.desc}} </p>
-              <p style="font-size: 14px; text-align: left; white-space: normal;"> {{event.price}} </p>
+              <p style="font-size: 18px; text-align: left; white-space: normal;"> {{listing.attributes.title}} </p>
+              <p style="font-size: 12px; text-align: left; white-space: normal;"> {{listing.attributes.desc}} </p>
+              <p style="font-size: 14px; text-align: left; white-space: normal;"> {{listing.attributes.price}} </p>
 
             </div>
           </div>
@@ -59,4 +60,5 @@
       </div>
     </div>
   </ion-footer-bar>
+
 </ion-view>

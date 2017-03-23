@@ -1,82 +1,78 @@
 /* global ionic, define */
 define([
   'app'], function (app) {
-  'use strict';
+    'use strict';
 
-  app.controller('ProfileCtrl', [
-    '$scope',
-    '$stateParams',
-    '$window',
-    '$ionicPopup',
-    '$state',
-    function ($scope, $stateParams, $window, $ionicPopup, $state) {
-      $scope.loading = true;
-
+    app.controller('ProfileCtrl', [
+      '$scope',
+      '$stateParams',
+      '$window',
+      '$ionicPopup',
+      '$state',
+      function ($scope, $stateParams, $window, $ionicPopup, $state) {
+       // Show the edit profile view
        $scope.editProfile = function(){
-          $state.go('edit_profile');
-        };
+        $state.go('edit_profile');
+      };
 
+
+      // Get the user specified by objectID and set it to be $scope.profile
       $scope.getProfile = function(objectID) {
+        var query = new Parse.Query(Parse.User);
+        query.equalTo("objectId", objectID);
+        query.first({
+          success: function(profile) {  
+            $scope.profile = profile;
 
-          var query = new Parse.Query(Parse.User);
-          query.equalTo("objectId", objectID);
-          query.find({
-            success: function(result, reloading) {  
+            // Check if they have an image, if not set the default image
+            if (profile.attributes.imageURL == null){
+              profile.imageURL = "http://www.novelupdates.com/img/noimagefound.jpg";
+            }else{
+              profile.imageURL = profile.attributes.imageURL;
+            }        
 
-              var profile = result[0];
+            $scope.loading = false;
+            console.log("done loading profile");         
+            
+          },
+          error: function(error) {
+            alert("Error: " + error.code + " " + error.message);
+          }
+        });
+      };
 
-              profile.name = profile.get("firstName") + " " + profile.get("lastName");
-              profile.city = profile.get("city");
-              profile.imageURL = profile.get("imageURL");
-              profile.number = profile.get("streetNumber");
-              profile.street = profile.get("street");
-              profile.city = profile.get("city");  
-              profile.hours = profile.get("hours");     
-              profile.id = Parse.User.current().id;
-              $scope.profile = profile;   
 
-              console.log("done");         
-              if(reloading){
-                 $scope.$broadcast('scroll.refreshComplete');
-              }else{
-                $scope.loading = false;
-              }
-            },
-            error: function(error) {
-              alert("Error: " + error.code + " " + error.message);
-            }
-          });
-        };
-      $scope.getProfile($stateParams.id, false);
+      // On view load: Load the users profile 
+      $scope.loading = true;
+      $scope.getProfile($stateParams.id);
 
+
+      // Reloads the page, not currently being used at the moment 
       $scope.reload = function () {
-          $scope.getProfile($stateParams.id, true);
+        console.log("profile reload");
+        $scope.getProfile($stateParams.id, true);
+        $scope.$broadcast('scroll.refreshComplete');
       };
 
-      $scope.call = function () {
-        $window.open('tel:' + $scope.event.contact.tel, '_system');
-      };
 
-      $scope.mail = function () {
-        $window.open('mailto:' + $scope.event.contact.email, '_system');
-      };
-
-      $scope.website = function () {
-        $window.open($scope.event.website, '_system');
-      };
-
+      // Called by a button click on the UI
+      // Launched a map application on the users device with the current users position.
       $scope.map = function () {
         if (ionic.Platform.isIOS()) {
-          $window.open('maps://?q=' + $scope.event.lat + ',' + $scope.event.lng, '_system');
+          $window.open('maps://?q=' + $scope.profile.attributes.lat + ',' + $scope.profile.attributes.long, '_system');
         } else {
-          $window.open('geo://0,0?q=' + $scope.event.lat + ',' + $scope.event.lng + '(' + $scope.event.name + '/' + $scope.event.city + ')&z=15', '_system');
+          $window.open('geo://0,0?q=' + $scope.profile.attributes.lat  + ',' + $scope.profile.attributes.long  + '(' + $scope.profile.attributes.firstName  + '/' + $scope.profile.attributes.city  + ')&z=15', '_system');
         }
       };
 
+
+      // Navigate the to the Listing view
       $scope.goToUsersListings = function () {
         $state.go("listing", { id: $scope.profile.id });
       };
 
+      // TODO backend logic
+      // It opens a prompt to enter a message to report a user
       $scope.report = function () {
         $ionicPopup.prompt({
           scope: $scope,
@@ -86,10 +82,12 @@ define([
           inputPlaceholder: ''
         }).then(function (res) {
           if (res) {
-            // here connect to backend and send report
+          // here connect to backend and send report
           }
         });
       };
-    }
-  ]);
-});
+
+
+      }
+      ]);
+  });
