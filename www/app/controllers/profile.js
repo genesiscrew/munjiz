@@ -73,6 +73,10 @@ define([
         }
       };
 
+      $scope.goToUsersListings = function () {
+        $state.go("listing", { id: $scope.profile.id });
+      };
+
       $scope.report = function () {
         $ionicPopup.prompt({
           scope: $scope,
