@@ -3,7 +3,7 @@
   
    <!-- Navigation -->
   <ion-nav-buttons side="right">
-    <div class="button button-clear icon ion-plus-round" ng-click="addListing()">
+    <div class="button button-clear icon ion-plus-round" ng-click="addListing(0)">
     </div>
   </ion-nav-buttons>
 
@@ -28,7 +28,7 @@
       <ion-list class="margin-bottom listing-background">        
 
       <!-- Listing -->
-        <ion-item ng-repeat="listing in listings" ng-show="listing.attributes.show">
+        <ion-item ng-repeat="listing in listings" ng-show="listing.attributes.show" ng-click="editListing( listing.id )">
           <div class="row">
 
             <!-- Image -->
