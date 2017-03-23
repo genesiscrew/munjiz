@@ -1,5 +1,5 @@
 {
-  "name": "ionicMaps",
+  "name": "FoodMarket",
   "app_id": "d2835955",
   "gulpStartupTasks": [
     "sass",

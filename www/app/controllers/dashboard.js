@@ -8,9 +8,8 @@ define([
   app.controller('DashboardCtrl', [
     '$scope',
     '$state',
-    'eventService',
     '$ionicNavBarDelegate',
-    function ($scope, $state, eventService, $ionicNavBarDelegate) {
+    function ($scope, $state, $ionicNavBarDelegate) {
 
         $ionicNavBarDelegate.showBackButton(false);
 
