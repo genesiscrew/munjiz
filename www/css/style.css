@@ -1,60 +1,42 @@
-/* Light grey text color: #756C6A; */
-/* Energised (blue) color: #4fc4f6; */
+/* Colours:
+	Light grey text color: #756C6A
+	Energised (blue) color: #4fc4f6
+ */
 
-
-
+/* Format the listing image */
 .listing_image {
 	height: 80px;
 	width: 80px;
 }
 
+/* Padding at the bottom on the list */
 .listing_list {
 	padding-bottom: 50px;
 }
 
-.fucker {
-	padding-bottom: 30px;
-}
-
-.listing-title {
-	font-size: 18px;
-}
-
-.listing-desc {
-	font-size: 14px;
-}
-
-.listing-left {
-	width: 30%;
-}
-
-
-.input-label {
-	color : #fff;
-	margin-bottom: 12px;
-}
-
-.input-label {
-	color : black;
-}
-.input {
-	background-color: #fff!important;
-	padding-bottom: 5px !important;
-}
-
+/* Google chrome autofill */
 input:-webkit-autofill {
 	-webkit-box-shadow: 0 0 0px 1000px white inset;
 }
 
+/* Margin above username field on login */
 .username-input{
 	margin-top:50px;
 	font-size: 18px !important;
 }
 
+/* Password default size */
 .password-input{
 	font-size: 18px !important;
 }
 
+/* Forgot password */
+.forgot-password-button {
+	padding-top: 15px;
+	font-size: 12px;
+}
+
+/* Hide borders */
 .item{
 	border-top: 0px;
 	border-left: 0px;
@@ -62,27 +44,12 @@ input:-webkit-autofill {
 	border-bottom: 0px;
 }
 
+/* Spacing between password field and login button */
 .top-login-item {
 	margin-top: 100px;
 }
 
-.no-padding{
-	margin-left: 40px;
-	margin-right: 40px;
-	width: 100%;
-	border-radius: 64px;
-	text-align: center;
-	padding-top:5px;
-	padding-bottom: 5px;
-	margin-left:0px;
-}
-
-.forgot-password-button {
-	padding-top: 15px;
-	font-size: 12px;
-}
-
-
+/* Icons on the side of the username / password input */
 .item-floating-label .placeholder-icon {
 	position: absolute;
 	bottom: 9px;
@@ -93,14 +60,17 @@ input:-webkit-autofill {
 	
 }
 
+/* Constrain lgoin fields to the be on the right of the icon */
 .item-floating-label {
 	padding-left: 60px !important;
 }
 
+/* Change default colour */
 .h1, .h2, .h3, .h4, .h5 {
-	color : #000 !important;
+	color : #756C6A !important;
 }
 
+/* Used for headers in ion-lists */
 .listing-divider{
 	border-bottom: 2px !important;
 	border-bottom-style: solid !important;
@@ -109,16 +79,14 @@ input:-webkit-autofill {
 	color: #756C6A !important;
 }
 
+/* Main font colour */
 .light-grey-color {
 	color: #756C6A;
 }
 
+/* Button default colour */
 .button {
 	color: #756C6A
-}
-
-ion-item:hover a {
-  background-color: #756C6A;
 }
 
 

@@ -1,17 +1,23 @@
 <ion-view>
   <ion-nav-title>Details</ion-nav-title>
 
+  <!-- Navigation -->
   <ion-nav-buttons side="right">
     <div class="button button-clear icon ion-android-done"  ng-click="save()">
     </div>
   </ion-nav-buttons>
 
+  <!-- Content -->
   <ion-content padding="true">
+    <!-- Spinner -->
     <div class="text-center">
       <ion-spinner class="spinner-balanced" ng-show="loading"></ion-spinner>
     </div>
-    <div>
 
+
+    <div ng-show="!loading">
+
+      <!-- Users image -->
       <div class="text-center">
         <img ng-src="{{profile.imageURL}}" class="image">
       </div>
@@ -54,10 +60,13 @@
         </ion-item> 
 
       </ion-list>
-      <br>     
+      <br>    
 
+    <!-- Close the main content div and content -->  
     </div>
   </ion-content>
+  
+  <!-- Footer -->
   <ion-footer-bar class="bar-stable">
     <div class="buttons">
       <div class="button button-clear" ng-disabled="loading" ng-click="map()">
@@ -72,4 +81,5 @@
       </div>
     </div>
   </ion-footer-bar>
+  
 </ion-view>

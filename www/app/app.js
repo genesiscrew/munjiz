@@ -5,10 +5,8 @@ define([
   'use strict';
 
   // the app with its used plugins
-  var app = angular.module('app', 
+  var app = angular.module('app', ['ionic', 'ngCordova', 'angular-md5']);
 
-  ['ionic', 'ngCordova', 'angular-md5'
-  ]);
   // return the app so you can require it in other components
   return app;
 });

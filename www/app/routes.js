@@ -1,6 +1,6 @@
 define([
   'app',
-  // Load Controllers here
+  // Load Controllers
   'controllers/app',
   'controllers/dashboard',
   'controllers/results',
@@ -14,26 +14,29 @@ define([
 
 ], function (app) {
   'use strict';
-  // definition of routes
+
   app.config([
     '$stateProvider',
     '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
-      // url routes/states
+      
+      // Default route if not found
       $urlRouterProvider.otherwise('/login');
 
       $stateProvider
-        // app states
+
         .state('dashboard', {
           url: '/dashboard',
           templateUrl: 'app/templates/dashboard.html',
           controller: 'DashboardCtrl'
         })
+
         .state('results', {
           url: '/results/:search/:satTrans/:wheelChair/:wheelChairLift',
           controller: 'ResultsCtrl',
           templateUrl: 'app/templates/results.html'
         })
+
         .state('profile', {
           url: '/profile/:id',
           controller: 'ProfileCtrl',
@@ -77,8 +80,6 @@ define([
           controller: 'MessageCtrl',
           templateUrl: 'app/templates/messages.html'
         });
-
-
 
     }
   ]);
