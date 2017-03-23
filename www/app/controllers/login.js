@@ -63,7 +63,7 @@ define([
           });
         };
 
-
+        
         // Checks the users FB details to see if they have registered with the app before
         $scope.checkUserDetails = function(response, user){
           var foundUser = false;
@@ -130,9 +130,8 @@ define([
           };
 
 
-
-        }
-        ]);
+          }
+          ]);
 });
 
 
