@@ -3,7 +3,6 @@ define([
   // Load Controllers
   'controllers/app',
   'controllers/dashboard',
-  'controllers/results',
   'controllers/profile',
   'controllers/listing',
   'controllers/messages',
@@ -29,12 +28,6 @@ define([
           url: '/dashboard',
           templateUrl: 'app/templates/dashboard.html',
           controller: 'DashboardCtrl'
-        })
-
-        .state('results', {
-          url: '/results/:search/:satTrans/:wheelChair/:wheelChairLift',
-          controller: 'ResultsCtrl',
-          templateUrl: 'app/templates/results.html'
         })
 
         .state('profile', {

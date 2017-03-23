@@ -108,18 +108,12 @@ define([
         }
  
         var newCount;
-        var query = new Parse.Query('User');
-        query.equalTo("objectId", Parse.User.current().id);
-        query.first({
-          success: function (object) {
-            if ($state.current.name != 'chat') {
-              $scope.number = object.get("total_unread");
-            }
-          },
-          error: function (error) {
-            alert("Error: " + error.code + " " + error.message);
-          }
-        });
+        // 
+        if ($state.current.name != 'chat') {
+          $scope.number = Parse.User.current().get("total_unread");
+        }
+      
+        
 
         if ($scope.number > 0) {
           newCount = String($scope.number);

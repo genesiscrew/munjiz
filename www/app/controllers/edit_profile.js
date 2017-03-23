@@ -13,8 +13,8 @@ define([
       function ($scope, $stateParams, $window, $ionicPopup, $state) {
         $scope.loading = true;
 
+        // Save the user to Parse
         $scope.save = function(){
-
           $scope.profile.set("email", $scope.profile.email);
           $scope.profile.set("imageURL",  $scope.profile.imageURL);
           $scope.profile.set("streetNumber", $scope.profile.number);
@@ -27,69 +27,25 @@ define([
           $state.go('profile', {id: objectId});
         };
 
+        // Loads the users profile by setting the attributes to be modifiable
         $scope.loadProfile = function() {
-
-          $scope.profile.email = $scope.profile.get("email");
-          $scope.profile.imageURL = $scope.profile.get("imageURL");
-          $scope.profile.number = $scope.profile.get("streetNumber");
-          $scope.profile.street = $scope.profile.get("street");
-          $scope.profile.city = $scope.profile.get("city");     
-          $scope.profile.hours = $scope.profile.get("hours");  
-          console.log($scope.profile.get("hours"));   
-
+          
+          // TODO default image URL 
+          $scope.profile.imageURL = $scope.profile.attributes.imageURL;
+          $scope.profile.email = $scope.profile.attributes.email;
+          $scope.profile.number = $scope.profile.attributes.streetNumber;
+          $scope.profile.street = $scope.profile.attributes.street;
+          $scope.profile.city = $scope.profile.attributes.city;    
+          $scope.profile.hours = $scope.profile.attributes.hours;
           $scope.loading = false;
         };
 
+        // Load profile
         $scope.profile = Parse.User.current();
         $scope.loadProfile();
 
-        $scope.reload = function () {
-          eventService.getOne($stateParams.id).then(function (event) {
-            $scope.event = event;
-          }).finally(function () {
-            $scope.$broadcast('scroll.refreshComplete');
-          });
-        };
+  
 
-        $scope.call = function () {
-          $window.open('tel:' + $scope.event.contact.tel, '_system');
-        };
-
-        $scope.mail = function () {
-          $window.open('mailto:' + $scope.event.contact.email, '_system');
-        };
-
-        $scope.website = function () {
-          $window.open($scope.event.website, '_system');
-        };
-
-        $scope.map = function () {
-          if (ionic.Platform.isIOS()) {
-            $window.open('maps://?q=' + $scope.event.lat + ',' + $scope.event.lng, '_system');
-          } else {
-            $window.open('geo://0,0?q=' + $scope.event.lat + ',' + $scope.event.lng + '(' + $scope.event.name + '/' + $scope.event.city + ')&z=15', '_system');
-          }
-        };
-
-        $scope.addHour = function () {
-          if($scope.profile.hours !== 'undefined'){
-              $scope.profile.hours[$scope.profile.hours.length] = "";
-          }
-        };
-
-        $scope.report = function () {
-          $ionicPopup.prompt({
-            scope: $scope,
-            title: '<span class="energized">Report an issue</span>',
-            subTitle: '<span class="stable">What\'s wrong or missing?</span>',
-            inputType: 'text',
-            inputPlaceholder: ''
-          }).then(function (res) {
-            if (res) {
-            // here connect to backend and send report
-          }
-        });
-        };
       }
       ]);
   });

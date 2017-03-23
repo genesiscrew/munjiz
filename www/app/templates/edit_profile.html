@@ -19,7 +19,7 @@
 
       <!-- Users image -->
       <div class="text-center">
-        <img ng-src="{{profile.imageURL}}" class="image">
+        <img ng-src="{{profile.attribute}}" class="image">
       </div>
 
 
@@ -65,21 +65,5 @@
     <!-- Close the main content div and content -->  
     </div>
   </ion-content>
-  
-  <!-- Footer -->
-  <ion-footer-bar class="bar-stable">
-    <div class="buttons">
-      <div class="button button-clear" ng-disabled="loading" ng-click="map()">
-        <i class="icon ion-map"></i> Maps
-      </div>
-    </div>
-    <h1 class="title"></h1>
-    <div class="buttons">
-      <div class="button button-clear" ng-disabled="loading" ng-click="report()">
-        Report
-        <i class="icon ion-android-alert"></i>
-      </div>
-    </div>
-  </ion-footer-bar>
   
 </ion-view>
