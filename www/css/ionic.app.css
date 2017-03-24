@@ -9226,3 +9226,16 @@ p.notification {
 
 .username-list {
   line-height: 38px; }
+
+.listing_image {
+  width: 60px;
+  height: 60px; }
+
+.listing_list {
+  padding-bottom: 50px; }
+
+.fucker {
+  padding-bottom: 30px; }
+
+.listing-background {
+  /*background-color: #7C84AE; */ }

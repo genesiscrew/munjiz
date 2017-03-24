@@ -3,30 +3,30 @@ define([
   'app',
   'services/page',
   'services/user',
-  ], function (app) {
-    'use strict';
+], function (app) {
+  'use strict';
 
-    app.controller('AppCtrl', [
-      '$scope',
-      '$rootScope',
-      '$ionicModal',
-      '$ionicScrollDelegate',
-      '$sce',
-      '$ionicPopup',
-      '$ionicHistory',
-      'pageService',
-      '$state',
-      'userService',
-      '$timeout',
-      '$ionicLoading',
-      'PubNubService',
-      'ShareFactory',
-      function ($scope, $rootScope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, $ionicHistory, pageService, $state, userService, $timeout, $ionicLoading, PubNubService, ShareFactory) {
-        var pubnub = PubNubService;
-        var message = false;
+  app.controller('AppCtrl', [
+    '$scope',
+    '$rootScope',
+    '$ionicModal',
+    '$ionicScrollDelegate',
+    '$sce',
+    '$ionicPopup',
+    '$ionicHistory',
+    'pageService',
+    '$state',
+    'userService',
+    '$timeout',
+    '$ionicLoading',
+    'PubNubService',
+    'ShareFactory',
+    function ($scope, $rootScope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, $ionicHistory, pageService, $state, userService, $timeout, $ionicLoading, PubNubService, ShareFactory) {
+      var pubnub = PubNubService;
+      var message = false;
 
-        $scope.ready = true;
-        $rootScope.totalMessages = 0;
+      $scope.ready = true;
+      $rootScope.totalMessages = 0;
       //pubnub.set_uuid(Parse.User.current().id);
 
       pageService.get().then(function (pages) {
@@ -102,18 +102,26 @@ define([
 
 
       $rootScope.messageNotification = function () {
-        if(typeof Parse.User.current() === "undefined" || Parse.User.current() === null){
+        if (typeof Parse.User.current() === "undefined" || Parse.User.current() === null) {
           console.log("undefined user trying to recieve a message");
           return;
         }
- 
+
         var newCount;
-        // 
-        if ($state.current.name != 'chat') {
-          $scope.number = Parse.User.current().get("total_unread");
-        }
-      
-        
+        var query = new Parse.Query('User');
+        query.equalTo("objectId", Parse.User.current().id);
+        query.first({
+          success: function (object) {
+            if ($state.current.name != 'chat') {
+              $scope.number = object.get("total_unread");
+              console.log("current state is: " + $state.current.name);
+            }
+          },
+          error: function (error) {
+            alert("Error: " + error.code + " " + error.message);
+          }
+        });
+
 
         if ($scope.number > 0) {
           newCount = String($scope.number);
@@ -144,47 +152,47 @@ define([
         }
       });
 
-    $scope.goCurrentUserListings = function () {
-          message = false;
-          var objectId = Parse.User.current().id;
-          $state.go("listing", { id: objectId });
-        };
+      $scope.goCurrentUserListings = function () {
+        message = false;
+        var objectId = Parse.User.current().id;
+        $state.go("listing", { id: objectId });
+      };
 
-        $scope.goProfile = function () {
-          message = false;
-          var objectId = Parse.User.current().id;
-          $state.go("profile", { id: objectId });
-        };
+      $scope.goProfile = function () {
+        message = false;
+        var objectId = Parse.User.current().id;
+        $state.go("profile", { id: objectId });
+      };
 
-        $scope.goDashBoard = function () {
+      $scope.goDashBoard = function () {
+        message = false;
+        var objectId = Parse.User.current().id;
+        $state.go("dashboard", { id: objectId });
+      };
+
+      $scope.goChat = function (chatSource) {
+        message = false;
+        var objectId = Parse.User.current().id;
+        console.log("chat source is from:" + chatSource);
+        $rootScope.userID = chatSource;
+        $state.go("chat", { id: objectId });
+      };
+
+      $scope.goMessages = function () {
+        var objectId = Parse.User.current().id;
+
+        if (message) {
           message = false;
-          var objectId = Parse.User.current().id;
           $state.go("dashboard", { id: objectId });
-        };
+        }
+        else {
+          message = true;
+          $state.go("messages", { id: objectId });
+        }
 
-        $scope.goChat = function (chatSource) {
-          message = false;
-          var objectId = Parse.User.current().id;
-          console.log("chat source is from:" + chatSource);
-          $rootScope.userID = chatSource;
-          $state.go("chat", { id: objectId });
-        };
-
-        $scope.goMessages = function () {
-          var objectId = Parse.User.current().id;
-
-          if (message) {
-            message = false;
-            $state.go("dashboard", { id: objectId });
-          }
-          else {
-            message = true;
-            $state.go("messages", { id: objectId });
-          }
-
-        };
+      };
 
 
-      }
-      ]);
+    }
+  ]);
 });
