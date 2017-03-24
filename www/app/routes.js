@@ -55,7 +55,7 @@ define([
           templateUrl: 'app/templates/chat.html'
         })
         .state('new_listing', {
-          url: '/new_listing',
+          url: '/new_listing/:id',
           controller: 'NewListingCtrl',
           templateUrl: 'app/templates/new_listing.html'
         })

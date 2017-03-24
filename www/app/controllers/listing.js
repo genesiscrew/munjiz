@@ -21,6 +21,14 @@ define([
           $state.go('new_listing');
         };
 
+
+        // Used to refresh the page and update content 
+        $scope.editListing = function (listingObjectId) {
+          console.log("going to edit listing: " + listingObjectId);
+          $state.go("new_listing", { id:listingObjectId });
+        };
+
+
         // Gets the current user whose object id is specified, sets it as $scope.profile
         // Then calls getListings
         $scope.getProfileAndListings = function(objectId) {
@@ -79,6 +87,7 @@ define([
           $state.go("listing", { id: $scope.profile.id });
         };
 
+
         // Called by a button click on the UI
         // Launched a map application on the users device with the current users position.
         $scope.map = function () {
@@ -104,6 +113,10 @@ define([
                 // TODO 
             } 
       });
+
+
+
+
 
 
         };
