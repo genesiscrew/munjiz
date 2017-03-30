@@ -22,7 +22,7 @@ define([
         };
 
 
-        // Used to refresh the page and update content 
+        // Used to refresh the page and update content
         $scope.editListing = function (listingObjectId) {
           console.log("going to edit listing: " + listingObjectId);
           $state.go("new_listing", { id:listingObjectId });
@@ -35,8 +35,8 @@ define([
           var query = new Parse.Query(Parse.User);
           query.equalTo("objectId", objectId);
           query.first({
-            success: function(profile) {   
-              $scope.profile = profile; 
+            success: function(profile) {
+              $scope.profile = profile;
               $scope.getListings(profile);
 
             },
@@ -44,11 +44,10 @@ define([
               alert("Error: " + error.code + " " + error.message);
             }
           });
-        };  
-
+        };
 
         // Gets the user specifieds listings and sets them as $scope.listings
-        // For all the listings it checks to see if an image is specified, if not it will set a default url. 
+        // For all the listings it checks to see if an image is specified, if not it will set a default url.
         $scope.getListings = function(owner) {
           var listingsQuery = Parse.Object.extend("Listings");
           var query = new Parse.Query(listingsQuery);
@@ -64,7 +63,7 @@ define([
                     listing.imageURL = "http://www.novelupdates.com/img/noimagefound.jpg";
                   }else{
                     listing.imageURL = listing.attributes.imageURL;
-                  }               
+                  }
               }
 
               $scope.listings = results;
@@ -82,7 +81,7 @@ define([
         $scope.getProfileAndListings($stateParams.id);
 
         // Not being currently used
-        // Used to refresh the page and update content 
+        // Used to refresh the page and update content
         $scope.reload = function () {
           $state.go("listing", { id: $scope.profile.id });
         };
@@ -110,8 +109,8 @@ define([
             inputPlaceholder: ''
           }).then(function (res) {
             if (res) {
-                // TODO 
-            } 
+                // TODO
+            }
       });
 
 
