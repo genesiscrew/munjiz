@@ -1,7 +1,9 @@
 
+
+
+
 define([
   'app',
-  'services/page',
   'services/user',
 ], function (app) {
   'use strict';
@@ -14,62 +16,76 @@ define([
     '$sce',
     '$ionicPopup',
     '$ionicHistory',
-    'pageService',
     '$state',
     'userService',
     '$timeout',
     '$ionicLoading',
     'PubNubService',
     'ShareFactory',
-    function ($scope, $rootScope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, $ionicHistory, pageService, $state, userService, $timeout, $ionicLoading, PubNubService, ShareFactory) {
+    function ($scope, $rootScope, $ionicModal, $ionicScrollDelegate, $sce, $ionicPopup, $ionicHistory, $state, userService, $timeout, $ionicLoading, PubNubService, ShareFactory) {
       var pubnub = PubNubService;
       var message = false;
-
+      var redCircle;
+      var currentUser = Parse.User.current();
       $scope.ready = true;
       $rootScope.totalMessages = 0;
+      $scope.zxcv = false;
+
       //pubnub.set_uuid(Parse.User.current().id);
-
-      pageService.get().then(function (pages) {
-        $scope.pages = pages;
-      });
-
-      $ionicModal.fromTemplateUrl('app/templates/page.html', {
-        scope: $scope
-      }).then(function (modal) {
-        $scope.modal = modal;
-      });
-
-      $scope.openModal = function (index) {
-        var notEqual = index !== $scope.currentPage;
-        if (notEqual) {
-          $scope.opening = true;
-          $scope.currentPage = index;
-        }
-        $scope.modal.show().then(function () {
-          if (notEqual) {
-            $ionicScrollDelegate.$getByHandle('modal').scrollTop();
-          }
-          $scope.opening = false;
-        });
-      };
-
-      $scope.trustHtml = function (html) {
-        return $sce.trustAsHtml(html);
-      };
-
-      $scope.closeModal = function () {
-        $scope.modal.hide();
-      };
-
-      $scope.$watch(function () { return ShareFactory.getValue(); },
-        function (newValue, oldValue) {
-          if (newValue !== oldValue) { $scope.number = newValue; }
-        });
-
-      $scope.$on('$ionicView.loaded', function () {
+      /** 
+            pageService.get().then(function (pages) {
+              $scope.pages = pages;
+            });
+      
+            $ionicModal.fromTemplateUrl('app/templates/page.html', {
+              scope: $scope
+            }).then(function (modal) {
+              $scope.modal = modal;
+            });
+      
+            $scope.openModal = function (index) {
+              var notEqual = index !== $scope.currentPage;
+              if (notEqual) {
+                $scope.opening = true;
+                $scope.currentPage = index;
+              }
+              $scope.modal.show().then(function () {
+                if (notEqual) {
+                  $ionicScrollDelegate.$getByHandle('modal').scrollTop();
+                }
+                $scope.opening = false;
+              });
+            };
+      
+            $scope.trustHtml = function (html) {
+              return $sce.trustAsHtml(html)
+            };
+      
+            $scope.closeModal = function () {
+              $scope.modal.hide();
+            };
+      */
+      /**   $scope.$watch(function () { return ShareFactory.getValue(); },
+            function (newValue, oldValue) {
+              if (newValue !== oldValue) { $scope.number = newValue; }
+            });
+    */
+      $scope.$on('$ionicView.enter', function () {
         if (Parse.User.current()) {
 
           $scope.number = Parse.User.current().get("total_unread");
+          if ($scope.number > 0) {
+            console.log("should not be here");
+            $scope.zxcv = true;
+          //  $scope.$apply();
+
+          }
+          else {
+            console.log("we are heere fuck me");
+            $scope.zxcv = false;
+             $scope.$apply();
+         
+          }
           //console.log("success and here it is: " + $rootScope.totalMessages);
         }
       });
@@ -107,31 +123,77 @@ define([
           return;
         }
 
-        var newCount;
-        var query = new Parse.Query('User');
-        query.equalTo("objectId", Parse.User.current().id);
-        query.first({
-          success: function (object) {
-            if ($state.current.name != 'chat') {
-              $scope.number = object.get("total_unread");
-              console.log("current state is: " + $state.current.name);
-            }
+        return redCircle;
+      };
+
+
+      var messageReceived = function () {
+
+
+        currentUser.fetch({
+          success: function (myObject) {
+            // The object was refreshed successfully.
+            console.log("user succesfully refreshed");
+            $scope.number = currentUser.get("total_unread");
+            console.log("should only enter here once and total unread is" + $scope.number);
+            var newCount;
+
+
+
+            // if ($scope.number > 0) {
+            console.log("current state is: " + $state.current.name + $scope.number);
+            newCount = String($scope.number);
+           // if (!$scope.zxcv) {
+               $scope.zxcv = true;
+              console.log("should refresh");
+              $scope.$apply();
+         //   }
+           
+
+            // }
+
+            /**   else {
+                 $scope.zxcv = false;
+                 redCircle = "";
+               }
+   
+      */
+
+
           },
-          error: function (error) {
-            alert("Error: " + error.code + " " + error.message);
+          error: function (myObject, error) {
+            // The object was not refreshed successfully.
+            // error is a Parse.Error with an error code and message.
           }
         });
 
 
-        if ($scope.number > 0) {
-          newCount = String($scope.number);
-          return $sce.trustAsHtml('<span class="badge-assertive badge">' + newCount + '</span>');
-        }
 
-        else {
-          return "";
+
+
+
+      }
+
+      $scope.$on('$ionicView.loaded', function () {
+        if (Parse.User.current()) {
+
+          currentUser.fetch({
+            success: function (myObject) {
+              // The object was refreshed successfully.
+              console.log("user succesfully refreshed");
+              $scope.number = currentUser.get("total_unread");
+              console.log("should only enter here once and total unred is" + $scope.number);
+            },
+            error: function (myObject, error) {
+              // The object was not refreshed successfully.
+              // error is a Parse.Error with an error code and message.
+            }
+          });
+
+
         }
-      };
+      });
+
 
       pubnub.subscribe({
         channel: 'Global',
@@ -140,10 +202,9 @@ define([
           if (message.from != Parse.User.current().id) {
             //showNotification(message);
             if ($state.current.name != 'chat') {
-              console.log("how many");
-              $scope.messageNotification();
-              // $scope.$apply();
-              $state.reload();
+              messageReceived();
+              $scope.$apply()
+
             }
           }
           else {

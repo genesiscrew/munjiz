@@ -34,15 +34,15 @@ define([
             var historyCount = 0;
 
             $scope.number = '';
-            $scope.$watch('number', function (newValue, oldValue) {
-                if (newValue !== oldValue) ShareFactory.setValue(newValue);
-            });
-
-
+            /**    $scope.$watch('number', function (newValue, oldValue) {
+                    if (newValue !== oldValue) ShareFactory.setValue(newValue);
+                });
+    
+    */
 
 
             $scope.$on("$ionicView.afterEnter", function (event) {
-                console.log("entered chat");
+                //console.log("entered chat");
                 $timeout(function () {
                     $ionicScrollDelegate.scrollBottom();
                 });
@@ -51,7 +51,7 @@ define([
                 query.equalTo("chat_name", chatRoom);
                 query.first({
                     success: function (results) {
-                        console.log("great grea success");
+                       // console.log("great grea success");
                         if (results.get('chat_from') == Parse.User.current().id) {
                             results.set("chat_from_online", true);
                             results.save();
@@ -68,7 +68,7 @@ define([
 
 
             $scope.$on("$ionicView.leave", function (event) {
-                console.log("we have exited chat");
+               // console.log("we have exited chat");
                 var query = new Parse.Query('ChatRooms');
                 //query.include(' parent');
                 query.equalTo("chat_name", chatRoom);
@@ -94,12 +94,12 @@ define([
 
 
             if ($rootScope.userID) {
-                console.log("confirming userid as:" + $rootScope.userID);
+                //console.log("confirming userid as:" + $rootScope.userID);
 
 
                 var x = $rootScope.userID;
                 var y = Parse.User.current().id;
-                console.log("the fuckuser id is" + x);
+                //console.log("the fuckuser id is" + x);
 
                 if (x > y) {
                     chatRoom = x + "" + y;
@@ -115,7 +115,7 @@ define([
                             for (var i = 0; i < results.length; i++) {
                                 var object = results[i];
                                 if (chatRoom == object.get('chat_name')) {
-                                    console.log("chat room exists");
+                                   // console.log("chat room exists");
                                     foundChat = true;
                                     // if chat room exists, we check history count of messages in parse with pubnub
                                     updateHistoryCount();
@@ -124,7 +124,7 @@ define([
 
                             }
                             if (!foundChat) {
-                                console.log("chat room  does not exist");
+                               // console.log("chat room  does not exist");
                                 createChatRoom();
 
                             }
@@ -146,7 +146,7 @@ define([
                             for (var i = 0; i < results.length; i++) {
                                 var object = results[i];
                                 if (chatRoom == object.get('chat_name')) {
-                                    console.log("chat room exists");
+                                   // console.log("chat room exists");
                                     foundChat = true;
                                     updateHistoryCount();
 
@@ -164,7 +164,7 @@ define([
 
             }
             else {
-                console.log("no user found");
+                //console.log("no user found");
 
             }
 
@@ -179,7 +179,7 @@ define([
 
             if (!$rootScope.start) {
                 // Initialize the PubNub service
-                console.log("pubnub initialized");
+               // console.log("pubnub initialized");
                 //pubnub = PubNub.getPub();
 
 
@@ -200,13 +200,13 @@ define([
 
                 var query = new Parse.Query('User');
                 //query.include(' parent');
-                console.log("getting the user");
+              //  console.log("getting the user");
                 query.find({
                     success: function (results) {
                         // Do something with the returned Parse.Object values
                         for (var i = 0; i < results.length; i++) {
                             var object = results[i];
-                            console.log("looping throug users");
+                           // console.log("looping throug users");
                             if ($rootScope.userID == object.id) {
                                 var Chat = Parse.Object.extend("ChatRooms");
                                 var newChat = new Chat();
@@ -216,7 +216,7 @@ define([
                                 newChat.save();
                                 newChat.set("chat_from_name", Parse.User.current().get("firstName"));
                                 newChat.save();
-                                console.log(object.get("username"));
+                              //  console.log(object.get("username"));
                                 newChat.set("chat_to_name", object.get("firstName"));
                                 newChat.save();
                                 newChat.set("chat_name", chatRoom);
@@ -225,7 +225,7 @@ define([
                                 newChat.set("HistoryCountTo", 0);
                                 newChat.save();
 
-                                console.log("chat room added to DB succesfully");
+                               // console.log("chat room added to DB succesfully");
 
 
                             }
@@ -249,14 +249,14 @@ define([
                         for (var i = 0; i < results.length; i++) {
                             var object = results[i];
                             if (chatRoom == object.get('chat_name')) {
-                                console.log("chat room exists");
+                               // console.log("chat room exists");
                                 foundChat = true;
 
                             }
 
                         }
                         if (!foundChat) {
-                            console.log("chat room  does not exist");
+                           // console.log("chat room  does not exist");
 
                         }
 
@@ -268,7 +268,7 @@ define([
 
 
             function getHistory() {
-                console.log("getting history");
+               // console.log("getting history");
                 //console.log("the current historycount is:" + historyCount);
                 pubnub.history({
                     channel: chatRoom,
@@ -298,7 +298,7 @@ define([
 
                 },
                 presence: function (presenceEvent) {
-                    console.log("HALLIUUKAAAAL");
+                   // console.log("HALLIUUKAAAAL");
                 }
 
 
@@ -329,7 +329,7 @@ define([
             };
 
             function updateHistoryCount() {
-                console.log("are we here");
+               // console.log("are we here");
                 var query = new Parse.Query('ChatRooms');
                 query.find({
                     success: function (results) {
@@ -342,23 +342,23 @@ define([
                                 if (object.get('chat_from') == Parse.User.current().id) {
                                     //historyCount = object.get("HistoryCountMe");
 
-                                    console.log(object.get("HistoryCountTo"));
+                                   // console.log(object.get("HistoryCountTo"));
                                     if (object.get("HistoryCountTo") > object.get("HistoryCountMe")) {
                                         console.log("we are heere4");
                                         historyCount = object.get("HistoryCountTo");
                                         var amount = (object.get("HistoryCountTo") - object.get("HistoryCountMe"));
-                                        console.log("amount is: " + amount);
+                                    //    console.log("amount is: " + amount);
                                         $scope.number = $scope.number - amount;
                                         var query = new Parse.Query('User');
                                         //query.include(' parent');
                                         query.equalTo("objectId", $rootScope.userID);
                                         //  console.log("getting the user");
                                         var current_unread = Parse.User.current().get("total_unread");
-                                        console.log("WOHOOOOO" + current_unread);
+                                      //  console.log("WOHOOOOO" + current_unread);
                                         if (current_unread > 0) {
                                             Parse.Cloud.run('decrementChatCount', { objectId: Parse.User.current().id, amount: amount }, {
                                                 success: function (results) {
-                                                    console.log("success");
+                                                    console.log("success, unread decremented");
 
                                                 },
                                                 error: function (error) {
@@ -368,7 +368,7 @@ define([
                                         }
                                         $rootScope.messageNotification();
                                         object.set("HistoryCountMe", object.get("HistoryCountTo"));
-                                        console.log("history count for hamid is" + historyCount);
+                                       // console.log("history count for hamid is" + historyCount);
                                         object.save();
 
                                     }
@@ -386,12 +386,12 @@ define([
                                         var query = new Parse.Query('User');
                                         //query.include(' parent');
                                         query.equalTo("objectId", $rootScope.userID);
-                                        console.log("history count for adam is" + historyCount);
+                                       // console.log("history count for adam is" + historyCount);
                                         var current_unread = Parse.User.current().get("total_unread");
                                         if (current_unread > 0) {
                                             Parse.Cloud.run('decrementChatCount', { objectId: Parse.User.current().id, amount: amount }, {
                                                 success: function (results) {
-                                                    console.log("success");
+                                                    console.log("success, unread decremented");
 
                                                 },
                                                 error: function (error) {
@@ -400,7 +400,7 @@ define([
                                             });
                                         }
                                         $rootScope.messageNotification();
-                                        console.log("should not be here");
+                                      //  console.log("should not be here");
                                         object.set("HistoryCountTo", object.get("HistoryCountMe"));
                                         object.save();
 
@@ -512,7 +512,7 @@ define([
                                         object.save();
 
                                     }
-                                    
+
                                     if (object.get('chat_to_online') == true) {
                                         // var old = object.get("HistoryCountTo");
                                         console.log("shoud not be here")
@@ -527,7 +527,7 @@ define([
                             }
                         }
                     });
-  
+
                     var query = new Parse.Query('ChatRooms');
                     //query.include(' parent');
                     query.equalTo("chat_name", chatRoom);
@@ -538,11 +538,11 @@ define([
                                 if (results.get("chat_to_online") == false) {
                                     Parse.Cloud.run('incrementChatCount', { objectId: $rootScope.userID }, {
                                         success: function (results) {
-                                            console.log("success");
+                                            console.log("success, incremented count");
 
                                         },
                                         error: function (error) {
-                                            console.error(error);
+                                            console.log("problem uopdating unread messages");
                                         }
                                     });
                                 }
@@ -551,10 +551,10 @@ define([
                                 if (results.get("chat_from_online") == false) {
                                     Parse.Cloud.run('incrementChatCount', { objectId: $rootScope.userID }, {
                                         success: function (results) {
-                                            console.log("success");
+                                            console.log("success, incremented count");
                                         },
                                         error: function (error) {
-                                            console.error(error);
+                                            console.log("problem uopdating unread messages");
                                         }
                                     });
                                 }
