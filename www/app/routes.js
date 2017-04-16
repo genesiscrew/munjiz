@@ -1,39 +1,35 @@
 define([
   'app',
-  // Load Controllers here
+  // Load Controllers
   'controllers/app',
   'controllers/dashboard',
-  'controllers/results',
   'controllers/profile',
   'controllers/listing',
+  'controllers/messages',
   'controllers/chat',
   'controllers/login',
   'controllers/new_listing',
   'controllers/edit_profile',
 
-
 ], function (app) {
   'use strict';
-  // definition of routes
+
   app.config([
     '$stateProvider',
     '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
-      // url routes/states
+      
+      // Default route if not found
       $urlRouterProvider.otherwise('/login');
 
       $stateProvider
-        // app states
+
         .state('dashboard', {
           url: '/dashboard',
           templateUrl: 'app/templates/dashboard.html',
           controller: 'DashboardCtrl'
         })
-        .state('results', {
-          url: '/results/:search/:satTrans/:wheelChair/:wheelChairLift',
-          controller: 'ResultsCtrl',
-          templateUrl: 'app/templates/results.html'
-        })
+
         .state('profile', {
           url: '/profile/:id',
           controller: 'ProfileCtrl',
@@ -58,9 +54,8 @@ define([
           controller: 'ChatCtrl',
           templateUrl: 'app/templates/chat.html'
         })
-
         .state('new_listing', {
-          url: '/new_listing',
+          url: '/new_listing/:id',
           controller: 'NewListingCtrl',
           templateUrl: 'app/templates/new_listing.html'
         })
@@ -69,10 +64,16 @@ define([
           url: '/login',
           controller: 'LoginCtrl',
           templateUrl: 'app/templates/login.html'
+        })
+
+        .state('messages', {
+          url: '/messages',
+          cache: false,
+          reload: true,
+          controller: 'MessageCtrl',
+          templateUrl: 'app/templates/messages.html'
         });
 
-
-        
     }
   ]);
 });

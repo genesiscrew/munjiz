@@ -6,6 +6,7 @@ require([
   
 ], function () {
   'use strict';
+  
   // Here you have to set your app name to bootstrap it manually
   angular.bootstrap(document, ['app']);
 });
