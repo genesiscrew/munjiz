@@ -3,7 +3,7 @@ var require = {
   paths: {
     'ionic': '../lib/ionic/js/ionic.bundle.min',
     'angular-md5': '../lib/angular-md5/angular-md5.min.js',
-    'ngCordova': '..lib/ngCordova/dist/ng-cordova.js'
+    'ngCordova': '../lib/ngCordova/dist/ng-cordova.js'
     // jquery: '../lib/jquery/jquery.min.js'
   }
   // if you are using jquery you have to add a shim for ionic and add jquery as deps

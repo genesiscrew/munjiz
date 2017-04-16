@@ -1,5 +1,5 @@
 {
-  "name": "FoodMarket",
+  "name": "ionicMaps",
   "app_id": "d2835955",
   "gulpStartupTasks": [
     "sass",
@@ -8,5 +8,6 @@
   "watchPatterns": [
     "www/**/*",
     "!www/lib/**/*"
-  ]
+  ],
+  "defaultBrowser": "safari"
 }

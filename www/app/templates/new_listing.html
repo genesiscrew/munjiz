@@ -1,44 +1,30 @@
 <ion-view title="Create a new Listing">
 <ion-nav-title>Create a new Listing</ion-nav-title>
-    <ion-content padding="true"> 
-        <ion-list>
+    <ion-content>
 
-<<<<<<< HEAD
+        <ion-list>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Title</span>
+                <input type="text" placeholder="Title" ng-model="listing.title">
+            </label>
+            <label class="item item-input item-floating-label ">
+                <span class="input-label">Description</span>
+                <input type="text" placeholder="Description" ng-model="listing.desc" class="padding-bottom">
+            </label>
+            <label class="item item-input item-floating-label ">
+                <span class="input-label">Price</span>
+                <input type="tel" placeholder="Price" ng-model="listing.price" class="padding-bottom">
+            </label>
+
             <button class="button button-full button-positive" ng-click="addMedia()">
                     Add image
             </button>
 
             <button class="button button-block button-balanced" ng-click="createListing()" ng-disabled="!ready">Create</button>
-=======
-            <!-- Listing title -->
-            <ion-item class="item-divider item-icon-right listing-divider"><b>Title</b> <i class="icon ion-profile"></i></ion-item>
-            <ion-item>
-              <input style="border:0;  width: 100%;" ng-model="listing.title"></input>
-            </ion-item>
-            <br>
-
-            <!-- Listing description -->
-            <ion-item class="item-divider item-icon-right listing-divider"><b>Description</b> <i class="icon ion-profile"></i></ion-item>
-            <ion-item>
-              <input style="border:0;  width: 100%;" ng-model="listing.desc"></input>
-            </ion-item>
-            <br>
-
-            <!-- Listing price -->
-            <ion-item class="item-divider item-icon-right listing-divider"><b>Description</b> <i class="icon ion-profile"></i></ion-item>
-            <ion-item>
-              <input style="border:0;  width: 100%;" ng-model="listing.price"></input>
-            </ion-item>
-            <br>
-
-            <!-- Add image button -->
-            <button class="button button-full button-positive" ng-click="addMedia()">Add image</button>
-
-            <!-- Create listing button -->
-            <button class="button button-block button-balanced" ng-click="submit()" ng-disabled="!ready"> {{submitButtonTitle}} </button>
->>>>>>> master
            
         </ion-list>
     </ion-content>
-
+    <ion-footer-bar class="bar bar-footer bar-light" ui-sref="signup">
+        <h1 class="title">Don't have an account ?</h1>
+    </ion-footer-bar>
 </ion-view>

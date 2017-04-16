@@ -1,10 +1,8 @@
-<!-- Header bar (hides menu and back button) -->
 <ion-header-bar class="bar-energized" align-title="center">
     <h1 class="title">Login</h1>
 </ion-header-bar>
 
 <ion-view title="Log In" hide-back-button="true" hide-nav-bar="true">
-<<<<<<< HEAD
     <ion-content class="background-light">
 
         <ion-list>
@@ -35,50 +33,4 @@
 <ion-footer-bar class="bar bar-footer bar-light" ui-sref="signup">
     <h1 class="title">Create Account</h1>
 </ion-footer-bar>
-=======
-     <!-- Content -->
-    <ion-content class="background-light">
-        <!-- For Facebook plugin to attach to -->
-        <div id="fb-root"> </div> 
-
-        <ion-list>
-
-            <!-- Usersname label and input -->
-            <label class="item item-input item-floating-label username-input">
-                <i class="icon ion-person placeholder-icon"></i>
-                <input class="username-input" type="text" placeholder="Username" id="username" ng-model="user.username">
-            </label>
-
-            <!-- Password label and input -->
-             <label class="item item-input item-floating-label password-input">
-                <i class="icon ion-ios-locked placeholder-icon"></i>
-                <input class="password-input" type="password" placeholder="Password" id="password" ng-model="user.password" >
-             </label>
-
-            
-            <!-- Login button -->
-            <ion-item class="no-padding top-login-item">
-                <button ion-button round class="button button-round button-balanced no-padding" ng-click="login(user)" ng-disabled="!ready">Log In</button>
-            </ion-item>
-
-            <!-- Facebook button -->
-            <ion-item class="no-padding">
-                <button  ion-button-round class="button button-round button-positive no-padding"  ng-click="loginFacebook()" href="dashboard">Facebook</button>
-            </ion-item>
-
-            <!-- Forgot password buttton -->
-            <ion-item class="no-padding">
-                <button class="button button-round button-clear forgot-password-button" id="forgot-button" ui-sref="reset">Forgot Password</button>
-            </ion-item>
-
-        <!-- Close the list and main content div -->  
-        </ion-list>
-    </ion-content>
-
-    <!-- Footer -->
-    <ion-footer-bar class="bar bar-footer bar-light" ui-sref="signup">
-        <h1 class="title">Create Account</h1>
-    </ion-footer-bar>
-
->>>>>>> master
 </ion-view>

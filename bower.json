@@ -5,14 +5,7 @@
     "ionic": "driftyco/ionic-bower#1.1.0"
   },
   "dependencies": {
-<<<<<<< HEAD
     "angular-md5": "^0.1.10",
     "ngCordova": "^0.1.27-alpha"
-=======
-
-    "angular-md5": "^0.1.10",
-    "ngCordova": "^0.1.27-alpha"
-
->>>>>>> master
   }
 }
