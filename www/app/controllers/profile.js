@@ -1,59 +1,6 @@
 /* global ionic, define */
 define([
   'app'], function (app) {
-<<<<<<< HEAD
-  'use strict';
-
-  app.controller('ProfileCtrl', [
-    '$scope',
-    '$stateParams',
-    '$window',
-    '$ionicPopup',
-    '$state',
-    function ($scope, $stateParams, $window, $ionicPopup, $state) {
-      $scope.loading = true;
-
-       $scope.editProfile = function(){
-          $state.go('edit_profile');
-        };
-
-      $scope.getProfile = function(objectID) {
-
-          var query = new Parse.Query(Parse.User);
-          query.equalTo("objectId", objectID);
-          query.find({
-            success: function(result, reloading) {  
-
-              var profile = result[0];
-
-              profile.name = profile.get("firstName") + " " + profile.get("lastName");
-              profile.city = profile.get("city");
-              profile.imageURL = profile.get("imageURL");
-              profile.number = profile.get("streetNumber");
-              profile.street = profile.get("street");
-              profile.city = profile.get("city");  
-              profile.hours = profile.get("hours");     
-              profile.id = Parse.User.current().id;
-              $scope.profile = profile;   
-
-              console.log("done");         
-              if(reloading){
-                 $scope.$broadcast('scroll.refreshComplete');
-              }else{
-                $scope.loading = false;
-              }
-            },
-            error: function(error) {
-              alert("Error: " + error.code + " " + error.message);
-            }
-          });
-        };
-      $scope.getProfile($stateParams.id, false);
-
-      $scope.reload = function () {
-          $scope.getProfile($stateParams.id, true);
-      };
-=======
     'use strict';
 
     app.controller('ProfileCtrl', [
@@ -99,7 +46,6 @@ define([
       $scope.loading = true;
       $scope.getProfile($stateParams.id);
 
->>>>>>> master
 
       // Reloads the page, not currently being used at the moment 
       $scope.reload = function () {

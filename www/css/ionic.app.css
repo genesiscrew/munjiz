@@ -8296,7 +8296,7 @@ a.button {
   .button-bar.button-bar-inline {
     display: block;
     width: auto;
-    *zoom: 1; }
+    zoom: 1; }
     .button-bar.button-bar-inline:before, .button-bar.button-bar-inline:after {
       display: table;
       content: "";
@@ -9126,8 +9126,13 @@ a.button {
   padding: 0 5px; }
 
 .spinner svg {
+<<<<<<< HEAD
+  stroke: #fcb150;
+  fill: #fcb150; }
+=======
   stroke: #4fc4f6;
   fill: #4fc4f6; }
+>>>>>>> e581d0a14ab7a4098bcf568397f9b53c68f8cdb1
 
 section.chats div {
   max-width: 255px;
@@ -9158,7 +9163,11 @@ p.notification {
   float: right; }
 
 .from-me:before {
+<<<<<<< HEAD
   /** content: "";
+=======
+  content: "";
+>>>>>>> e581d0a14ab7a4098bcf568397f9b53c68f8cdb1
   position: absolute;
   z-index: -1;
   bottom: -2px;
@@ -9166,10 +9175,17 @@ p.notification {
   height: 20px;
   border-right: 20px solid #0B93F6;
   border-bottom-left-radius: 16px 14px;
+<<<<<<< HEAD
   -webkit-transform: translate(0, -2px); */ }
 
 .from-me:after {
   /** content: "";
+=======
+  -webkit-transform: translate(0, -2px); }
+
+.from-me:after {
+  content: "";
+>>>>>>> e581d0a14ab7a4098bcf568397f9b53c68f8cdb1
   position: absolute;
   z-index: 1;
   bottom: -2px;
@@ -9178,6 +9194,7 @@ p.notification {
   height: 20px;
   background: white;
   border-bottom-left-radius: 10px;
+<<<<<<< HEAD
   -webkit-transform: translate(-30px, -2px); */ }
 
 .badge-container {
@@ -9192,6 +9209,9 @@ p.notification {
   right: -5px;
   height: 20px;
   top: -15px !important; }
+=======
+  -webkit-transform: translate(-30px, -2px); }
+>>>>>>> e581d0a14ab7a4098bcf568397f9b53c68f8cdb1
 
 .from-them {
   position: relative;
@@ -9202,7 +9222,11 @@ p.notification {
   float: left; }
 
 .from-them:before {
+<<<<<<< HEAD
   /** content: "";
+=======
+  content: "";
+>>>>>>> e581d0a14ab7a4098bcf568397f9b53c68f8cdb1
   position: absolute;
   z-index: 2;
   bottom: -2px;
@@ -9210,10 +9234,17 @@ p.notification {
   height: 20px;
   border-left: 20px solid #E5E5EA;
   border-bottom-right-radius: 16px 14px;
+<<<<<<< HEAD
   -webkit-transform: translate(0, -2px); */ }
 
 .from-them:after {
   /** content: "";
+=======
+  -webkit-transform: translate(0, -2px); }
+
+.from-them:after {
+  content: "";
+>>>>>>> e581d0a14ab7a4098bcf568397f9b53c68f8cdb1
   position: absolute;
   z-index: 3;
   bottom: -2px;
@@ -9222,12 +9253,17 @@ p.notification {
   height: 20px;
   background: white;
   border-bottom-right-radius: 10px;
+<<<<<<< HEAD
   -webkit-transform: translate(-30px, -2px); */ }
 
 .username-list {
   line-height: 38px; }
+=======
+  -webkit-transform: translate(-30px, -2px); }
 
-<<<<<<< HEAD
+.username-list {
+  line-height: 38px; }
+
 
 .bar .buttons .button.button-icon {
   .icon::before, &::before, &.icon-left::before, &.icon-right::before {
@@ -9235,17 +9271,4 @@ p.notification {
     line-height: 24px;
   }
 }
-=======
-.listing_image {
-  width: 60px;
-  height: 60px; }
-
-.listing_list {
-  padding-bottom: 50px; }
-
-.fucker {
-  padding-bottom: 30px; }
-
-.listing-background {
-  /*background-color: #7C84AE; */ }
->>>>>>> master
+>>>>>>> e581d0a14ab7a4098bcf568397f9b53c68f8cdb1

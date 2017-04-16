@@ -84,74 +84,6 @@ define([
           if (!user.existed() && !foundUser) {
               // User does not exist in database and also there is no user in DB with similar FB ID
 
-<<<<<<< HEAD
-            $scope.login = function (user) {
-              Parse.User.logIn(user.username, user.password, {
-                success: function (user) {
-                  $state.go('dashboard');
-                },
-                error: function (user, error) {
-                  alert("Error: " + error.message);
-                }
-              });
-            };
-
-
-            $scope.checkUserDetails = function(response, user){
-
-              var foundUser = false;
-
-                     // query to see if a user exists in DB with the 
-                      //same fb id as the one who logged in through fb
-                      console.log(user);
-                      var query = new Parse.Query("User");
-                      query.equalTo('username', response.id);
-                      query.find({
-                        success: function (results) {
-                          if(results.length > 0)
-                            foundUser = true;
-                          
-                        },
-                        error: function (error) {
-                          alert("Error: " + error.code + " " + error.message);
-                        }
-                      });
-
-
-                      // coming here means the user does not exist in database and also 
-                      // there is no user in DB with similar FB ID
-                      if (!user.existed() && !foundUser) {
-
-                          // updating user record based on accesible facebook data
-                          console.log(response);
-                          user.set('username', response.id);
-                          user.set('email', response.email);
-                          user.set('firstName', response.first_name);
-                          user.set('lastName', response.last_name);
-                          user.set('imageURL', response.picture.data.url);
-                          user.save();
-
-                          // go to dashbboard
-                          alert("Created new user");
-                          $state.go("dashboard");
-
-                        } else {
-                          // the current parse user is already in the database,
-                          // so we just proceed to the dashboard
-                          $state.go("dashboard");
-                        }
-                      }
-
-          //Todo
-          $scope.fbLogin = function () {
-              // Already signed in - go straight to dashboard
-              FB.getLoginStatus(function (response) {
-                if (response.status === 'connected') {                           
-                  $state.go('dashboard');
-                  return;
-                }
-              });
-=======
               // Updating user record based on accesible facebook data
               user.set('username', response.id);
               user.set('email', response.email);
@@ -160,7 +92,6 @@ define([
               user.set('imageURL', response.picture.data.url);
               user.set('total_unread', 0);
               user.save();
->>>>>>> master
 
               // Go to dashbboard
               $state.go("dashboard");

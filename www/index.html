@@ -4,43 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-  <title>Food Market</title>
+  <title></title>
 
-<<<<<<< HEAD
-  <!-- compiled css output -->
-  <link href="css/ionic.app.css" rel="stylesheet">
-
-  <!-- Parse --> 
-  <script src="lib/parse-js-sdk/lib/parse.js"></script> 
-
-  <!-- pubnub --> 
-  <script src="http://cdn.pubnub.com/pubnub.min.js"></script>
-  <script src="lib/angular/angular.js"></script>
-
-  <!-- md5 -->
-  <script src="lib/angular-md5/angular-md5.js"></script>
-
-  <!-- cordova script (this will be a 404 during development) -->
-  <script src="lib/ngCordova/dist/ng-cordova.js"></script>
-  <script src="cordova.js"></script>
-
-  <!-- load requirejs config -->
-  <script src="main.js"></script>
-
-  <!-- load requirejs -->
-  <script src="lib/requirejs/require.min.js"></script>
-
-  <!-- load boot-script - it loads configs, routes, runs and bootstraps the app -->
-  <script src="app/boot.js"></script>
-
-  <!-- Facebook -->
-  <script src="cdv-plugin-fb-connect.js"></script>
-  <script src="facebook-js-sdk.js"></script>
-
-  
-
-</head>
-=======
  
   <!-- compiled css output -->
   <link href="css/ionic.app.css" rel="stylesheet">
@@ -59,8 +24,8 @@
   <script src="lib/angular-md5/angular-md5.js"></script>
 
 <!-- Facebook -->
-<!--  <script src="cdv-plugin-fb-connect.js"></script>
-  <script src="facebook-js-sdk.js"></script> -->
+  <script src="cdv-plugin-fb-connect.js"></script>
+  <script src="facebook-js-sdk.js"></script>
 
   <!-- cordova script (this will be a 404 during development) -->
   <script src="cordova.js"></script>
@@ -77,10 +42,7 @@
 </head>
 
 <body ng-controller="AppCtrl" ng-show="ready" class="ng-hide">
->>>>>>> master
 
-<body ng-controller="AppCtrl" ng-show="ready" class="ng-hide">
- 
   <ion-side-menus enable-menu-with-back-views="true">
     <!-- Left menu -->
     <ion-side-menu side="left">
@@ -89,22 +51,25 @@
       </ion-header-bar>
       <ion-content class="background-royal">
         <ion-list>
+          <!-- Generic -->
+          <!--
+          <ion-item class="item-royal item-icon-right" ng-repeat="page in pages" menu-close href="#/{{page.alias}}">
 
-        
+            {{page.title}}
+            <i class="icon" ng-class="page.icon"></i>
+          </ion-item>
+-->
+          <!-- Profile -->
+
           <ion-item class="item-royal item-icon-right" menu-close ng-click="goDashBoard()">
             Find
             <i class="icon ion-search"></i>
           </ion-item>
 
+
           <!-- Profile -->
           <ion-item class="item-royal item-icon-right" menu-close ng-click="goProfile()">
             Profile
-            <i class="icon ion-person"></i>
-          </ion-item>
-
-          <!-- Chat -->
-          <ion-item class="item-royal item-icon-right" menu-close ng-click="goChat()">
-            Message
             <i class="icon ion-person"></i>
           </ion-item>
 
@@ -142,11 +107,7 @@
 
 
           <button ng-click="goMessages()" class="button button-icon icon ion-ios-chatbubble badge-container">
-               <div>
-
-                  <span class="badge-assertive badge" ng-if="zxcv">  {{number}} </span> 
-
-               </div>
+               <div ng-bind-html="messageNotification()"></div>
               <!-- <span class="badge-assertive badge">5</span> -->
 
          </button>
