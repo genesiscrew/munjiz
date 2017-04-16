@@ -18,7 +18,7 @@ define([
         function ($state, $window, userService, $ionicPopup, $rootScope) {
             return {
                 scope: {
-                    events: '=',
+                  //  events: '=',
                     apiKey: '@',
 
 
@@ -36,9 +36,9 @@ define([
                         object2,
                         mylat,
                         mylong,
-                        eventsReady = false,
+                        //eventsReady = false,
                         searchedItem;
-
+ console.log(" we are inside map");
 
                     function addClick(marker) {
                         $window.google.maps.event.addListener(marker, 'click', function () {
@@ -277,7 +277,7 @@ define([
                     if (!$window.google) {
                         counter += 1;
                         injectGoogle();
-                        //window.alert("inject google");
+                        window.alert("inject google");
                     } else {
                         makeMapAndMarkers();
 

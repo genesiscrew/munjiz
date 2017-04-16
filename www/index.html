@@ -6,11 +6,11 @@
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
   <title></title>
 
- 
+
   <!-- compiled css output -->
   <link href="css/ionic.app.css" rel="stylesheet">
 
-  
+
   <script src="lib/angular/angular.js"></script>
 
   <!-- Parse -->
@@ -27,6 +27,7 @@
   <script src="cdv-plugin-fb-connect.js"></script>
   <script src="facebook-js-sdk.js"></script>
 
+
   <!-- cordova script (this will be a 404 during development) -->
   <script src="cordova.js"></script>
   <!-- load requirejs config -->
@@ -36,7 +37,7 @@
   <!-- load boot-script - it loads configs, routes, runs and bootstraps the app -->
   <script src="app/boot.js"></script>
 
-  <!-- styles --> 
+  <!-- styles -->
   <link href="css/style.css" rel="stylesheet">
 
 </head>
@@ -51,16 +52,8 @@
       </ion-header-bar>
       <ion-content class="background-royal">
         <ion-list>
-          <!-- Generic -->
-          <!--
-          <ion-item class="item-royal item-icon-right" ng-repeat="page in pages" menu-close href="#/{{page.alias}}">
 
-            {{page.title}}
-            <i class="icon" ng-class="page.icon"></i>
-          </ion-item>
--->
           <!-- Profile -->
-
           <ion-item class="item-royal item-icon-right" menu-close ng-click="goDashBoard()">
             Find
             <i class="icon ion-search"></i>
@@ -81,7 +74,6 @@
           </ion-item>
 
           <!-- Signout -->
-
           <ion-item class="item-royal item-icon-right" menu-close ng-click="logout()">
             Sign out
             <i class="icon ion-log-out"></i>
@@ -107,8 +99,9 @@
 
 
           <button ng-click="goMessages()" class="button button-icon icon ion-ios-chatbubble badge-container">
-               <div ng-bind-html="messageNotification()"></div>
-              <!-- <span class="badge-assertive badge">5</span> -->
+               <div>
+                  <span class="badge-assertive badge" ng-if="zxcv">  {{number}} </span>
+               </div>
 
          </button>
         </ion-nav-buttons>
