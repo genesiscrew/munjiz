@@ -1,26 +1,48 @@
 <ion-view> 
   <ion-nav-title>Listings</ion-nav-title>
   
+   <!-- Navigation -->
   <ion-nav-buttons side="right">
+<<<<<<< HEAD
     <div class="button button-clear icon ion-plus-round" ng-click="addListing()">
+=======
+    <div class="button button-clear icon ion-plus-round" ng-click="addListing(0)">
+>>>>>>> master
     </div>
   </ion-nav-buttons>
-
+ 
+    <!-- Content -->
   <ion-content padding="true" class="has-footer">
+<<<<<<< HEAD
 
     <ion-refresher class="spinner-balanced" on-refresh="reload()" ng-hide="loading"></ion-refresher>
+=======
+    <!-- Spinner -->
+>>>>>>> master
     <div class="text-center">
       <ion-spinner class="spinner-balanced" ng-show="loading"></ion-spinner>
     </div>
-    <div ng-show="!loading">
-      <h3>{{listingOwner.name}}</h3>
-      <h4><b>{{listingOwner.city}}</b> <small>{{listingOwner.district}} </small></h4>
-      <br>
 
+<<<<<<< HEAD
+=======
+    <!-- Main content div -->
+    <div ng-show="!loading">   
+
+      <!-- Profile -->
+     <div class="text-center">
+        <h3 class="text-center">{{profile.attributes.firstName + " " + profile.attributes.lastName}}</h3>
+        <h4><b>{{profile.attributes.city}}</b></h4>
+        <br>
+     </div>
+
+     <!-- Listing list -->
+>>>>>>> master
       <ion-list class="margin-bottom listing-background">        
 
-        <ion-item ng-repeat="event in events">
+      <!-- Listing -->
+        <ion-item ng-repeat="listing in listings" ng-show="listing.attributes.show" ng-click="editListing( listing.id )">
           <div class="row">
+<<<<<<< HEAD
             <div class="col-30">
               <img ng-src="{{event.imageURL}}" class="listing_image">
             </div>
@@ -33,18 +55,36 @@
             </div>
           </div>
       
+=======
+
+            <!-- Image -->
+            <div class="col-30">
+              <img ng-src="{{listing.imageURL}}" class="listing_image">
+            </div>
+
+            <!-- Text details -->
+            <div class="col-70 padding" class="text-left">
+              <p style="font-size: 18px; text-align: left; white-space: normal;"> {{listing.attributes.title}} </p>
+              <p style="font-size: 12px; text-align: left; white-space: normal;"> {{listing.attributes.desc}} </p>
+              <p style="font-size: 14px; text-align: left; white-space: normal;"> {{listing.attributes.price}} </p>
+            </div>
+          
+          </div> 
+>>>>>>> master
         </ion-item>
 
       </ion-list>
+      <!-- Spacing -->
       <br>
       <br>
       <br>
       <br>
+
+    <!-- Close the main content div and content -->  
     </div>
-
-
   </ion-content>
 
+  <!-- Footer -->
   <ion-footer-bar class="bar-stable">
     <div class="buttons">
       <div class="button button-clear" ng-disabled="loading" ng-click="map()">
@@ -59,4 +99,5 @@
       </div>
     </div>
   </ion-footer-bar>
+
 </ion-view>

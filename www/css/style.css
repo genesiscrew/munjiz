@@ -1,21 +1,50 @@
+<<<<<<< HEAD
 /* Light grey text color: #756C6A; */
 /* Energised (blue) color: #4fc4f6; */
 
 
 
+=======
+/* Colours:
+	Light grey text color: #756C6A
+	Energised (blue) color: #4fc4f6
+ */
+
+/* Format the listing image */
+>>>>>>> master
 .listing_image {
 	height: 80px;
 	width: 80px;
 }
 
+/* Padding at the bottom on the list */
 .listing_list {
 	padding-bottom: 50px;
 }
 
-.fucker {
-	padding-bottom: 30px;
+/* Google chrome autofill */
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px white inset;
 }
 
+/* Margin above username field on login */
+.username-input{
+	margin-top:50px;
+	font-size: 18px !important;
+}
+
+/* Password default size */
+.password-input{
+	font-size: 18px !important;
+}
+
+/* Forgot password */
+.forgot-password-button {
+	padding-top: 15px;
+	font-size: 12px;
+}
+
+<<<<<<< HEAD
 .listing-title {
 	font-size: 18px;
 }
@@ -66,6 +95,9 @@ input:-webkit-autofill {
 	margin-top: 100px;
 }
 
+=======
+/* For the login buttons */
+>>>>>>> master
 .no-padding{
 	margin-left: 40px;
 	margin-right: 40px;
@@ -75,6 +107,7 @@ input:-webkit-autofill {
 	padding-top:5px;
 	padding-bottom: 5px;
 	margin-left:0px;
+<<<<<<< HEAD
 }
 
 .forgot-password-button {
@@ -83,6 +116,24 @@ input:-webkit-autofill {
 }
 
 
+=======
+ }
+
+/* Hide borders */
+.item{
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	border-bottom: 0px;
+}
+
+/* Spacing between password field and login button */
+.top-login-item {
+	margin-top: 100px;
+}
+
+/* Icons on the side of the username / password input */
+>>>>>>> master
 .item-floating-label .placeholder-icon {
 	position: absolute;
 	bottom: 9px;
@@ -93,14 +144,27 @@ input:-webkit-autofill {
 	
 }
 
+<<<<<<< HEAD
+=======
+/* Constrain lgoin fields to the be on the right of the icon */
+>>>>>>> master
 .item-floating-label {
 	padding-left: 60px !important;
 }
 
+<<<<<<< HEAD
 .h1, .h2, .h3, .h4, .h5 {
 	color : #000 !important;
 }
 
+=======
+/* Change default colour */
+.h1, .h2, .h3, .h4, .h5 {
+	color : #756C6A !important;
+}
+
+/* Used for headers in ion-lists */
+>>>>>>> master
 .listing-divider{
 	border-bottom: 2px !important;
 	border-bottom-style: solid !important;
@@ -109,8 +173,20 @@ input:-webkit-autofill {
 	color: #756C6A !important;
 }
 
+<<<<<<< HEAD
+=======
+/* Main font colour */
+>>>>>>> master
 .light-grey-color {
 	color: #756C6A;
 }
 
+<<<<<<< HEAD
+=======
+/* Button default colour */
+.button {
+	color: #756C6A
+}
+
+>>>>>>> master
 

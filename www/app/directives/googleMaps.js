@@ -1,4 +1,4 @@
-/* globals define, document */
+
 define([
     'app',
     'services/user'
@@ -15,7 +15,7 @@ define([
         function ($state, $window, userService, $ionicPopup, $rootScope) {
             return {
                 scope: {
-                    events: '=',
+                  //  events: '=',
                     apiKey: '@',
 
 
@@ -26,6 +26,7 @@ define([
 
                 link: function (scope, element) {
                     var counter = 0,
+<<<<<<< HEAD
                     map,
                     mapsMarker,
                     gmarkers = [],
@@ -36,6 +37,18 @@ define([
                     eventsReady = false,
                     searchedItem;
 
+=======
+                        map,
+                        mapsMarker,
+                        gmarkers = [],
+                        object,
+                        object2,
+                        mylat,
+                        mylong,
+                        //eventsReady = false,
+                        searchedItem;
+ console.log(" we are inside map");
+>>>>>>> master
 
                     function addClick(marker) {
                         $window.google.maps.event.addListener(marker, 'click', function () {
@@ -45,6 +58,7 @@ define([
                                 subTitle: 'Profile',
                       
                                 buttons: [
+<<<<<<< HEAD
                                 { text: "View Listings",
                                 type: "button-default",
                                 onTap: function(e) { 
@@ -57,6 +71,24 @@ define([
                      ]
 
                  });
+=======
+                                    {
+                                        text: "chat",
+                                        type: "button-default",
+                                        onTap: function (e) {
+
+                                            console.log(marker.userID);
+                                            $rootScope.userID = marker.userID;
+                                            $state.go('chat');
+                                        }
+
+
+                                    }
+
+
+                                ]
+                            });
+>>>>>>> master
                         });
                     }
 
@@ -145,7 +177,7 @@ define([
 
                                             icon: image,
                                             clickable: true,
-                                            userID: object.get('username')
+                                            userID: object.id
 
                                         });
                                         gmarkers.push(mapsMarker);
@@ -185,13 +217,14 @@ define([
                             google.maps.event.addDomListener(document, 'keyup', function (e) {
                                 var div = document.getElementById('search').value
 
-
+                           
 
                                 var code = (e.keyCode ? e.keyCode : e.which);
 
                                 if (code == 13) {
                                     if (searchedItem != div) {
                                         searchedItem = div;
+                                        console.log("search function working");
                                         // here we remove the markers, and redraw them based on new search
                                         removeMarkers();
                                         makeMarkers();
@@ -237,8 +270,10 @@ define([
                         }
 
 
+                        if (Parse.User.current()) {
+                            makeMarkersforUsers();
+                        }
 
-                        makeMarkersforUsers();
                     }
 
                     //load google maps api script async, avoiding 'document.write' error
@@ -266,7 +301,7 @@ define([
                     if (!$window.google) {
                         counter += 1;
                         injectGoogle();
-                        //window.alert("inject google");
+                        window.alert("inject google");
                     } else {
                         makeMapAndMarkers();
 
