@@ -14,14 +14,15 @@
     <!--the div below enables the search form to stack on top of map, note that position has been hard coded and might render
        differently depending on screen size, needs to be tested -->
     <div id="map" data-tap-disabled="true" google-map center="center" style="height:100%; width: 100%;"
-         api-key="{{apiKey}}" info="adam" >
+         api-key="{{apiKey}}" ng-model="searchValue" >
     </div>
 
     <div style="position: absolute;  top: 0px; margin:0px;
                 width:{{width}}px; height:inherit ; background-color: transparent;">
 
       <input ion-autocomplete type="text" class="ion-autocomplete" autocomplete="on" ng-model="searchValue"
-             placeholder="What are you looking for?" items-method="callbackMethod(query)" max-selected-items="1"/>
+             placeholder="What are you looking for?" items-method="callbackMethod(query)" max-selected-items="1"
+      items-clicked-method="onClick(callback)" external-model="searchValue"/>
     </div>
 
   </ion-content>

@@ -89,7 +89,7 @@
             '<div class="bar bar-header item-input-inset">',
             '<label class="item-input-wrapper">',
             '<i class="icon ion-search placeholder-icon"></i>',
-            '<input type="search" class="ion-autocomplete-search" ng-model="viewModel.searchQuery" ng-model-options="viewModel.ngModelOptions" placeholder="{{viewModel.placeholder}}"/>',
+            '<input type="search" class="ion-autocomplete-search" ng-model="viewModel.searchValue" placeholder="{{viewModel.placeholder}}"/>',
             '</label>',
             '<button class="ion-autocomplete-cancel button button-clear button-dark" ng-click="viewModel.cancelClick()">{{viewModel.cancelLabel}}</button>',
             '</div>',

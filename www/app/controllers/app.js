@@ -39,7 +39,6 @@ define([
 
           }
           else {
-            console.log("we are heere fuck me");
             $scope.zxcv = false;
             $scope.$apply();
 

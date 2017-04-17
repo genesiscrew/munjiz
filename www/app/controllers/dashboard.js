@@ -11,6 +11,7 @@ define([
 
       $ionicNavBarDelegate.showBackButton(false);
       $scope.apiKey = 'AIzaSyBLn2Bi6M50mbmml_uq-jzcZKDMKR_OyTY';
+      $scope.searchValue = "";
       $scope.height = window.screen.height;
       $scope.width = window.screen.width;
       $scope.search = {};
@@ -24,7 +25,6 @@ define([
         var listingsQuery = new Parse.Query(Parse.Object.extend("Listings"));
         var items = [];
         $scope.searchValue = query;
-        console.log($scope.searchValue);
 
         if (query.length <= 2) {
           listingsQuery.startsWith("title", query);
@@ -43,6 +43,9 @@ define([
         );
       };
 
+      $scope.onClick = function (callback) {
+        $scope.searchValue = callback.item;
+      }
     }
   ]);
 
@@ -56,35 +59,45 @@ define([
     '$rootScope',
     function ($state, $window, userService, $ionicPopup, $rootScope) {
       return {
+        restrict: 'A',
         scope: {
           apiKey: '@',
-          searchValue: '=searchValue',
-          customerInfo: "=adam"
+          model: '=ngModel',
         },
-        // replace: true,
-        // transclude: false,
 
         link: function (scope, element, attrs) {
           var counter = 0,
             map,
             mapsMarker,
             gmarkers = [],
-            mylat,
-            mylong,
-            searchedItem = scope.searchValue;
-          console.log(attrs);
+            lat,
+            long,
+            searchedItem;
 
+          // Watches the text box, on change it updates the matching results
+          scope.$watch('model', function (value) {
+            console.log("updated value from watcher: " + value);
+            searchedItem = value;
+
+            if (searchedItem.length == 0) {
+              showAllClosestListings()
+            } else {
+              showMatchingSearchResultListings();
+            }
+          });
+
+
+          // Alert for when an event is clicked
           function addClick(marker) {
             $window.google.maps.event.addListener(marker, 'click', function () {
               $ionicPopup.alert({
+                template: '<input type ="text" ng-model = "data.model">',
                 okText: "GOT IT!",
                 buttons: [
                   {
                     text: "chat",
                     type: "button-default",
                     onTap: function (e) {
-
-                      console.log(marker.userID);
                       $rootScope.userID = marker.userID;
                       $state.go('chat');
                     }
@@ -102,19 +115,15 @@ define([
             var findCloseListings = new Parse.Query('User');
             findCloseListings.near("location", currentLocation);
             findCloseListings.limit(100);
-            var text  = "{{customer.value}}";
-            console.log("text" + text);
+            console.log("showing select results matching: " + searchedItem);
 
             findCloseListings.find({
               success: function (users) {
-                console.log(users);
-
                 // Find listings
                 var query = new Parse.Query('Listings');
                 query.include('parent');
                 query.containedIn("parent", users);
                 query.contains("title", searchedItem);
-
                 showListingsFromQuery(query);
               }
             });
@@ -123,9 +132,6 @@ define([
 
           // Shows all the closest listings on the map
           function showAllClosestListings() {
-            var text  = "{{customer.value}}";
-            console.log("text" + text);
-
             // Find parents
             var currentLocation = Parse.User.current().get("location");
             var findCloseListings = new Parse.Query('User');
@@ -134,13 +140,10 @@ define([
 
             findCloseListings.find({
               success: function (users) {
-                console.log(users);
-
                 // Find listings
                 var query = new Parse.Query('Listings');
                 query.include('parent');
                 query.containedIn("parent", users);
-
                 showListingsFromQuery(query);
               }
             });
@@ -149,11 +152,11 @@ define([
 
           // Shows the listings on the map from a query
           function showListingsFromQuery(query) {
+            removeMarkers();
             query.find({
                 success: function (results) {
                   for (var i = 0; i < results.length; i++) {
                     var parent = results[i].get('parent');
-                    console.log("marker added");
 
                     var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
                     mapsMarker = new $window.google.maps.Marker({
@@ -182,7 +185,6 @@ define([
 
           // Make the map
           function makeMapAndMarkers() {
-            console.log("making map");
 
             var mapOptions = {
               zoom: 13,
@@ -193,27 +195,22 @@ define([
               map = new $window.google.maps.Map(element[0], mapOptions);
               // add a keyboard listener to the map, this probably needs to be modified for mobile use
               // since key pressed would be different than ENTER
-              google.maps.event.addDomListener(document, 'keyup', function (e) {
-                var div = searchedItem;
-                console.log(div);
-                var code = (e.keyCode ? e.keyCode : e.which);
-
-                if (code == 13) {
-                  if (searchedItem != div) {
-                    searchedItem = div;
-                    console.log("search function working");
-                    // here we remove the markers, and redraw them based on new search
-                    removeMarkers();
-                    if (searchedItem.length == 0) {
-                      showAllClosestListings();
-                      console.log("showing all listings");
-                    } else {
-                      console.log("showing listings that match: " + searchedItem);
-                      showMatchingSearchResultListings();
-                    }
-                  }
-                }
-              });
+              // google.maps.event.addDomListener(document, 'keyup', function (e) {
+              //   var code = (e.keyCode ? e.keyCode : e.which);
+              //
+              //   if (code == 13) {
+              //     // here we remove the markers, and redraw them based on new search
+              //     removeMarkers();
+              //     if (searchedItem.length == 0) {
+              //       showAllClosestListings();
+              //       console.log("showing all listings");
+              //       console.log("searchedItem is: " + searchedItem);
+              //     } else {
+              //       console.log("showing listings that match: " + searchedItem);
+              //       showMatchingSearchResultListings();
+              //     }
+              //   }
+              // });
 
               if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
 
@@ -229,18 +226,17 @@ define([
                   map: map
                 });
 
-
                 var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-                mylat = pos.coords.latitude;
-                mylong = pos.coords.longitude;
+                lat = pos.coords.latitude;
+                long = pos.coords.longitude;
                 // set fields of lat and long in user DB
-                Parse.User.current().set("lat", mylat);
-                Parse.User.current().set("long", mylong);
+
+                Parse.User.current().set("location", new Parse.GeoPoint(lat, long));
                 Parse.User.current().save();
                 map.setCenter(me);
                 myloc.setPosition(me);
               }, function (error) {
-                // ...
+                alert(error.message);
               });
             }
           }
