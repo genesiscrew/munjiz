@@ -18,12 +18,12 @@
   <!-- pubnub -->
   <script src="http://cdn.pubnub.com/pubnub.min.js"></script>
 
-   <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+  <script src="lib/ngCordova/dist/ng-cordova.js"></script>
   <!-- md5 -->
 
   <script src="lib/angular-md5/angular-md5.js"></script>
 
-<!-- Facebook -->
+  <!-- Facebook -->
   <script src="cdv-plugin-fb-connect.js"></script>
   <script src="facebook-js-sdk.js"></script>
 
@@ -40,79 +40,82 @@
   <!-- styles -->
   <link href="css/style.css" rel="stylesheet">
 
+  <!-- Ionic auto complete -->
+  <script src="lib/ion-autocomplete/dist/ion-autocomplete.js"></script>
+  <link href="lib/ion-autocomplete/dist/ion-autocomplete.css" rel="stylesheet">
+
 </head>
 
 <body ng-controller="AppCtrl" ng-show="ready" class="ng-hide">
 
-  <ion-side-menus enable-menu-with-back-views="true">
-    <!-- Left menu -->
-    <ion-side-menu side="left">
-      <ion-header-bar class="bar-energized">
-        <h1 class="title">Menu</h1>
-      </ion-header-bar>
-      <ion-content class="background-royal">
-        <ion-list>
+<ion-side-menus enable-menu-with-back-views="true">
+  <!-- Left menu -->
+  <ion-side-menu side="left">
+    <ion-header-bar class="bar-energized">
+      <h1 class="title">Menu</h1>
+    </ion-header-bar>
+    <ion-content class="background-royal">
+      <ion-list>
 
-          <!-- Profile -->
-          <ion-item class="item-royal item-icon-right" menu-close ng-click="goDashBoard()">
-            Find
-            <i class="icon ion-search"></i>
-          </ion-item>
-
-
-          <!-- Profile -->
-          <ion-item class="item-royal item-icon-right" menu-close ng-click="goProfile()">
-            Profile
-            <i class="icon ion-person"></i>
-          </ion-item>
+        <!-- Profile -->
+        <ion-item class="item-royal item-icon-right" menu-close ng-click="goDashBoard()">
+          Find
+          <i class="icon ion-search"></i>
+        </ion-item>
 
 
-          <!-- Listing -->
-          <ion-item class="item-royal item-icon-right" menu-close ng-click="goCurrentUserListings()">
-            Listings
-            <i class="icon ion-ios-pricetags"></i>
-          </ion-item>
-
-          <!-- Signout -->
-          <ion-item class="item-royal item-icon-right" menu-close ng-click="logout()">
-            Sign out
-            <i class="icon ion-log-out"></i>
-          </ion-item>
-
-        </ion-list>
-
-      </ion-content>
-    </ion-side-menu>
-
-    <ion-side-menu-content>
-      <!-- The nav bar that will be updated as we navigate -->
-      <ion-nav-bar class="bar-energized">
-        <ion-nav-back-button></ion-nav-back-button>
-
-        <ion-nav-buttons side="left">
-          <!-- Toggle left side menu -->
-          <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-        </ion-nav-buttons>
-        <ion-nav-buttons side="right">
-          <!-- Toggle left side menu -->
+        <!-- Profile -->
+        <ion-item class="item-royal item-icon-right" menu-close ng-click="goProfile()">
+          Profile
+          <i class="icon ion-person"></i>
+        </ion-item>
 
 
+        <!-- Listing -->
+        <ion-item class="item-royal item-icon-right" menu-close ng-click="goCurrentUserListings()">
+          Listings
+          <i class="icon ion-ios-pricetags"></i>
+        </ion-item>
 
-          <button ng-click="goMessages()" class="button button-icon icon ion-ios-chatbubble badge-container">
-               <div>
-                  <span class="badge-assertive badge" ng-if="zxcv">  {{number}} </span>
-               </div>
+        <!-- Signout -->
+        <ion-item class="item-royal item-icon-right" menu-close ng-click="logout()">
+          Sign out
+          <i class="icon ion-log-out"></i>
+        </ion-item>
 
-         </button>
-        </ion-nav-buttons>
+      </ion-list>
 
-      </ion-nav-bar>
-      <!-- where the initial view template will be rendered -->
-      <ion-nav-view>
-      </ion-nav-view>
-    </ion-side-menu-content>
+    </ion-content>
+  </ion-side-menu>
 
-  </ion-side-menus>
+  <ion-side-menu-content>
+    <!-- The nav bar that will be updated as we navigate -->
+    <ion-nav-bar class="bar-energized">
+      <ion-nav-back-button></ion-nav-back-button>
+
+      <ion-nav-buttons side="left">
+        <!-- Toggle left side menu -->
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+      </ion-nav-buttons>
+      <ion-nav-buttons side="right">
+        <!-- Toggle left side menu -->
+
+
+        <button ng-click="goMessages()" class="button button-icon icon ion-ios-chatbubble badge-container">
+          <div>
+            <span class="badge-assertive badge" ng-if="zxcv">  {{number}} </span>
+          </div>
+
+        </button>
+      </ion-nav-buttons>
+
+    </ion-nav-bar>
+    <!-- where the initial view template will be rendered -->
+    <ion-nav-view>
+    </ion-nav-view>
+  </ion-side-menu-content>
+
+</ion-side-menus>
 </body>
 
 </html>

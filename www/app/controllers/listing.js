@@ -34,6 +34,7 @@ define([
         query.equalTo("objectId", objectId);
 
         query.first().then(function (profile) {
+          $scope.profile = profile;
           $scope.getListings(profile);
         }, function (error) {
           console.error("Error finding user " + error);

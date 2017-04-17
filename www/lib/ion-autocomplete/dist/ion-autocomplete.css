@@ -1,0 +1,31 @@
+.ion-autocomplete-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  display: none;
+  min-height: 50% !important;
+  background-color: transparent;
+  height: 50%;
+  margin-top: 40px !important;
+}
+
+input.ion-autocomplete {
+  cursor: text;
+  padding: 15px !important;
+  width:100% !important;
+}
+
+.ion-autocomplete-loading-icon {
+  padding-left: 10px;
+}
+
+.ion-autocomplete-open {
+  display: block;
+}
+
+.ion-autocomplete-close {
+  display: none;
+}

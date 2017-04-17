@@ -1,26 +1,29 @@
+<head>
+  <!-- Ionic auto complete -->
+  <script src="lib/ion-autocomplete/dist/ion-autocomplete.js"></script>
+  <link href="lib/ion-autocomplete/dist/ion-autocomplete.css" rel="stylesheet">
+</head>
+
+<body ng-controller="DashboardCtrl">
 <ion-view>
 
   <ion-nav-title>FoodFinder <i class="icon ion-ios-location"></i></ion-nav-title>
 
   <ion-content padding="false" class="has-header" scroll="false">
-     
-          <!--the div below enables the search form to stack on top of map, note that position has been hard coded and might render
-             differently depending on screen size, needs to be tested -->
-      
-          
-          <div id="map" data-tap-disabled="true" google-map center="center" style="height:100%; width: 100%;"  api-key="{{apiKey}}">
-           </div>
 
-          <div style="position: absolute;  top: 0px; margin:0px;
-                width: {{width}}px; height:inherit ; background-color: transparent;">
-              <form name="form.search"  ng-submit="form.search.$valid"  >
-                  <label class="item item-input">
-                      <i class="icon ion-search placeholder-icon"></i>
-                      <input type="text"  id= "search" ng-model="search.string" required="required" placeholder="What are you looking for?">
-                  </label>
-                  <br />
-              </form>
-          </div>
-        
-</ion-content>
+    <!--the div below enables the search form to stack on top of map, note that position has been hard coded and might render
+       differently depending on screen size, needs to be tested -->
+    <div id="map" data-tap-disabled="true" google-map center="center" style="height:100%; width: 100%;"
+         api-key="{{apiKey}}" info="adam" >
+    </div>
+
+    <div style="position: absolute;  top: 0px; margin:0px;
+                width:{{width}}px; height:inherit ; background-color: transparent;">
+
+      <input ion-autocomplete type="text" class="ion-autocomplete" autocomplete="on" ng-model="searchValue"
+             placeholder="What are you looking for?" items-method="callbackMethod(query)" max-selected-items="1"/>
+    </div>
+
+  </ion-content>
 </ion-view>
+</body>
