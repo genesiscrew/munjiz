@@ -11,7 +11,7 @@ define([
 
       $ionicNavBarDelegate.showBackButton(false);
       $scope.apiKey = 'AIzaSyBLn2Bi6M50mbmml_uq-jzcZKDMKR_OyTY';
-      $scope.searchValue = "";
+      $scope.searchQuery = "";
       $scope.height = window.screen.height;
       $scope.width = window.screen.width;
       $scope.search = {};
@@ -24,7 +24,7 @@ define([
         // Load predictions instead
         var listingsQuery = new Parse.Query(Parse.Object.extend("Listings"));
         var items = [];
-        $scope.searchValue = query;
+        $scope.searchQuery = query;
 
         if (query.length <= 2) {
           listingsQuery.startsWith("title", query);
@@ -44,7 +44,7 @@ define([
       };
 
       $scope.onClick = function (callback) {
-        $scope.searchValue = callback.item;
+        $scope.searchQuery = callback.item;
       }
     }
   ]);
@@ -68,10 +68,7 @@ define([
         link: function (scope, element, attrs) {
           var counter = 0,
             map,
-            mapsMarker,
-            gmarkers = [],
-            lat,
-            long,
+            gmarkers = [], // List of markers
             searchedItem;
 
           // Watches the text box, on change it updates the matching results
@@ -90,32 +87,58 @@ define([
           // Alert for when an event is clicked
           function addClick(marker) {
             $window.google.maps.event.addListener(marker, 'click', function () {
-              $ionicPopup.alert({
-                template: '<input type ="text" ng-model = "data.model">',
-                okText: "GOT IT!",
-                buttons: [
-                  {
-                    text: "chat",
-                    type: "button-default",
-                    onTap: function (e) {
-                      $rootScope.userID = marker.userID;
-                      $state.go('chat');
-                    }
+              // Get name and listings
+              var usersListingsQuery = new Parse.Query(Parse.Object.extend("Listings"));
+              usersListingsQuery.equalTo("parent", Parse.User.createWithoutData(marker.userId));
+              var listings = usersListingsQuery.find({
+                success: function (listings) {
+                  var listingsString = "Listings: \r\n";
+                  for (var i = 0; i < listings.length; i++) {
+                    listingsString += listings[i].get("title") + "\r\n\ ";
                   }
-                ]
+                  console.log(listings);
+                  showPopup(marker, listingsString);
+                }
               });
+
             });
           }
 
 
-          // this function adds markers on the map only for the users who have items matching the search
+          function showPopup(marker, listingsString) {
+            var markerName = marker.name;
+
+            $ionicPopup.show({
+              title: markerName,
+              subTitle: listingsString,
+              cancelText: "Cancel",
+              buttons: [
+                {
+                  text: 'Cancel',
+                  type: "button-light"
+                },
+
+                {
+                  text: "View Profile",
+                  type: "button-positive",
+                  onTap: function (e) {
+                    $rootScope.userID = marker.userId;
+                    console.log("Selected user id: " + marker.userId);
+                    goToProfile(marker.userId);
+                  }
+                }
+              ]
+            });
+          }
+
+
+          // This function adds markers on the map only for the users who have items matching the search
           function showMatchingSearchResultListings() {
             // Find parents
             var currentLocation = Parse.User.current().get("location");
             var findCloseListings = new Parse.Query('User');
             findCloseListings.near("location", currentLocation);
             findCloseListings.limit(100);
-            console.log("showing select results matching: " + searchedItem);
 
             findCloseListings.find({
               success: function (users) {
@@ -153,18 +176,21 @@ define([
           // Shows the listings on the map from a query
           function showListingsFromQuery(query) {
             removeMarkers();
+            query.include("parent");
             query.find({
                 success: function (results) {
+                  // For every user
                   for (var i = 0; i < results.length; i++) {
                     var parent = results[i].get('parent');
 
-                    var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
-                    mapsMarker = new $window.google.maps.Marker({
+                    // Make a new marker
+                    var mapsMarker = new $window.google.maps.Marker({
                       position: new $window.google.maps.LatLng(parent.get('location').latitude, parent.get('location').longitude),
                       map: map,
-
-                      icon: image,
-                      clickable: true
+                      icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                      clickable: true,
+                      userId: parent.id,
+                      name: parent.attributes.firstName + " " + parent.attributes.lastName
                     });
 
                     gmarkers.push(mapsMarker);
@@ -176,12 +202,19 @@ define([
           };
 
 
+          // Go to the selected users profile
+          function goToProfile(objectId) {
+            $state.go("profile", {id: objectId});
+          };
+
+
           // Remove all the markers on screen
           function removeMarkers() {
             for (i = 0; i < gmarkers.length; i++) {
               gmarkers[i].setMap(null);
             }
           }
+
 
           // Make the map
           function makeMapAndMarkers() {
@@ -193,25 +226,6 @@ define([
 
             if (!map) {
               map = new $window.google.maps.Map(element[0], mapOptions);
-              // add a keyboard listener to the map, this probably needs to be modified for mobile use
-              // since key pressed would be different than ENTER
-              // google.maps.event.addDomListener(document, 'keyup', function (e) {
-              //   var code = (e.keyCode ? e.keyCode : e.which);
-              //
-              //   if (code == 13) {
-              //     // here we remove the markers, and redraw them based on new search
-              //     removeMarkers();
-              //     if (searchedItem.length == 0) {
-              //       showAllClosestListings();
-              //       console.log("showing all listings");
-              //       console.log("searchedItem is: " + searchedItem);
-              //     } else {
-              //       console.log("showing listings that match: " + searchedItem);
-              //       showMatchingSearchResultListings();
-              //     }
-              //   }
-              // });
-
               if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
 
                 var myloc = new google.maps.Marker({
@@ -227,10 +241,10 @@ define([
                 });
 
                 var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-                lat = pos.coords.latitude;
-                long = pos.coords.longitude;
-                // set fields of lat and long in user DB
+                var lat = pos.coords.latitude;
+                var long = pos.coords.longitude;
 
+                // Update users current location
                 Parse.User.current().set("location", new Parse.GeoPoint(lat, long));
                 Parse.User.current().save();
                 map.setCenter(me);
@@ -241,7 +255,7 @@ define([
             }
           }
 
-          //load google maps api script async, avoiding 'document.write' error
+          // Load google maps api script async, avoiding 'document.write' error
           function injectGoogle() {
             var cbId,
               wf,

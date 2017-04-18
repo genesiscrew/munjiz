@@ -152,9 +152,7 @@ define([
           currentUser.fetch({
             success: function (myObject) {
               // The object was refreshed successfully.
-              console.log("user succesfully refreshed");
               $scope.number = currentUser.get("total_unread");
-              console.log("should only enter here once and total unred is" + $scope.number);
             },
             error: function (myObject, error) {
               // The object was not refreshed successfully.
