@@ -52,23 +52,28 @@ define([
           scope: $scope,
           title: '<span class="energized">Log out</span>',
           subTitle: '<span class="stable">Are you sure you would like to log out?</span>',
-          inputType: 'text',
-          inputPlaceholder: ''
-        }).then(function (res) {
-          if (res) {
-            Parse.User.logOut();
-            $timeout(function (res) {
-              $ionicLoading.hide();
-              $ionicHistory.clearCache();
-              $ionicHistory.clearHistory();
-              console.log("logging out of facebook");
-              FB.logout();
-              $ionicHistory.nextViewOptions({disableBack: true, historyRoot: true});
-              $state.go('login');
-            }, 30);
+          buttons: [
+            {
+              text: 'Cancel',
+              type: "button-light"
+            },
 
-
-          }
+            {
+              text: "Yes",
+              type: "button-positive",
+              onTap: function (e) {
+                Parse.User.logOut();
+                $timeout(function (res) {
+                  $ionicLoading.hide();
+                  $ionicHistory.clearCache();
+                  $ionicHistory.clearHistory();
+                  console.log("logging out of facebook");
+                  FB.logout();
+                  $ionicHistory.nextViewOptions({disableBack: true, historyRoot: true});
+                  $state.go('login');
+                }, 30);
+              }
+            }]
         });
       };
 
