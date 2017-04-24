@@ -1,26 +1,27 @@
 define([
   'app'
-], function (app) {
-  'use strict';
+  ], function (app) {
+    'use strict';
 
-  app.controller('DashboardCtrl', [
-    '$scope',
-    '$state',
-    '$ionicNavBarDelegate',
-    function ($scope, $state, $ionicNavBarDelegate) {
+    app.controller('DashboardCtrl', [
+      '$scope',
+      '$state',
+      '$ionicNavBarDelegate',
+      'IonicClosePopupService',
+      function ($scope, $state, $ionicNavBarDelegate, IonicClosePopupService) {
 
-      $ionicNavBarDelegate.showBackButton(false);
-      $scope.apiKey = 'AIzaSyBLn2Bi6M50mbmml_uq-jzcZKDMKR_OyTY';
-      $scope.searchQuery = "";
-      $scope.height = window.screen.height;
-      $scope.width = window.screen.width;
-      $scope.search = {};
-      $scope.model = "";
+        $ionicNavBarDelegate.showBackButton(false);
+        $scope.apiKey = 'AIzaSyBLn2Bi6M50mbmml_uq-jzcZKDMKR_OyTY';
+        $scope.searchQuery = "";
+        $scope.height = window.screen.height;
+        $scope.width = window.screen.width;
+        $scope.search = {};
+        $scope.model = "";
 
-      $scope.callbackMethod = function (query, isInitializing) {
-        if (isInitializing) {
-          return [query];
-        }
+        $scope.callbackMethod = function (query, isInitializing) {
+          if (isInitializing) {
+            return [query];
+          }
         // Load predictions instead
         var listingsQuery = new Parse.Query(Parse.Object.extend("Listings"));
         var items = [];
@@ -34,12 +35,12 @@ define([
         }
 
         return listingsQuery.find().then(function (listings) {
-            for (var i = 0; i < listings.length; i++) {
-              var title = listings[i].get("title");
-              items[i] = title;
-            }
-            return items;
+          for (var i = 0; i < listings.length; i++) {
+            var title = listings[i].get("title");
+            items[i] = title;
           }
+          return items;
+        }
         );
       };
 
@@ -47,7 +48,7 @@ define([
         $scope.searchQuery = callback.item;
       }
     }
-  ]);
+    ]);
 
 
   // Google maps code
@@ -57,7 +58,8 @@ define([
     'userService',
     '$ionicPopup',
     '$rootScope',
-    function ($state, $window, userService, $ionicPopup, $rootScope) {
+    'IonicClosePopupService',
+    function ($state, $window, userService, $ionicPopup, $rootScope, IonicClosePopupService) {
       return {
         restrict: 'A',
         scope: {
@@ -67,7 +69,7 @@ define([
 
         link: function (scope, element, attrs) {
           var counter = 0,
-            map,
+          map,
             gmarkers = [], // List of markers
             searchedItem;
 
@@ -77,7 +79,7 @@ define([
             searchedItem = value;
 
             if (searchedItem.length == 0) {
-              showAllClosestListings()
+              showAllClosestListings();
             } else {
               showMatchingSearchResultListings();
             }
@@ -108,27 +110,30 @@ define([
           function showPopup(marker, listingsString) {
             var markerName = marker.name;
 
-            $ionicPopup.show({
+            var popup = $ionicPopup.show({
               title: markerName,
               subTitle: listingsString,
               cancelText: "Cancel",
               buttons: [
-                {
-                  text: 'Cancel',
-                  type: "button-light"
-                },
+              {
+                text: 'Cancel',
+                type: "button-light"
+              },
 
-                {
-                  text: "View Profile",
-                  type: "button-positive",
-                  onTap: function (e) {
-                    $rootScope.userID = marker.userId;
-                    console.log("Selected user id: " + marker.userId);
-                    goToProfile(marker.userId);
-                  }
+              {
+                text: "View Profile",
+                type: "button-positive",
+                onTap: function (e) {
+                  $rootScope.userID = marker.userId;
+                  console.log("Selected user id: " + marker.userId);
+                  goToProfile(marker.userId);
                 }
+              }
               ]
             });
+
+            IonicClosePopupService.register(popup);
+
           }
 
 
@@ -178,7 +183,7 @@ define([
             removeMarkers();
             query.include("parent");
             query.find({
-                success: function (results) {
+              success: function (results) {
                   // For every user
                   for (var i = 0; i < results.length; i++) {
                     var parent = results[i].get('parent');
@@ -198,7 +203,7 @@ define([
                   }
                 }
               }
-            );
+              );
           };
 
 
@@ -258,9 +263,9 @@ define([
           // Load google maps api script async, avoiding 'document.write' error
           function injectGoogle() {
             var cbId,
-              wf,
-              s,
-              apiKey;
+            wf,
+            s,
+            apiKey;
 
             //callback id
             cbId = '_gmap_' + counter;
@@ -270,7 +275,7 @@ define([
 
             wf = document.createElement('script');
             wf.src = ('https:' === document.location.protocol ? 'https' : 'http') +
-              '://maps.googleapis.com/maps/api/js?' + apiKey + 'v=3&callback=' + cbId;
+            '://maps.googleapis.com/maps/api/js?' + apiKey + 'v=3&callback=' + cbId;
             wf.type = 'text/javascript';
             wf.async = 'true';
             document.body.appendChild(wf);
@@ -291,5 +296,5 @@ define([
 
 
     }
-  ]);
+    ]);
 });
