@@ -1,10 +1,12 @@
-<ion-modal-view>
-  <ion-header-bar>
-    <h1 class = "title">Modal Title</h1>
-  </ion-header-bar>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{marker.title}}</title>
+</head>
 
-  <ion-content>
-    <button class = "button icon icon-left ion-ios-close-outline"
-            ng-click = "closeModal()">Close Modal</button>
-  </ion-content>
-</ion-modal-view>
+<body>
+<p class="popup-price-text"> Price : {{marker.price}} </p>
+<p class="popup-desc-text"> {{marker.desc}} </p>
+</body>
+</html>

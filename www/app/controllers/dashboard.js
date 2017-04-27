@@ -59,9 +59,7 @@ define([
     '$ionicPopup',
     '$rootScope',
     'IonicClosePopupService',
-    '$ionicModal',
-    '$scope',
-    function ($state, $window, userService, $ionicPopup, $rootScope, IonicClosePopupService, $ionicModal) {
+    function ($state, $window, userService, $ionicPopup, $rootScope, IonicClosePopupService) {
       return {
         restrict: 'A',
         scope: {
@@ -85,57 +83,45 @@ define([
           // Alert for when an event is clicked
           function addClickListener(marker) {
             $window.google.maps.event.addListener(marker, 'click', function () {
-              //showPopup(marker);
-              $scope.openModal();
+              showPopup(marker);
             });
           }
 
+          function getNumber(num) {
+            return new Array(num);
+          }
 
-          // <MODEL>
-
-          $ionicModal.fromTemplateUrl('templates/modal-template.html', {
-            scope: $scope,
-            animation: 'slide-in-up',
-          }).then(function(modal) {
-            $scope.modal = modal;
-          });
-
-          $scope.openModal = function() {
-            $scope.modal.show();
-          };
-
-          $scope.closeModal = function() {
-            $scope.modal.hide();
-          };
-
-          //Cleanup the modal when we're done with it!
-          $scope.$on('$destroy', function() {
-            $scope.modal.remove();
-          });
-
-          // Execute action on hide modal
-          $scope.$on('modal.hidden', function() {
-            // Execute action
-          });
-
-          // Execute action on remove modal
-          $scope.$on('modal.removed', function() {
-            // Execute action
-          });
-
-
-
-          // </MODAL>
 
           // Shows a popup when a user clicks on a listing
           function showPopup(marker) {
             scope.marker = marker;
-            var customTemplate =
+            scope.full_stars = getNumber(2);
+            scope.half_stars = getNumber(1);
+            scope.outline_stars = getNumber(2);
+
+            var template =
+              '<div class="row no-padding">' +
+              '<span align="left" class="col col-30 no-padding"> <p>Rating: </p> </span>' +
+              '<div ng-repeat="i in full_stars track by $index"> <i class = "icon icon ion-ios-star star-icon"></i> </div>' +
+              '<div ng-repeat="i in half_stars track by $index"> <i class = "icon icon ion-ios-star-half star-icon"></i> </div>' +
+              '<div ng-repeat="i in outline_stars track by $index"> <i class = "icon icon ion-ios-star-outline star-icon"></i> </div>' +
+              '</div>' +
               '<p class="popup-price-text"> Price : {{marker.price}} </p>' +
-              '<p class="popup-desc-text"> {{marker.desc}} </p>';
+              '<p class="popup-desc-text"> {{marker.desc}} </p>' +
+
+              '<style>.popup-title { color: black; } ' +
+              '.star-icon{ color: black; font-size: 20px;} ' +
+              'p{color: #000 !important; text-align: left;} ' +
+              '.no-padding{padding: 0px;} </style>';
+
+            if (marker.ready) {
+              template += '<style>.popup-head{background-color : green;}</style>';
+            } else {
+              template += '<style>.popup-head{background-color : orange;}</style>';
+            }
 
             var popup = $ionicPopup.show({
-              template: customTemplate,
+              template: template,
               title: marker.title,
               scope: scope,
               buttons: [
@@ -147,7 +133,6 @@ define([
                     goToProfile(marker.userId);
                   }
                 },
-
                 {
                   text: "Listing",
                   type: "button-positive",
@@ -155,7 +140,6 @@ define([
                     console.log(marker.id);
                     goToListing(marker.id);
                   }
-
                 }
               ]
             });
@@ -209,7 +193,8 @@ define([
                 title: listing.get("title"),
                 price: listing.get("price"),
                 desc: listing.get("desc"),
-                id: listing.id
+                id: listing.id,
+                ready: false
               });
 
               gmarkers.push(mapsMarker);
