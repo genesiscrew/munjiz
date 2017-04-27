@@ -87,17 +87,38 @@ define([
             });
           }
 
+
+          // Returns an array of the size num
           function getNumber(num) {
             return new Array(num);
+          }
+
+
+          function calculateRatings(rating) {
+            console.log(rating);
+            // Calc full star ratings
+            var ratingFloor = Math.floor(rating);
+            console.log(ratingFloor);
+            scope.full_stars = getNumber(ratingFloor);
+
+            // Calc half star and outline ratings
+            scope.half_stars = rating - ratingFloor;
+            if (scope.half_stars >= 0.5) {
+              // there is a half rating
+              scope.half_stars = getNumber(1);
+              scope.outline_stars = getNumber(5 - 1 - ratingFloor);
+            } else {
+              // no half rating
+              scope.half_stars = getNumber(0);
+              scope.outline_stars = getNumber(5 - ratingFloor);
+            }
           }
 
 
           // Shows a popup when a user clicks on a listing
           function showPopup(marker) {
             scope.marker = marker;
-            scope.full_stars = getNumber(2);
-            scope.half_stars = getNumber(1);
-            scope.outline_stars = getNumber(2);
+            calculateRatings(marker.rating);
 
             var template =
               '<div class="row no-padding">' +
@@ -194,7 +215,8 @@ define([
                 price: listing.get("price"),
                 desc: listing.get("desc"),
                 id: listing.id,
-                ready: false
+                ready: listing.get("ready"),
+                rating: parent.get("ratingsAverage")
               });
 
               gmarkers.push(mapsMarker);

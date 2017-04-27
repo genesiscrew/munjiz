@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="653ed3e7-8200-45e2-a9ca-8be61a5524af" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/app/controllers/dashboard.js" afterPath="$PROJECT_DIR$/www/app/controllers/dashboard.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/app/templates/map_popup.html" afterPath="$PROJECT_DIR$/www/app/templates/map_popup.html" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,8 +20,18 @@
       <file leaf-file-name="dashboard.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/app/controllers/dashboard.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="535">
-              <caret line="113" column="63" lean-forward="true" selection-start-line="113" selection-start-column="63" selection-end-line="113" selection-end-column="63" />
+            <state relative-caret-position="145">
+              <caret line="91" column="35" lean-forward="true" selection-start-line="91" selection-start-column="35" selection-end-line="91" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="chat.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/app/controllers/chat.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-5879">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -39,11 +48,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>goChat</find>
-      <find>logout</find>
-      <find>HE</find>
-      <find>HEAD</find>
-      <find>googleMap</find>
       <find>popup</find>
       <find>ion-autocomplete-container</find>
       <find>console.log(div</find>
@@ -64,9 +68,16 @@
       <find>viewValue</find>
       <find>showi</find>
       <find>console.log</find>
-      <find>$scope</find>
       <find>i</find>
       <find>icon</find>
+      <find>C</find>
+      <find>CloudCode:</find>
+      <find>CloudCode</find>
+      <find>CloudCod</find>
+      <find>CloudCo</find>
+      <find>CloudC</find>
+      <find>Cloud</find>
+      <find>$scope</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -396,15 +407,15 @@
       <workItem from="1492578776696" duration="558000" />
       <workItem from="1493001236613" duration="1718000" />
       <workItem from="1493003705699" duration="4530000" />
-      <workItem from="1493251402246" duration="6476000" />
+      <workItem from="1493251402246" duration="8299000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42524000" />
+    <option name="totallyTimeSpent" value="44347000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1680" height="1028" extended-state="6" />
+    <frame x="0" y="22" width="1680" height="1028" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1404762" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -517,13 +528,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="735">
           <caret line="49" column="41" lean-forward="true" selection-start-line="49" selection-start-column="41" selection-end-line="49" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/app/controllers/chat.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -723,10 +727,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/www/app/controllers/chat.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5879">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/www/app/controllers/dashboard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="535">
-          <caret line="113" column="63" lean-forward="true" selection-start-line="113" selection-start-column="63" selection-end-line="113" selection-end-column="63" />
+        <state relative-caret-position="145">
+          <caret line="91" column="35" lean-forward="true" selection-start-line="91" selection-start-column="35" selection-end-line="91" selection-end-column="35" />
           <folding />
         </state>
       </provider>
