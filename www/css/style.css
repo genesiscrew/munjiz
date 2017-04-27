@@ -69,7 +69,7 @@ input:-webkit-autofill {
 	font-size: 24px;
 	margin-top: 15px !important;
 	padding-top: 15px !important;
-	
+
 }
 
 /* Constrain lgoin fields to the be on the right of the icon */
@@ -86,7 +86,7 @@ input:-webkit-autofill {
 .listing-divider{
 	border-bottom: 2px !important;
 	border-bottom-style: solid !important;
-	margin-bottom: 10px
+	margin-bottom: 10px;
 	margin-top:10px;
 	color: #756C6A !important;
 }
@@ -99,6 +99,18 @@ input:-webkit-autofill {
 /* Button default colour */
 .button {
 	color: #756C6A
+}
+
+
+.popup-price-text {
+  color: #000;
+  size: 12px;
+}
+
+
+.popup-desc-text {
+  color: #000;
+  size: 10px;
 }
 
 
