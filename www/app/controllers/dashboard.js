@@ -8,7 +8,7 @@ define([
     '$state',
     '$ionicNavBarDelegate',
     'IonicClosePopupService',
-    function ($scope, $state, $ionicNavBarDelegate, IonicClosePopupService) {
+    function ($scope, $state, $ionicNavBarDelegate) {
 
       $ionicNavBarDelegate.showBackButton(false);
       $scope.apiKey = 'AIzaSyBLn2Bi6M50mbmml_uq-jzcZKDMKR_OyTY';
@@ -95,10 +95,8 @@ define([
 
 
           function calculateRatings(rating) {
-            console.log(rating);
             // Calc full star ratings
             var ratingFloor = Math.floor(rating);
-            console.log(ratingFloor);
             scope.full_stars = getNumber(ratingFloor);
 
             // Calc half star and outline ratings
@@ -158,7 +156,6 @@ define([
                   text: "Listing",
                   type: "button-positive",
                   onTap: function (e) {
-                    console.log(marker.id);
                     goToListing(marker.id);
                   }
                 }
