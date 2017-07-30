@@ -10,7 +10,7 @@ define([
     function ($scope, $state, $ionicNavBarDelegate) {
 
       $ionicNavBarDelegate.showBackButton(false);
-      $scope.apiKey = 'AIzaSyBLn2Bi6M50mbmml_uq-jzcZKDMKR_OyTY';
+      $scope.apiKey = 'AIzaSyCSAtESQZoQ1Viv5rU5k_7sJcbrmz2-Whg';
       $scope.searchQuery = "";
       $scope.height = window.screen.height;
       $scope.width = window.screen.width;
