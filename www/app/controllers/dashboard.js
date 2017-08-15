@@ -5,10 +5,11 @@ define([
 
   app.controller('DashboardCtrl', [
     '$scope',
+    '$rootScope',
     '$state',
     '$ionicNavBarDelegate',
     'IonicClosePopupService',
-    function ($scope, $state, $ionicNavBarDelegate) {
+    function ($scope, $rootScope, $state, $ionicNavBarDelegate) {
 
       $ionicNavBarDelegate.showBackButton(false);
       $scope.apiKey = 'AIzaSyCSAtESQZoQ1Viv5rU5k_7sJcbrmz2-Whg';
@@ -17,6 +18,10 @@ define([
       $scope.width = window.screen.width;
       $scope.search = {};
       $scope.model = "";
+      $rootScope.latitude = -41.28999339999999; 
+      $rootScope.longtitude = 174.7689906;
+
+      
 
       $scope.callbackMethod = function (query, isInitializing) {
         if (isInitializing) {
@@ -59,7 +64,8 @@ define([
     '$ionicPopup',
     '$rootScope',
     'IonicClosePopupService',
-    function ($state, $window, userService, $ionicPopup, $rootScope, IonicClosePopupService) {
+    'PubNubService',
+    function ($state, $window, userService, $ionicPopup, $rootScope, IonicClosePopupService,PubNubService) {
       return {
         restrict: 'A',
         scope: {
@@ -70,8 +76,32 @@ define([
         link: function (scope, element, attrs) {
           var counter = 0,
             map,
-            gmarkers = [], // List of markers
-            searchedItem;
+            gmarkers = [], // List of marker
+            searchedItem,
+            lineCoords = [],
+            lat,
+            long,
+            mark,
+            pnChannel = "map-channel",
+            pubnub = PubNubService;
+
+            pubnub.subscribe({
+              channel: pnChannel,
+              withPresence: true,
+              callback: function (m) {
+                  handleMessage(m);
+
+              },
+              presence: function (presenceEvent) {
+              }
+
+
+          });
+          function handleMessage(message) {
+            redraw(message);
+          };
+
+         
 
           // Watches the text box, on change it updates the matching results
           scope.$watch('model', function (value) {
@@ -92,6 +122,36 @@ define([
           function getNumber(num) {
             return new Array(num);
           }
+
+
+          var redraw = function(payload) {
+            
+            if (payload.lat != null) {
+            
+            var lat = payload.lat;
+            var lng = payload.lng;
+          
+            
+            map.setCenter({lat:lat, lng:lng, alt:0});
+            if (mark != null) {
+              mark.setMap(null);
+
+            }
+            mark = new google.maps.Marker({position:{lat:lat, lng:lng}, map:map});
+            gmarkers.push(mark);
+            
+            mark.setPosition({lat:lat, lng:lng, alt:0});
+            lineCoords.push(new google.maps.LatLng(lat, lng));
+            var lineCoordinatesPath = new google.maps.Polyline({
+              path: lineCoords,
+              geodesic: true,
+              strokeColor: '#2E10FF'
+            });
+            
+            lineCoordinatesPath.setMap(map);
+            
+          };
+          };
 
 
           function calculateRatings(rating) {
@@ -240,6 +300,8 @@ define([
             }
           }
 
+          
+
 
           // Make the map
           function makeMapAndMarkers() {
@@ -266,8 +328,8 @@ define([
                 });
 
                 var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-                var lat = pos.coords.latitude;
-                var long = pos.coords.longitude;
+                 lat = pos.coords.latitude;
+                 long = pos.coords.longitude;
 
                 // Update users current location
                 Parse.User.current().set("location", new Parse.GeoPoint(lat, long));
@@ -305,9 +367,19 @@ define([
             counter += 1;
             injectGoogle();
             findListingsAndDisplay();
+            setInterval(function() {
+              $rootScope.latitude +=  0.001;
+              $rootScope.longtitude += 0.01;
+              pubnub.publish({channel:pnChannel, message:{lat:$rootScope.latitude, lng:$rootScope.longtitude}});
+            }, 5000);
           } else {
             StyleMap();
             makeMapAndMarkers();
+            setInterval(function() {
+              $rootScope.latitude +=  0.001;
+              $rootScope.longtitude += 0.01;
+              pubnub.publish({channel:pnChannel, message:{lat:$rootScope.latitude, lng:$rootScope.longtitude}});
+            }, 5000);
 
 
           }
