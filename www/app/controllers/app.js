@@ -32,6 +32,7 @@ define([
         if (Parse.User.current()) {
 
           $scope.number = Parse.User.current().get("total_unread");
+          $scope.userType = Parse.User.current().get("userType");
           if ($scope.number > 0) {
             console.log("should not be here");
             $scope.zxcv = true;
@@ -176,6 +177,12 @@ define([
         $state.go("profile", {id: objectId});
       };
 
+      $scope.goDeliveries = function () {
+        message = false;
+        var objectId = Parse.User.current().id;
+        $state.go("delivery", {id: objectId});
+      };
+
       $scope.goDashBoard = function () {
         message = false;
         var objectId = Parse.User.current().id;
@@ -199,6 +206,33 @@ define([
           }
         }
       });
+
+      setInterval(function() {
+        if ($scope.userType == "delivery") {
+        
+        var query = new Parse.Query('Deliveries');
+     
+        query.find({
+          success: function (results) {
+              // Do something with the returned Parse.Object values
+              for (var i = 0; i < results.length; i++) {
+                var object = results[i];
+                if (Parse.User.current().id == object.get('deliveryBy') && object.get('delivery_start') == True && object.get('delivery_complete') == False) {
+
+        if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
+          $rootScope.latitude  = pos.coords.latitude;
+          $rootScope.longtitude = pos.coords.longitude;
+          pubnub.publish({channel:deliveryName, message:{lat:$rootScope.latitude, lng:$rootScope.longtitude}});
+        });
+        
+      }
+    }
+  }});
+        }
+
+      }, 5000); 
+    
+
 
       $scope.goCurrentUserListings = function () {
         message = false;
@@ -224,6 +258,15 @@ define([
         console.log("chat source is from:" + chatSource);
         $rootScope.userID = chatSource;
         $state.go("chat", {id: objectId});
+      };
+
+      $scope.goTrack = function (delivery) {
+        message = false;
+        var objectId = Parse.User.current().id;
+        console.log("chat source is from:" + chatSource);
+        $rootScope.userID = delivery.deliveryTo;
+        $rootScope.deliveryBy= delivery.deliveryBy;
+        $state.go("track", {id: objectId});
       };
 
       $scope.goMessages = function () {

@@ -10,6 +10,7 @@ define([
   'controllers/login',
   'controllers/new_listing',
   'controllers/edit_profile',
+  'controllers/deliveries',
 
 ], function (app) {
   'use strict';
@@ -54,6 +55,13 @@ define([
           controller: 'ChatCtrl',
           templateUrl: 'app/templates/chat.html'
         })
+        .state('track', {
+          url: '/track/:senderID/:deliveryID/:recieverID',
+          cache: false,
+          controller: 'TrackingCtrl',
+          templateUrl: 'app/templates/track.html'
+        })
+      
         .state('new_listing', {
           url: '/new_listing/:id',
           controller: 'NewListingCtrl',
@@ -72,6 +80,14 @@ define([
           reload: true,
           controller: 'MessageCtrl',
           templateUrl: 'app/templates/messages.html'
+        })
+
+        .state('delivery', {
+          url: '/delivery',
+          cache: false,
+          reload: true,
+          controller: 'DeliveryCtrl',
+          templateUrl: 'app/templates/deliveries.html'
         });
 
     }

@@ -14,7 +14,7 @@ define([
       '$rootScope',
       function ($ionicPlatform, $state, userService, $rootScope) {
 
-        Parse.initialize("uvQmMNsdZStxEvEfMeMdrH85sGW7wKMl8Ms2Bm0j", "YHcdSEyXhQ8qX0vykcFCerM4rQmajQG22iu44BvT", "z4wnNa2HnXgPly14Z3sDzxl8LDlMwj6WroUMuamT");
+        Parse.initialize("7Z7ki48yWPMM8xx23TQQIgzUneKSt0ThRk6Capcx", "CzA6HpFCqWAWFuzilSOdklnNMbnfwwQ4zx2oAriq", "22X3ogUnikL33Oo6uj7FYcTodFt8xsS3oj3YNO3l");
         Parse.serverURL = 'https://parseapi.back4app.com/';
 
         // Called when Ionic is ready.

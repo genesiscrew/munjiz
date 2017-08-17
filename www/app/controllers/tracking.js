@@ -1,63 +1,251 @@
 define([
-  'app'
+    'app',
+
+
+
+
 ], function (app) {
-  'use strict';
+    'use strict';
 
-  app.controller('DashboardCtrl', [
-    '$scope',
-    '$rootScope',
-    '$state',
-    '$ionicNavBarDelegate',
-    'IonicClosePopupService',
-    function ($scope, $rootScope, $state, $ionicNavBarDelegate) {
+    app.controller('TrackingCtrl', [
+        '$scope',
+        '$state',
+        '$ionicPopup',
+        '$rootScope',
+        'PubNubService',
+        'md5',
+        '$ionicScrollDelegate',
+        '$timeout',
+        'ShareFactory',
 
-      $ionicNavBarDelegate.showBackButton(false);
-      $scope.apiKey = 'AIzaSyCSAtESQZoQ1Viv5rU5k_7sJcbrmz2-Whg';
-      $scope.searchQuery = "";
-      $scope.height = window.screen.height;
-      $scope.width = window.screen.width;
-      $scope.search = {};
-      $scope.model = "";
-      $rootScope.latitude = -41.28999339999999; 
-      $rootScope.longtitude = 174.7689906;
+        function ($scope, $stateParams, $ionicPopup, $rootScope, PubNubService, md5, $ionicScrollDelegate, $timeout, ShareFactory) {
 
-      
 
-      $scope.callbackMethod = function (query, isInitializing) {
-        if (isInitializing) {
-          return [query];
-        }
-        // Load predictions instead
-        var listingsQuery = new Parse.Query(Parse.Object.extend("Listings"));
-        var items = [];
-        $scope.searchQuery = query;
 
-        if (query.length <= 2) {
-          listingsQuery.startsWith("title", query);
+            //window.onload = function () {
 
-        } else {
-          listingsQuery.contains("title", query);
-        }
+            // $(document).ready(function () {
+            // Initialize the PubNub API connection.
+            var message1 = "";
+            var deliveryName = 'chat';
+            var user;
+            var foundDelivery = false;
+            var pubnub = PubNubService;
+            var historyCount = 0;
 
-        return listingsQuery.find().then(function (listings) {
-            for (var i = 0; i < listings.length; i++) {
-              var title = listings[i].get("title");
-              items[i] = title;
+            $scope.number = '';
+            $scope.$watch('number', function (newValue, oldValue) {
+                if (newValue !== oldValue) ShareFactory.setValue(newValue);
+            });
+
+            $scope.$on("$ionicView.afterEnter", function (event) {
+                console.log("entered chat");
+
+                $timeout(function () {
+                    $ionicScrollDelegate.scrollBottom();
+                });
+                var query = new Parse.Query('Deliveries');
+                //query.include(' parent');
+                query.equalTo("delivery_name", deliveryName);
+                query.first({
+                    success: function (results) {
+                        if (results.get('delivery_from') == Parse.User.current().id) {
+                            results.set("chat_from_online", true);
+                            results.save();
+                        }
+                        else {
+                            results.set("delivery_to_online", true);
+                            results.save();
+                        }
+
+                    }
+                });
+
+            });
+
+
+            $scope.$on("$ionicView.leave", function (event) {
+                var query = new Parse.Query('Deliveries');
+                //query.include(' parent');
+                query.equalTo("delivery_name", deliveryName);
+                query.first({
+                    success: function (results) {
+                        console.log("great grea success");
+                        if (results.get('chat_from') == Parse.User.current().id) {
+                            results.set("chat_from_online", false);
+                            results.save();
+                        }
+                        else {
+                            results.set("chat_to_online", false);
+                            results.save();
+                        }
+
+                    }
+                });
+
+            });
+
+
+
+
+
+            if ($rootScope.userID) {
+                var x = $rootScope.userID;
+                var y = Parse.User.current().id;
+                var z = $rootScope.deliveryBy;
+
+                if (x > y) {
+                    deliveryName = x + z + y;
+
+                    // we updload history using the deliveryName we just created
+                    getHistory();
+                    var query = new Parse.Query('Deliveries');
+                    //query.include(' parent');
+                    query.find({
+                        success: function (results) {
+                            // Do something with the returned Parse.Object values
+                            foundDelivery = false;
+                            for (var i = 0; i < results.length; i++) {
+                                var object = results[i];
+                                if (deliveryName == object.get('delivery_name')) {
+                                    foundDelivery = true;
+                                    // if chat room exists, we check history count of messages in parse with pubnub
+                                    updateHistoryCount();
+
+                                }
+
+                            }
+                            if (!foundDelivery) {
+                                createdeliveryName();
+
+                            }
+
+                        }
+                    });
+
+                }
+                else {
+                    deliveryName = y + z + x;
+
+                    getHistory();
+                    var query = new Parse.Query('deliveryNames');
+                    //query.include(' parent');
+                    query.find({
+                        success: function (results) {
+                            // Do something with the returned Parse.Object values
+                            foundDelivery = false;
+                            for (var i = 0; i < results.length; i++) {
+                                var object = results[i];
+                                if (deliveryName == object.get('delivery_name')) {
+                                    foundDelivery = true;
+                                    updateHistoryCount();
+
+                                }
+
+                            }
+                            if (!foundDelivery) {
+                                createDelivery();
+
+                            }
+
+                        }
+                    });
+                }
+
             }
-            return items;
-          }
-        );
-      };
+            else {
+                //console.log("no user found");
 
-      $scope.onClick = function (callback) {
-        $scope.searchQuery = callback.item;
-      }
-    }
-  ]);
+            }
 
 
-  // Google maps code
-  app.directive('googleMap', [
+            // console.log(pubnub.uuid());
+            var messageReceived = {};
+            var existingListener;
+
+            //var md =  md5.createHash('hamid' || '');
+
+
+
+            if (!$rootScope.start) {
+                // Initialize the PubNub service
+               // console.log("pubnub initialized");
+                //pubnub = PubNub.getPub();
+
+
+
+
+                $rootScope.start = true;
+            }
+
+    
+
+
+            function createDelivery() {
+                // chat room does not exist so we set up new chat room in DB
+
+                var query = new Parse.Query('User');
+                query.find({
+                    success: function (results) {
+                        // Do something with the returned Parse.Object values
+                        for (var i = 0; i < results.length; i++) {
+                            var object = results[i];
+
+                            if ($rootScope.userID == object.id) {
+                                var delivery = Parse.Object.extend("Deliveries");
+                                var newChat = new delivery();
+                                newChat.set("deliver_from", Parse.User.current().id);
+                                newChat.save();
+                                newChat.set("delivery_to", object.id);
+                                newChat.save();
+                                newChat.set("delivery_by", $rootScope.deliveryBy);
+                                newChat.save();
+                                newChat.set("delivery_from_name", Parse.User.current().get("firstName"));
+                                newChat.save();
+
+                                newChat.set("delivery_to_name", object.get("firstName"));
+                                newChat.save();
+                                newChat.set("delivery_name", deliveryName);
+                                newChat.set("HistoryCountMe", 0);
+                                newChat.save();
+                                newChat.set("HistoryCountTo", 0);
+                                newChat.save();
+
+                            }
+                        }
+
+                    }
+                });
+
+
+
+            }
+            function deliveryNameExists() {
+
+
+                var query = new Parse.Query('deliveryNames');
+                //query.include(' parent');
+                query.find({
+                    success: function (results) {
+                        // Do something with the returned Parse.Object values
+                        foundDelivery = false;
+                        for (var i = 0; i < results.length; i++) {
+                            var object = results[i];
+                            if (deliveryName == object.get('chat_name')) {
+                                foundDelivery = true;
+
+                            }
+
+                        }
+                        if (!foundDelivery) {
+
+                        }
+
+                    }
+                });
+            }
+// Google maps code
+app.directive('googleMap', [
     '$state',
     '$window',
     'userService',
@@ -313,35 +501,7 @@ define([
 
             if (!map) {
               map = new $window.google.maps.Map(element[0], mapOptions);
-              if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
-
-                var myloc = new google.maps.Marker({
-
-                  clickable: false,
-                  icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
-                    new google.maps.Size(22, 22),
-                    new google.maps.Point(0, 18),
-                    new google.maps.Point(11, 11)),
-                  shadow: null,
-                  zIndex: 999,
-                  map: map
-                });
-
-                var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-                 lat = pos.coords.latitude;
-                 long = pos.coords.longitude;
-                 $rootScope.latitude  = pos.coords.latitude;
-                 $rootScope.longtitude = pos.coords.longitude;
-
-
-                // Update users current location
-                Parse.User.current().set("location", new Parse.GeoPoint(lat, long));
-                Parse.User.current().save();
-                map.setCenter(me);
-                myloc.setPosition(me);
-              }, function (error) {
-                alert(error.message);
-              });
+           
             }
           }
 
@@ -374,7 +534,7 @@ define([
               if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function (pos) {
                 $rootScope.latitude  = pos.coords.latitude;
                 $rootScope.longtitude = pos.coords.longitude;
-                pubnub.publish({channel:pnChannel, message:{lat:$rootScope.latitude, lng:$rootScope.longtitude}});
+                pubnub.publish({channel:deliveryName, message:{lat:$rootScope.latitude, lng:$rootScope.longtitude}});
               });
               
               
@@ -397,5 +557,48 @@ define([
     }
   ])
   ;
-})
-;
+
+
+   
+          
+
+
+
+
+
+
+           
+
+           
+
+
+          
+
+
+
+
+
+
+          
+
+
+          
+            // Also send a message when the user hits the enter button in the text area.
+            /* messageContent.bind('keydown', function (event) {
+                  if ((event.keyCode || event.charCode) !== 13) return true;
+                  sendMessageButton.click();
+                  return false;
+              });
+ 
+ 
+*/
+
+
+
+            // });
+
+
+        }
+        //}
+    ]);
+});
